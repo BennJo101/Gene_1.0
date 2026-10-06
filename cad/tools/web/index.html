@@ -1,0 +1,2327 @@
+<title>Gene Head Fit Check</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap">
+<style>
+  :root{
+    --ground:#eef1f5; --panel:#ffffff; --panel-2:#f6f8fb;
+    --ink:#161b22; --ink-2:#475065; --ink-3:#6f7990;
+    --line:#d5dbe5; --line-2:#e6eaf1;
+    --accent:#c4762c; --accent-2:#3f6fb5;
+    --ok:#2f7d55; --ok-soft:#dcefe4; --warn:#a36a00; --warn-soft:#f6e8c8; --bad:#c23b32; --bad-soft:#f7dcd9;
+    --info:#4f5b73; --info-soft:#e4e8f0;
+    --scene-top:#e7ecf3; --scene-bot:#cfd7e3; --band:rgba(47,125,85,.10);
+    --skull:#9fb0c6; --jaw:#d99657; --hub:#3f9a74; --bracket:#7d87bd; --servo:#525d6e;
+    --eyes:#8ea0b8; --carrier:#6f7c92; --retainer:#9a86b8; --display:#1f9aa8;
+    --bezel:#1b1e23; --camera:#0c0e11; --shelf:#4f8f78; --pi5:#2f6b45; --speaker:#3b4250;
+    --handle:#c4762c; --contact:#e0362b; --dboard:#2f7fc4;
+    --pupil:#08090b; --neck:#a88bd0; --neckbase:#6c7a8f; --bearing:#c9ced6; --slipring:#c8a24a; --insert:#b98a4e; --flash:#e0b43c; --gcover:#8a6a3c; --gpio:#2a2f36; --ribbon:#8f9aac;
+    --tray:#8a6fb0; --battery:#2f5f9e; --deck:#9c7fc4; --boards:#1d6b52;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --ground:#0f131a; --panel:#171d26; --panel-2:#1d2430;
+      --ink:#e8ecf3; --ink-2:#a3adc0; --ink-3:#7e889c;
+      --line:#2a323f; --line-2:#222936;
+      --accent:#e0994f; --accent-2:#79a3e0;
+      --ok:#5cbd8c; --ok-soft:#173327; --warn:#e2b04a; --warn-soft:#3a2f14; --bad:#f07068; --bad-soft:#3d1f1d;
+      --info:#a3adc0; --info-soft:#232b38;
+      --scene-top:#161c25; --scene-bot:#0c1016; --band:rgba(92,189,140,.10);
+      --skull:#8496ad; --jaw:#d29357; --bracket:#7681b5; --servo:#6a7688;
+      --eyes:#7d8ea6; --carrier:#5f6b80; --retainer:#8d7bb0; --display:#2bb6c6;
+      --bezel:#23272e; --camera:#0c0e11; --shelf:#4f9d80; --pi5:#3d8a58; --speaker:#4a5264;
+      --handle:#e0994f; --contact:#ff4a3d; --dboard:#4f9de0;
+      --pupil:#0a0b0e; --neck:#b39ad8; --neckbase:#7d8ba0; --bearing:#d3d8e0; --slipring:#d4ae55; --insert:#c89a5c; --flash:#ecc45a; --gcover:#a07c4a; --gpio:#3a414b; --ribbon:#9aa6b8;
+      --tray:#9a82c2; --battery:#4f86d0; --deck:#ab93d2; --boards:#2f9a75;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0f131a; --panel:#171d26; --panel-2:#1d2430;
+    --ink:#e8ecf3; --ink-2:#a3adc0; --ink-3:#7e889c;
+    --line:#2a323f; --line-2:#222936;
+    --accent:#e0994f; --accent-2:#79a3e0;
+    --ok:#5cbd8c; --ok-soft:#173327; --warn:#e2b04a; --warn-soft:#3a2f14; --bad:#f07068; --bad-soft:#3d1f1d;
+    --info:#a3adc0; --info-soft:#232b38;
+    --scene-top:#161c25; --scene-bot:#0c1016; --band:rgba(92,189,140,.10);
+    --skull:#8496ad; --jaw:#d29357; --bracket:#7681b5; --servo:#6a7688;
+    --eyes:#7d8ea6; --carrier:#5f6b80; --retainer:#8d7bb0; --display:#2bb6c6;
+    --bezel:#23272e; --camera:#0c0e11; --shelf:#4f9d80; --pi5:#3d8a58; --speaker:#4a5264;
+    --handle:#e0994f; --contact:#ff4a3d; --dboard:#4f9de0;
+      --pupil:#0a0b0e; --neck:#b39ad8; --neckbase:#7d8ba0; --bearing:#d3d8e0; --slipring:#d4ae55; --insert:#c89a5c; --flash:#ecc45a; --gcover:#a07c4a; --gpio:#3a414b; --ribbon:#9aa6b8;
+      --tray:#9a82c2; --battery:#4f86d0; --deck:#ab93d2; --boards:#2f9a75;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--ground); color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:14px;
+  }
+  .mono{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace; font-variant-numeric:tabular-nums}
+  header{
+    padding:14px 20px 12px; border-bottom:1px solid var(--line); background:var(--panel);
+    display:flex; flex-wrap:wrap; gap:6px 18px; align-items:baseline;
+  }
+  h1{font-family:"IBM Plex Sans Condensed","IBM Plex Sans",sans-serif; font-weight:700; font-size:20px; margin:0; text-wrap:balance}
+  h2{font-family:"IBM Plex Sans Condensed","IBM Plex Sans",sans-serif; font-weight:700; font-size:17px; margin:0; text-wrap:balance}
+  .sub{color:var(--ink-2); font-size:13px; margin:0}
+  .badge{
+    margin-left:auto; font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.04em;
+    color:var(--ok); border:1px solid currentColor; border-radius:3px; padding:2px 7px; white-space:nowrap;
+  }
+  .app{display:flex; height:min(78vh,760px); min-height:480px; border-bottom:1px solid var(--line)}
+  #stage{flex:1; min-width:0; position:relative; background:linear-gradient(var(--scene-top),var(--scene-bot))}
+  #stage canvas{display:block; width:100%; height:100%; touch-action:none; cursor:grab}
+  #stage canvas:active{cursor:grabbing}
+  #hint{position:absolute; left:12px; bottom:10px; font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-3); pointer-events:none}
+  .home{position:absolute; right:12px; bottom:10px}
+  .pov{position:absolute; pointer-events:none; display:flex; flex-direction:column}
+  .pov[hidden]{display:none}
+  .povrow{display:flex; gap:8px}
+  .povv{position:relative; border:1px solid rgba(127,212,160,.65); border-radius:2px}
+  .povv span{position:absolute; left:6px; top:5px; font:500 10px/1.3 "IBM Plex Mono",monospace; color:#d9f5e4; background:rgba(0,0,0,.5); padding:1px 5px; border-radius:2px}
+  .povcap{height:18px; line-height:18px; font:500 10px/18px "IBM Plex Mono",monospace; color:var(--ink-2)}
+  #load{position:absolute; inset:0; display:grid; place-items:center; font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-2)}
+  aside{
+    width:300px; flex:none; border-left:1px solid var(--line); background:var(--panel);
+    overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:18px;
+  }
+  .grp{display:flex; flex-direction:column; gap:9px}
+  .lbl{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.11em; text-transform:uppercase; color:var(--ink-3)}
+  .angle{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap}
+  .angle b{font-family:"IBM Plex Mono",monospace; font-size:26px; font-weight:600; font-variant-numeric:tabular-nums}
+  .chip{
+    font:600 11px/1 "IBM Plex Mono",monospace; letter-spacing:.03em; padding:4px 7px; border-radius:3px;
+    background:var(--ok-soft); color:var(--ok); white-space:nowrap;
+  }
+  .chip.warn{background:var(--warn-soft); color:var(--warn)}
+  .chip.bad{background:var(--bad-soft); color:var(--bad)}
+  .chip.info{background:var(--info-soft); color:var(--info)}
+  .readout{font-size:12px; color:var(--ink-2); min-height:2.6em}
+  input[type=range]{width:100%; accent-color:var(--accent); margin:0}
+  .row{display:flex; gap:7px; flex-wrap:wrap}
+  button{
+    font:500 12px/1 "IBM Plex Sans",sans-serif; color:var(--ink); background:var(--panel-2);
+    border:1px solid var(--line); border-radius:4px; padding:7px 11px; cursor:pointer;
+  }
+  button:hover{border-color:var(--ink-3)}
+  button[aria-pressed=true]{background:var(--accent); border-color:var(--accent); color:#fff}
+  button:focus-visible,input:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  #chart{width:100%; height:auto; display:block}
+  #chart text{font-family:"IBM Plex Mono",monospace; font-size:9px; fill:var(--ink-3)}
+  .legend{display:flex; gap:12px; font-size:11px; color:var(--ink-2)}
+  .legend i{display:inline-block; width:12px; height:2px; vertical-align:middle; margin-right:5px}
+  .meter{position:relative; height:10px; border-radius:3px; background:var(--panel-2); border:1px solid var(--line); overflow:hidden}
+  .meter i{position:absolute; left:0; top:0; bottom:0; background:var(--ok); width:0}
+  .meter i.sp{background:transparent; border-right:2px solid var(--ink-2); width:0}
+  .meter.warn i:first-child{background:var(--warn)} .meter.bad i:first-child{background:var(--bad)}
+  input[type=text],input[type=password]{font:500 12px/1.2 "IBM Plex Sans",sans-serif; color:var(--ink); background:var(--panel-2); border:1px solid var(--line); border-radius:4px; padding:7px 8px; width:100%; box-sizing:border-box}
+  .cfg{display:flex; flex-direction:column; gap:8px; margin-top:8px}
+  .cfg label{display:flex; flex-direction:column; gap:4px; font-size:11px; color:var(--ink-2)}
+  .cfg label.chk{flex-direction:row; align-items:center; gap:6px}
+  details summary{cursor:pointer; font-size:12px; color:var(--ink-2)}
+  .timing{display:grid; grid-template-columns:1fr auto; gap:2px 10px; font-size:12px; color:var(--ink-2)}
+  .timing b{font-family:"IBM Plex Mono",monospace; font-weight:500; color:var(--ink); text-align:right; font-variant-numeric:tabular-nums}
+  select{font:500 12px/1.2 "IBM Plex Sans",sans-serif; color:var(--ink); background:var(--panel-2); border:1px solid var(--line); border-radius:4px; padding:6px 8px; width:100%}
+  #trace{width:100%; height:auto; display:block; background:var(--panel-2); border:1px solid var(--line); border-radius:4px}
+  .emotes{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px}
+  .emotes button{padding:7px 4px}
+  .parts{display:flex; flex-direction:column; gap:1px}
+  .part{display:flex; align-items:center; gap:9px; padding:5px 7px; border-radius:4px; cursor:pointer; font-size:13px; user-select:none}
+  .part:hover{background:var(--panel-2)}
+  .part input{margin:0; accent-color:var(--accent)}
+  .sw{width:11px; height:11px; border-radius:2px; flex:none}
+  .part small{margin-left:auto; font-family:"IBM Plex Mono",monospace; font-size:10px; color:var(--ink-3)}
+  /* build steps: card over the 3D view */
+  .stepcard{position:absolute; top:12px; left:12px; width:min(360px,calc(100% - 24px)); max-height:calc(100% - 64px); overflow-y:auto;
+    background:var(--panel); border:1px solid var(--line); border-radius:6px; box-shadow:0 6px 24px rgba(0,0,0,.14);
+    padding:12px 14px; display:flex; flex-direction:column; gap:9px; font-size:13px}
+  .stepcard[hidden]{display:none}
+  .stephead{display:flex; align-items:baseline; gap:8px}
+  .stephead .lbl{white-space:nowrap}
+  .steptitle{margin:-4px 0 0; font-family:"IBM Plex Sans Condensed","IBM Plex Sans",sans-serif; font-size:17px; font-weight:700; line-height:1.2}
+  .stepclose{margin-left:auto; padding:4px 8px}
+  .stepbar{display:flex; gap:3px}
+  .stepbar button{flex:1; height:6px; padding:0; border:0; border-radius:2px; background:var(--line)}
+  .stepbar button.done{background:var(--ink-3)}
+  .stepbar button.cur{background:var(--accent)}
+  .stepparts{display:flex; flex-wrap:wrap; gap:4px 10px; font-size:12px; color:var(--ink-2)}
+  .stepparts span{display:inline-flex; align-items:center; gap:5px}
+  .steptxt{margin:0; padding-left:18px; color:var(--ink); line-height:1.45; display:flex; flex-direction:column; gap:5px}
+  .steptxt li.tip{list-style:none; margin-left:-18px; color:var(--ink-2); font-size:12px}
+  .steptxt li.warn{list-style:none; margin-left:-18px; background:var(--warn-soft); color:var(--ink); border-left:3px solid var(--warn); padding:6px 8px; border-radius:3px; font-size:12px}
+  .hw{display:flex; flex-wrap:wrap; gap:4px}
+  .hw span{font:500 11px/1.2 "IBM Plex Mono",monospace; background:var(--panel-2); border:1px solid var(--line); border-radius:3px; padding:3px 6px; color:var(--ink-2)}
+  .stepnav{display:flex; gap:6px; flex-wrap:wrap}
+  .stepnav .next{margin-left:auto}
+  .steps{display:flex; flex-direction:column; border:1px solid var(--line); border-radius:6px; background:var(--panel); overflow:hidden}
+  .steps > li{display:grid; grid-template-columns:40px 1fr; gap:12px; padding:14px 16px; border-top:1px solid var(--line-2); list-style:none}
+  .steps > li:first-child{border-top:0}
+  .steps .n{font:600 20px/1 "IBM Plex Mono",monospace; color:var(--accent)}
+  .steps h3{margin:0 0 6px; font-size:14px; font-weight:600; display:flex; gap:10px; align-items:baseline; flex-wrap:wrap}
+  .steps h3 button{font-size:11px; padding:4px 8px}
+  .steps .steptxt{max-width:78ch; color:var(--ink-2)}
+  .steps .hw{margin-top:8px}
+
+  .report{max-width:1080px; margin:0 auto; padding-block:28px 48px; padding-inline:20px; display:flex; flex-direction:column; gap:32px}
+  .summary{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:6px; overflow:hidden}
+  .stat{background:var(--panel); padding:14px 16px; display:flex; flex-direction:column; gap:4px}
+  .stat b{font-family:"IBM Plex Mono",monospace; font-size:22px; font-weight:600; font-variant-numeric:tabular-nums}
+  .stat span{font-size:12px; color:var(--ink-2)}
+  .sec{display:flex; flex-direction:column; gap:12px}
+  .sec > p{margin:0; color:var(--ink-2); max-width:68ch; line-height:1.5}
+  .finds{display:flex; flex-direction:column; border:1px solid var(--line); border-radius:6px; background:var(--panel); overflow:hidden}
+  .find{display:grid; grid-template-columns:88px 1fr; gap:14px; padding:14px 16px; border-top:1px solid var(--line-2)}
+  .find:first-child{border-top:0}
+  .find .chip{justify-self:start; align-self:start}
+  .find h3{margin:0 0 4px; font-size:14px; font-weight:600}
+  .find p{margin:0; color:var(--ink-2); line-height:1.5; max-width:78ch}
+  .find p + p{margin-top:6px}
+  .filters{display:flex; gap:7px; flex-wrap:wrap}
+  .tablewrap{overflow-x:auto; border:1px solid var(--line); border-radius:6px; background:var(--panel)}
+  table{border-collapse:collapse; width:100%; font-size:13px}
+  th{font:500 10px/1 "IBM Plex Mono",monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); background:var(--panel-2); white-space:nowrap}
+  td{padding:8px 12px; border-bottom:1px solid var(--line-2); vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  td.num{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap}
+  td.why{color:var(--ink-2)}
+  .power{display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:16px; align-items:start}
+  tr.tot td{font-weight:600; border-top:1px solid var(--line)}
+  .specs{margin:0; display:flex; flex-direction:column; border:1px solid var(--line); border-radius:6px; background:var(--panel)}
+  .specs div{display:grid; grid-template-columns:120px 1fr; gap:12px; padding:8px 14px; border-top:1px solid var(--line-2); font-size:13px}
+  .specs div:first-child{border-top:0}
+  .specs dt{color:var(--ink-3)}
+  .specs dd{margin:0}
+  .cdot{display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:8px; vertical-align:middle}
+  .method{font-size:13px; color:var(--ink-2); line-height:1.55; max-width:78ch}
+  .method p{margin:0 0 8px}
+  @media (max-width:820px){
+    .app{flex-direction:column; height:auto}
+    #stage{height:58vh; min-height:320px; flex:none}
+    aside{width:auto; border-left:0; border-top:1px solid var(--line)}
+    .summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .find{grid-template-columns:1fr; gap:8px}
+    .power{grid-template-columns:1fr}
+    .specs div{grid-template-columns:96px 1fr}
+    .stepcard{max-height:calc(100% - 44px); font-size:12px}
+    .steps > li{grid-template-columns:1fr; gap:6px}
+  }
+</style>
+
+<header>
+  <h1>Gene Head Fit Check</h1>
+  <p class="sub">All 41 current parts assembled: twin jaw drive, eye screens and cameras, battery, crown GPIO bay with an optional flashlight, slip-ring neck and all 15 cable runs. Every neighbouring pair measured, jaw swept 0&ndash;60&deg;</p>
+  <span class="badge">Clear through speech &middot; jaw limit 33&deg; with neck &middot; ~3 h battery</span>
+</header>
+
+<section class="app">
+  <div id="stage">
+    <div id="load">loading geometry&hellip;</div>
+    <div id="hint">drag to orbit &middot; right-drag to pan &middot; scroll or pinch to zoom</div>
+    <button type="button" id="home" class="home">Reset view</button>
+    <div id="pov" class="pov" aria-label="Live views from the two eye cameras">
+      <div class="povrow"><div class="povv"><span>Robot&rsquo;s left eye</span></div><div class="povv"><span>Robot&rsquo;s right eye</span></div></div>
+      <div class="povcap">62&deg; &times; 49&deg; each &middot; stereo baseline 121.9&nbsp;mm</div>
+    </div>
+    <div id="stepcard" class="stepcard" hidden aria-live="polite">
+      <div class="stephead"><span class="lbl" id="stepNo"></span><button type="button" class="stepclose" id="bExit" aria-label="Leave the build steps">Close</button></div>
+      <h3 id="stepTitle" class="steptitle"></h3>
+      <div class="stepbar" id="stepBar" role="group" aria-label="Jump to step"></div>
+      <div class="stepparts" id="stepParts"></div>
+      <ol class="steptxt" id="stepTxt"></ol>
+      <div class="row" id="stepOpts"></div>
+      <div class="hw" id="stepHw"></div>
+      <div class="stepnav">
+        <button type="button" id="bPrev">&larr; Back</button>
+        <button type="button" id="bReplay">Replay</button>
+        <button type="button" id="bNext" class="next">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+  <aside>
+    <div class="grp">
+      <span class="lbl">Exploded view and build</span>
+      <label class="lbl" for="explode" style="text-transform:none;letter-spacing:0;font-size:11px">Explode: <b id="explodeV" class="mono">0&nbsp;%</b></label>
+      <input type="range" id="explode" min="0" max="100" step="1" value="0" aria-label="How far the parts are pulled apart, percent">
+      <div class="row">
+        <button type="button" id="exBtn" aria-pressed="false">Explode</button>
+        <button type="button" id="bStart" aria-pressed="false">Build step by step</button>
+      </div>
+      <label class="part" style="padding:0;font-size:12px;color:var(--ink-2)"><input type="checkbox" id="bGhost" checked> See through the parts already fitted</label>
+      <div class="readout">The build steps fly each part in along its path, in fitting order, with the screws and glue for each step. Use the arrow keys to step.</div>
+    </div>
+
+    <div class="grp">
+      <span class="lbl">Mounting</span>
+      <div class="row" role="group" aria-label="How the head is held">
+        <button type="button" id="mNeck" aria-pressed="true">On the neck</button>
+        <button type="button" id="mTable" aria-pressed="false">Jaw on a table</button>
+      </div>
+      <div class="readout" id="mountNote">The skull is held by the neck and the jaw swings down.</div>
+    </div>
+
+    <div class="grp">
+      <span class="lbl">Jaw angle</span>
+      <div class="angle"><b id="deg">0&deg;</b><span id="state" class="chip">Clear</span></div>
+      <input type="range" id="ang" min="0" max="60" step="0.5" value="0" aria-label="Jaw angle in degrees">
+      <div class="readout" id="readout">Jaw at rest. Nearest skull surface is the thrust pads, 0.08 mm away.</div>
+      <div class="row">
+        <button type="button" id="play" aria-pressed="false">Cycle speech</button>
+        <button type="button" id="limit">Go to limit (33&deg;)</button>
+        <button type="button" id="sect" aria-pressed="false">Section</button>
+        <button type="button" id="cont" aria-pressed="true">Contacts</button>
+      </div>
+    </div>
+
+    <div class="grp">
+      <span class="lbl">Talk</span>
+      <select id="phrase" aria-label="Phrase to say"></select>
+      <div class="row">
+        <button type="button" id="say" aria-pressed="false" disabled>Say it</button>
+        <button type="button" id="voice" aria-pressed="true">Sound</button>
+        <button type="button" id="watch">Watch the mouth</button>
+      </div>
+      <label class="lbl" for="mouthGain" style="text-transform:none;letter-spacing:0;font-size:11px">Mouth opening: <b id="mouthGainV" class="mono"></b></label>
+      <input type="range" id="mouthGain" min="10" max="100" step="1" value="53" aria-label="Mouth opening, percent of full">
+      <canvas id="trace" width="536" height="170" aria-label="Jaw angle the voice asks for against where the servos actually get it"></canvas>
+      <div class="legend"><span><i style="background:var(--ink-3)"></i>Asked for</span><span><i style="background:var(--accent)"></i>Jaw</span><span><i style="background:var(--bad);height:6px;opacity:.35"></i>Servos maxed</span></div>
+      <div class="readout" id="talkNote">The jaw is driven by a model of the two servos: full torque only at standstill, none at 103&nbsp;rpm, pushing the real weight and inertia of whatever moves.</div>
+    </div>
+
+    <div class="grp" id="liveGrp">
+      <span class="lbl">Live voice + AI</span>
+      <form class="row" id="askForm" autocomplete="off">
+        <input type="text" id="ask" placeholder="Ask Gene something, or type words to say&hellip;" aria-label="Question for Gene, or words for Gene to say" style="flex:1;min-width:0">
+        <button type="submit" id="askBtn">Ask</button>
+        <button type="button" id="speakBtn">Speak</button>
+      </form>
+      <div class="row">
+        <label style="flex:1;min-width:0;font-size:11px;color:var(--ink-2);display:flex;flex-direction:column;gap:4px">Voice
+          <select id="kEngine"><option value="local">Gene&rsquo;s own voice (on this PC)</option><option value="eleven">ElevenLabs (cloud)</option></select></label>
+        <label style="flex:1;min-width:0;font-size:11px;color:var(--ink-2);display:flex;flex-direction:column;gap:4px" id="kLocalVoiceL">Speaker
+          <select id="kLocalVoice"><option value="piper:gene">Gene (trained voice)</option></select></label>
+      </div>
+      <div class="timing" id="liveTiming" aria-live="polite"></div>
+      <div class="readout" id="liveNote">Ask: OpenAI writes the reply and Gene speaks it, sentence by sentence as the words stream in. Speak: Gene just says what you typed. Gene&rsquo;s own voice is a neural voice trained on Gene&rsquo;s recordings. It runs on this PC and reports the timing of every sound, so the jaw follows it through the same servo model. It needs the local server: run <span class="mono">python tools/live_server.py</span> and open <span class="mono">http://127.0.0.1:8770/</span>.</div>
+      <details id="liveCfg">
+        <summary>Keys and settings</summary>
+        <div class="cfg">
+          <label>OpenAI API key<input type="password" id="kOpenai" autocomplete="off" spellcheck="false"></label>
+          <label>ElevenLabs API key (only for the ElevenLabs voice)<input type="password" id="kEleven" autocomplete="off" spellcheck="false"></label>
+          <label>ElevenLabs voice ID<input type="text" id="kVoice" value="yPzeuKKwOt4gXUFyDSwh" spellcheck="false"></label>
+          <label>AI model<select id="kModel"><option value="gpt-4o">gpt-4o (as in Computer 2.0)</option><option value="gpt-4o-mini">gpt-4o-mini (faster)</option><option value="gpt-4.1-mini">gpt-4.1-mini</option></select></label>
+          <label>Voice model<select id="kTts"><option value="eleven_flash_v2_5">Flash v2.5 (fastest)</option><option value="eleven_turbo_v2_5">Turbo v2.5</option><option value="eleven_multilingual_v2">Multilingual v2 (as in Computer 2.0)</option></select></label>
+          <label>Personality<select id="kPersona"><option value="gene">Gene, the robot head</option><option value="computer">The Computer (from Computer 2.0)</option></select></label>
+          <label class="chk"><input type="checkbox" id="kRemember" checked> Remember keys in this browser</label>
+          <div class="row"><button type="button" id="kSave">Save</button><button type="button" id="kForget">Forget keys</button><button type="button" id="kCheck">Check connection</button></div>
+          <div class="readout" id="kNote">Keys stay in this browser (or only this tab if you untick Remember). They are never part of the page, so they aren&rsquo;t in its published versions.</div>
+        </div>
+      </details>
+    </div>
+
+    <div class="grp">
+      <span class="lbl">Servo load (2 &times; XL330, 1.04&nbsp;N&middot;m stall)</span>
+      <div class="angle"><b id="tqNm">&ndash;</b><span id="tqChip" class="chip">Holding</span></div>
+      <div class="meter" aria-hidden="true"><i id="tqBar"></i><i id="tqSpeech" class="sp"></i></div>
+      <div class="readout" id="tqNote">Estimating&hellip;</div>
+    </div>
+
+    <div class="grp" id="turnGrp">
+      <span class="lbl">Head turn on the neck</span>
+      <div class="angle"><b id="turnDeg">0&deg;</b><span class="chip info">slip ring: no stop</span></div>
+      <input type="range" id="turn" min="-180" max="180" step="1" value="0" aria-label="Head turn in degrees">
+      <div class="row">
+        <button type="button" id="spin" aria-pressed="false">Spin</button>
+        <button type="button" id="turn0">Face forward</button>
+      </div>
+    </div>
+
+    <div class="grp">
+      <span class="lbl">Wiring</span>
+      <div class="row">
+        <button type="button" id="cablebtn" aria-pressed="true">Cables</button>
+      </div>
+      <div class="legend" style="flex-wrap:wrap">
+        <span><i style="background:#d94c3d"></i>Power</span><span><i style="background:#3d8fd9"></i>Data</span>
+        <span><i style="background:#d9c23d"></i>Ribbon</span><span><i style="background:#9b5cd9"></i>Video</span>
+        <span><i style="background:#3dbf7a"></i>Audio</span>
+      </div>
+    </div>
+
+    <div class="grp">
+      <span class="lbl">Eye cameras</span>
+      <div class="row">
+        <button type="button" id="povbtn" aria-pressed="true">Camera POV</button>
+        <button type="button" id="cones" aria-pressed="true">FOV cones</button>
+      </div>
+      <div class="readout">Live views from both lenses. They turn with the head, so try Spin.</div>
+    </div>
+
+    <div class="grp">
+      <span class="lbl">Eye screens</span>
+      <div class="emotes" id="emotes" role="group" aria-label="Eye expression"></div>
+      <div class="row">
+        <button type="button" id="blink" aria-pressed="true">Blink</button>
+        <button type="button" id="wander" aria-pressed="true">Look around</button>
+        <button type="button" id="face">Face view</button>
+      </div>
+    </div>
+
+    <div class="grp">
+      <span class="lbl">Jaw contact depth vs angle</span>
+      <svg id="chart" viewBox="0 0 268 132" role="img" aria-label="Interference depth between jaw and skull against jaw angle"></svg>
+      <div class="legend"><span><i style="background:var(--bad)"></i>Left arm</span><span><i style="background:var(--accent-2)"></i>Right arm</span><span><i style="background:var(--warn)"></i>Neck</span><span><i style="background:var(--band);height:8px"></i>Speech</span></div>
+    </div>
+
+    <div class="grp">
+      <span class="lbl">Parts</span>
+      <div class="parts" id="parts"></div>
+    </div>
+  </aside>
+</section>
+
+<main class="report">
+  <div class="summary">
+    <div class="stat"><b>41</b><span>parts placed</span></div>
+    <div class="stat"><b>129</b><span>neighbouring pairs measured</span></div>
+    <div class="stat"><b style="color:var(--ok)">0</b><span>clashes in the 0&ndash;30&deg; speaking range</span></div>
+    <div class="stat"><b>35.5&deg;</b><span>first jaw contact, at the neck base (skull alone: 53&deg;)</span></div>
+  </div>
+
+  <section class="sec" id="buildSec">
+    <h2>Putting it together, step by step</h2>
+    <p>The fitting order matters: the battery unit has to go up into the dome before the servos close the gap, and the Pi shelf has to go in before the crown and jaw. Press <b>Show</b> on any step to watch it in the 3D view.</p>
+    <ol class="steps" id="stepList"></ol>
+  </section>
+
+  <section class="sec">
+    <h2>Weight and jaw-servo load</h2>
+    <p id="massIntro">Estimating&hellip;</p>
+    <div class="power">
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Heaviest items</th><th>Moves with</th><th style="text-align:right">g</th><th style="text-align:right">oz</th></tr></thead>
+          <tbody id="masstable"></tbody>
+        </table>
+      </div>
+      <dl class="specs" id="massspecs"></dl>
+    </div>
+    <div class="finds" id="massfinds"></div>
+  </section>
+
+  <section class="sec">
+    <h2>Battery and power</h2>
+    <p>The pack sits in the dome just above the twin servos, the lowest place a horizontal 2S2P pack fits. It is held in a tray that screws to pads on top of both servo brackets. A deck on top carries the two 5&nbsp;V converters and the charger board, so the pack, deck and electronics can be built on the bench as one unit.</p>
+    <div class="power">
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Load, all at 5&nbsp;V</th><th style="text-align:right">Speaking</th><th style="text-align:right">Peak</th></tr></thead>
+          <tbody>
+            <tr><td>Raspberry Pi&nbsp;5 with 2 cameras</td><td class="num">7.5 W</td><td class="num">12.5 W</td></tr>
+            <tr><td>2 &times; XL330-M288-T</td><td class="num">3.0 W</td><td class="num">14.7 W</td></tr>
+            <tr><td>2 &times; 2.1&Prime; round LCD</td><td class="num">1.2 W</td><td class="num">1.2 W</td></tr>
+            <tr><td>Audio amp and 2 speakers</td><td class="num">1.0 W</td><td class="num">4.0 W</td></tr>
+            <tr class="tot"><td>From the pack, at 90% converter efficiency</td><td class="num">14 W</td><td class="num">36 W</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <dl class="specs">
+        <div><dt>Pack</dt><dd>2S2P 18650, 7.2&nbsp;V nominal</dd></div>
+        <div><dt>Cells</dt><dd>4 &times; 3000&ndash;3500&nbsp;mAh, rated 10&nbsp;A or more (Samsung 30Q, Molicel P28A)</dd></div>
+        <div><dt>Energy</dt><dd class="mono">43&ndash;50 Wh</dd></div>
+        <div><dt>Runtime, talking</dt><dd class="mono">about 3 h</dd></div>
+        <div><dt>Peak draw</dt><dd class="mono">6.2 A at 6.4 V</dd></div>
+        <div><dt>BMS</dt><dd>2S balancing, 10&nbsp;A continuous</dd></div>
+        <div><dt>Converters</dt><dd>Two 5&nbsp;V 5&nbsp;A bucks: one for the Pi (set to 5.1&nbsp;V), one for the servos and audio, so a servo stall can't brown out the Pi</dd></div>
+        <div><dt>Weight</dt><dd class="mono">about 190 g of cells</dd></div>
+      </dl>
+    </div>
+    <div class="finds">
+      <div class="find">
+        <span class="chip info">Assembly</span>
+        <div>
+          <h3>Fit order matters</h3>
+          <p>The tray can't pass between the two servos, which leave only a 34&nbsp;mm gap. Build the pack, tray and deck on the bench first. Lift the unit straight up through the open bottom of the skull into the dome (checked: no contact on the way up). Then fit both drive brackets with their servos, lower the tray onto the bracket pads, and drive 4 &times; M3&times;12 self-tappers up through the pads from underneath. The Pi shelf, crown insert, jaw and neck go in after that.</p>
+          <p>The pack stays in the head. It needs a charge port through the skull, which isn't cut yet.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <h2>Changes in this round</h2>
+    <div class="finds">
+      <div class="find">
+        <span class="chip">New</span>
+        <div>
+          <h3>GPIO flashlight, and a cover for the GPIO well</h3>
+          <p><span class="mono">GeneHead_gpio_flashlight.stl</span> is one printed part. A saddle on the crown insert carries a standard 2&times;20 female header, fitted upside down, that plugs onto the crown pins. A tongue reaches down into the well to hold the header, which is glued in with a 0.3&nbsp;mm gap. A strap runs forward over the brow to a lamp pod in the middle of the forehead. The pod holds a 20&nbsp;mm LED star behind a 20&nbsp;mm 30&deg; optic, with the driver in a cavity behind them, and it points straight ahead. The wires run in a channel under the strap. The saddle takes the two front crown screws (M3&times;20 socket heads instead of the countersunk M3&times;12), so knocks don't lever on the pins. That means it replaces the bridge handle rather than fitting with it. It rides 0.2&nbsp;mm off the crown and brow and stays out of both cameras' views. Pick the Flashlight expression to see the lamp.</p>
+          <p>Electrically it uses 3 of the 40 pins: 5&nbsp;V, ground and GPIO&nbsp;12 (PWM, for dimming). A logic-level MOSFET switches the LED through a 10&nbsp;&Omega; resistor, for about 200&nbsp;mA and 60&ndash;70&nbsp;lm. That's roughly 250&nbsp;lux at 1&nbsp;m, against about 2&nbsp;lux from both eye screens. Which crown pin is which depends on how the ribbon is folded, so find 5&nbsp;V and ground with a meter before soldering.</p>
+          <p><span class="mono">GeneHead_gpio_cover.stl</span> closes the well when nothing is plugged in. It sits flush with the crown, its skirts straddle the pins on all four sides, and four small crush ribs hold it in. A notch at the rear end takes a fingernail or a small screwdriver to lift it out.</p>
+        </div>
+      </div>
+      <div class="find">
+        <span class="chip">New</span>
+        <div>
+          <h3>Neck that turns on a slip ring</h3>
+          <p><span class="mono">GeneHead_neck.stl</span> is one part: a yoke that bolts up into the skull's rear rim with 5 &times; M3 (the rim is a 7.5&nbsp;mm vertical wall, and <span class="mono">GeneTop_v6_neck.stl</span> adds the pilots), and a 44&nbsp;mm tube hanging from it on the axis X&nbsp;0, Y&nbsp;+20. The tube's 26&nbsp;mm bore is the cable hole into the head.</p>
+          <p><span class="mono">GeneHead_neck_base.stl</span> bolts to your body or stand with 4 &times; M4. It holds two 6808 bearings (40&times;52&times;7) 20&nbsp;mm apart. The head's weight sits on the top bearing through a step on the tube, and <span class="mono">GeneHead_neck_collar.stl</span> clamps under the bottom bearing so the head can't lift off. A capsule slip ring bolts to the base floor and reaches up into the tube bore: its fixed wires leave through the bottom, and the rotating wires run up the tube into the head. The head can turn without a stop.</p>
+          <p>The chin swings back under the head as the mouth opens, so the neck limits the jaw. It clears by 12&nbsp;mm at 30&deg; (the full speaking range) and first touches the front of the neck base at 35.5&deg;. <strong>With the neck fitted, set the jaw servo limit to 33&deg;.</strong> The base's flange is flat at the front to get that far.</p>
+        </div>
+      </div>
+      <div class="find">
+        <span class="chip">New</span>
+        <div>
+          <h3>Crown feature bay, with the Pi's GPIO brought to the top</h3>
+          <p><span class="mono">GeneHead_crown_insert.stl</span> fills the top slot flush with the dome. Its top follows the measured rim heights on both sides of the slot, not a fitted sphere. It drops in from above onto a 4&nbsp;mm ledge the skull now has round the underside of the slot (added in v5, kept in <span class="mono">GeneTop_v6_neck.stl</span>), and 4 &times; M3&times;12 countersunk screws go down into bosses under that ledge. Nothing needs reaching from inside.</p>
+          <p>In the flattest middle of the crown, the male plug of a 40-pin GPIO extension ribbon seats in a pocket from below. Its 2&times;20 pins sit in a recessed well 1&nbsp;mm below the surface, so add-ons plug in from the top. The ribbon runs from the Pi's header up in front of the battery tray and twists under the crown into the plug, with at least 1.1&nbsp;mm clear all the way. A 20&nbsp;cm cable leaves slack. The Pi now sits with its GPIO header along the front edge, facing the eyes, and USB/Ethernet at the &minus;X end.</p>
+          <p>The handle is optional. <span class="mono">GeneHead_bridge_handle.stl</span> bolts onto the insert with the same 4 screw positions (M3&times;16 socket heads through bores in its posts). The grip arches 25&nbsp;mm over the GPIO well, so add-ons stay usable with the handle on. Without it, the countersunk screws sit flush. The old twist-lock handle is retired, since the slot is now filled.</p>
+        </div>
+      </div>
+      <div class="find">
+        <span class="chip">New</span>
+        <div>
+          <h3>The cameras are the pupils</h3>
+          <p><span class="mono">GeneHead_pupil_ring.stl</span>, printed in black, glues onto the front of each bezel hub around the lens. Its bore is a cone, 7.5&nbsp;mm at the lens and 14.4&nbsp;mm at the lip, so the lens reads as a deep pupil. It still leaves the camera a clear 153&deg; field of view, and the lens clears the bore by 0.75&nbsp;mm. Print the camera bezels in black too, so the spoke carrying the ribbon cable disappears into the dark screen.</p>
+          <p>The screen graphics are built around the lens. The iris is a set of aperture blades that opens and closes with each expression and snaps briefly when the expression changes, like the camera refocusing. The pupil never moves off the lens: when the head looks around, the focus ring turns and the lids shift instead.</p>
+        </div>
+      </div>
+      <div class="find">
+        <span class="chip">New</span>
+        <div>
+          <h3>Battery tray, deck and bracket pads</h3>
+          <p><span class="mono">GeneHead_battery_tray.stl</span> has three cradle ribs, two strap windows for 22&nbsp;mm hook-and-loop straps, and a lead exit in the rear wall. It keeps at least 1.4&nbsp;mm off the dome. <span class="mono">GeneHead_battery_deck.stl</span> has two 30&nbsp;&times;&nbsp;46 converter bays and a 40&nbsp;&times;&nbsp;20 charger bay, each with zip-tie slots, and screws to the tray from above. <span class="mono">GeneHead_xl330_bracket_v2</span> and <span class="mono">_R_v2</span> add two 6&nbsp;mm screw pads on top of each bracket, clear of the servo by 1.5&nbsp;mm.</p>
+        </div>
+      </div>
+      <div class="find">
+        <span class="chip">Fixed</span>
+        <div>
+          <h3>Pi&nbsp;5 standoffs cut from 6 to 4&nbsp;mm</h3>
+          <p><span class="mono">GeneHead_pi_shelf_v6.stl</span>. The Pi mock now has a 16&nbsp;mm USB/Ethernet block that overhangs the board edge by 2.5&nbsp;mm. Even with that block at the end nearest a bracket, it clears by 1.4&nbsp;mm. The servos are now 7.4&nbsp;mm above the Pi's component block.</p>
+        </div>
+      </div>
+  </section>
+
+  <section class="sec">
+    <h2>Wiring</h2>
+    <p>Every connection is routed through the free space inside the head on a 2&nbsp;mm grid. Each route keeps clear of every part and of the jaw's sweep up to 35&deg;, and cables are routed one at a time so later ones go round earlier ones. Each finished cable was then rebuilt as a solid tube and intersected exactly with every part and every other cable. The last 6&nbsp;mm at each end, where it plugs in, isn't counted. Round cables use their real diameter. Flat ribbons use a 4&nbsp;mm envelope, as if folded, and the display cables use a 6&nbsp;mm worst case sized for micro-HDMI.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Cable</th><th>Status</th><th style="text-align:right">&Oslash; mm</th><th style="text-align:right">Route mm</th><th style="text-align:right">Buy mm</th><th style="text-align:right">Gap mm</th></tr></thead>
+        <tbody id="cabletable"></tbody>
+      </table>
+    </div>
+    <div class="finds">
+      <div class="find">
+        <span class="chip">Fits</span>
+        <div>
+          <h3>All 14 cable runs fit, plus the GPIO ribbon</h3>
+          <p>No cable overlaps a part or another cable. The tightest gaps are the left display cable at 0.19&nbsp;mm and the pack leads at 0.25&nbsp;mm, both assuming the full 6&nbsp;mm envelope; thinner cable gains room. The right camera ribbon wraps behind the rear edge of the Pi shelf and just touches it, which a flexible ribbon doesn't mind. "Buy" is the route length plus 15&nbsp;% for bends and 30&nbsp;mm at the connectors, rounded up to a stock length.</p>
+        </div>
+      </div>
+      <div class="find">
+        <span class="chip warn">Found</span>
+        <div>
+          <h3>The GPIO header was needed twice, so there's now a splitter</h3>
+          <p>The crown ribbon takes the whole 40-pin header, but the I2S amps need pins too. A 1-to-2 GPIO splitter board now sits on the Pi's header. Its upper header carries the ribbon's plug and a side header feeds the amps. That lifts the ribbon plug 12&nbsp;mm; the ribbon's route was rechecked and still clears.</p>
+        </div>
+      </div>
+      <div class="find">
+        <span class="chip">New</span>
+        <div>
+          <h3>Three parts placed so the wiring has somewhere to go</h3>
+          <p>The DYNAMIXEL TTL interface (U2D2 size) lies on the left shelf wing, next to the Pi's USB ports. The two MAX98357A amps sit flat on the shelf in front of the Pi, just behind the speakers, so each speaker lead is only 23&nbsp;mm and comes up through the speaker's vent hole. Both clear everything around them. These are placeholder shapes (<span class="mono">_MOCK</span>); stick them down with foam tape.</p>
+        </div>
+      </div>
+      <div class="find">
+        <span class="chip info">Not wired</span>
+        <div>
+          <h3>Still to route once they exist</h3>
+          <p>The charge port and power switch, which have no holes in the skull yet, and the slip ring's fixed-side wires below the neck base. The endpoints on the Pi (USB-C, micro-HDMI, camera connectors) are placed from the Pi&nbsp;5's published layout at board level. The last few millimetres into each plug aren't modelled.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <h2>Every neighbouring pair</h2>
+    <p>Jaw at rest. Pairs further than 3&nbsp;mm apart are listed as &ge;&nbsp;3. Overlap is exact solid intersection volume, and depth is estimated from it as 2&times;volume&nbsp;/&nbsp;surface area.</p>
+    <div class="filters" role="group" aria-label="Filter pairs">
+      <button type="button" data-f="attn" aria-pressed="true">Needs a look</button>
+      <button type="button" data-f="tight" aria-pressed="false">Under 0.5 mm</button>
+      <button type="button" data-f="all" aria-pressed="false">All 129</button>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Pair</th><th>Status</th><th style="text-align:right">Gap mm</th><th style="text-align:right">Overlap mm&sup3;</th><th>What it is</th></tr></thead>
+        <tbody id="pairs"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec method">
+    <h2>How this was measured</h2>
+    <p>Every part is loaded from its current STL and placed with the transforms the parts were built with (pivot axis on X, origin on the axis). The skull is <span class="mono">GeneTop_v6_neck</span>, the jaw is <span class="mono">GeneBottom_v4_twindrive</span>, and the right hub and bezel are the left ones turned 180&deg;. Pairs are intersected with the Manifold kernel, which gives exact overlap volume and minimum gap.</p>
+    <p>The ROBOTIS STEP mesh of the XL330 isn't watertight, so the servos were checked as a solid envelope: the case, the output horn and the idler disc. The viewer still shows the real servo model. The Pi&nbsp;5, displays, cameras, speakers, cells and power boards are simple placeholder shapes (the <span class="mono">_MOCK</span> files), so clearances to them are only as good as those shapes.</p>
+    <p>Overlaps under 0.01&nbsp;mm&sup3; were ignored as facet noise. The thrust pads were cut to hug the jaw's swept shape, and their outer edge touches the rotating jaw at the 14&nbsp;&micro;m level at a few angles.</p>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function(){
+  var PARTS=[
+    {id:"skull",   name:"Skull + eye barrels", col:"--skull",   note:"v7",       clip:true},
+    {id:"jaw",     name:"Jaw, twin D-shaft",   col:"--jaw",     note:"moving",   clip:true},
+    {id:"hub",     name:"Drive hubs",          col:"--hub",     note:"moving",   clip:false},
+    {id:"bracket", name:"Servo brackets",      col:"--bracket", note:"L + R",    clip:false},
+    {id:"servo",   name:"XL330 servos",        col:"--servo",   note:"2 tandem", clip:false},
+    {id:"retainer",name:"Display retainers",   col:"--retainer",note:"",         clip:false},
+    {id:"carrier", name:"Display carriers",    col:"--carrier", note:"top slot", clip:false},
+    {id:"display", name:"2.1″ round LCDs",col:"--display", note:"mock",     clip:false},
+    {id:"dboard",  name:"LCD driver boards + HDMI/USB plugs",col:"--dboard", note:"mock", clip:false},
+    {id:"bezel",   name:"Camera bezels",       col:"--bezel",   note:"v3 black", clip:false},
+    {id:"pupil",   name:"Pupil rings",         col:"--pupil",   note:"black",    clip:false},
+    {id:"camera",  name:"Arducam mini cameras",col:"--camera",  note:"mock",     clip:false},
+    {id:"shelf",   name:"Pi 5 shelf",          col:"--shelf",   note:"v6",       clip:false},
+    {id:"pi5",     name:"Raspberry Pi 5",      col:"--pi5",     note:"mock",     clip:false},
+    {id:"speaker", name:"Speakers",            col:"--speaker", note:"mock",     clip:false},
+    {id:"insert",  name:"Crown insert",        col:"--insert",  note:"new",      clip:false},
+    {id:"gpio",    name:"GPIO riser plug",     col:"--gpio",    note:"mock",     clip:false},
+    {id:"ribbon",  name:"GPIO ribbon route",   col:"--ribbon",  note:"40-pin",   clip:false},
+    {id:"handle",  name:"Bridge handle",       col:"--handle",  note:"optional", clip:false, off:true},
+    {id:"flashlight",name:"GPIO flashlight",   col:"--flash",   note:"optional", clip:false},
+    {id:"gcover",  name:"GPIO cover",          col:"--gcover",  note:"optional", clip:false, off:true},
+    {id:"neck",    name:"Neck (turns with head)",col:"--neck",   note:"new",      clip:true},
+    {id:"collar",  name:"Neck clamp collar",   col:"--neck",    note:"new",      clip:false},
+    {id:"neckbase",name:"Neck base (to body)", col:"--neckbase",note:"new",      clip:true},
+    {id:"splitter",name:"GPIO splitter + ribbon plug",col:"--gpio", note:"mock",     clip:false},
+    {id:"ttl",     name:"DYNAMIXEL TTL interface",col:"--gpio",  note:"mock",     clip:false},
+    {id:"amps",    name:"Two I2S amps",        col:"--gpio",    note:"mock",     clip:false},
+    {id:"bearings",name:"2 \u00d7 6808 bearings",col:"--bearing",note:"mock",   clip:false},
+    {id:"slipring",name:"Capsule slip ring",   col:"--slipring",note:"mock",     clip:false},
+    {id:"tray",    name:"Battery tray",        col:"--tray",    note:"new",      clip:false},
+    {id:"battery", name:"2S2P 18650 pack",     col:"--battery", note:"mock",     clip:false},
+    {id:"deck",    name:"Electronics deck",    col:"--deck",    note:"new",      clip:false},
+    {id:"boards",  name:"Bucks + charger",     col:"--boards",  note:"mock",     clip:false}
+  ];
+  var LABEL={shell:"Skull",brow:"Skull brow",barrel_L:"Eye barrel L",barrel_R:"Eye barrel R",jaw:"Jaw",
+    hub_L:"Hub L",hub_R:"Hub R",servo_L:"Servo L",servo_R:"Servo R",bracket_L:"Bracket L",bracket_R:"Bracket R",
+    carrier_L:"Carrier L",carrier_R:"Carrier R",display_L:"Display L",display_R:"Display R",retainer_L:"Retainer L",
+    retainer_R:"Retainer R",bezel_L:"Bezel L",bezel_R:"Bezel R",camera_L:"Camera L",camera_R:"Camera R",pupil_L:"Pupil ring L",pupil_R:"Pupil ring R",
+    shelf:"Pi shelf",pi5:"Pi 5",speakers:"Speakers",handle:"Bridge handle",neck:"Neck",neck_base:"Neck base",neck_collar:"Clamp collar",splitter:"GPIO splitter",ttl:"TTL interface",amps:"I2S amps",bearings:"Bearings",slip_ring:"Slip ring",insert:"Crown insert",gpio_plug:"GPIO plug",flashlight:"GPIO flashlight",gpio_header:"Flashlight header",gpio_cover:"GPIO cover",tray:"Battery tray",deck:"Deck",battery:"Battery pack",boards:"Power boards"};
+
+  function strip(n){ return n.replace(/_[LR]$/,""); }
+  function classify(r){
+    var a=strip(r.a), b=strip(r.b), k=[a,b].sort().join("|");
+    var skullBits={shell:1,brow:1,barrel:1};
+    if(r.overlap>0 && skullBits[a] && skullBits[b]) return ["info","Same file","Bodies of the skull STL; the slicer merges them"];
+    if(k==="pi5|splitter") return ["ok","Seated","Splitter on the Pi header"];
+    if(k==="shelf|ttl"||k==="amps|shelf") return ["ok","Mounted","On the shelf (foam tape)"];
+    if(k==="neck|shell") return ["ok","Bolted","Yoke up against the rim, 5 \u00d7 M3"];
+    if(k==="bearings|neck"||k==="bearings|neck_base"||k==="bearings|neck_collar") return ["ok","Seated","Bearing fit"];
+    if(k==="neck_base|slip_ring") return ["ok","Bolted","Slip-ring flange on the base floor"];
+    if(k==="neck|neck_collar") return ["ok","Clamped","Collar on the tube below the bottom bearing"];
+    if(k==="neck|slip_ring") return ["ok","Clear","Slip-ring body inside the tube bore"];
+    if(k==="insert|shell") return ["ok","Seated","Insert on the slot ledge (13 \u00b5m facet contact)"];
+    if(k==="flashlight|handle") return ["info","Either/or","Fit one or the other: both use the front pair of crown screws"];
+    if(k==="flashlight|gpio_cover"||k==="gpio_cover|gpio_header") return ["info","Either/or","The cover is for when the flashlight is off the head"];
+    if(k==="gpio_header|gpio_plug") return ["ok","Seated","Flashlight's female header on the crown pins"];
+    if(k==="flashlight|gpio_header") return ["ok","Glued","Header bonded under the saddle's tongue, 0.3 mm glue gap"];
+    if(k==="gpio_cover|gpio_plug") return ["ok","Clear","Skirts straddle the real pins by 0.35 mm (the mock draws the pin field as a solid block)"];
+    if(k==="gpio_cover|insert") return ["ok","Press fit","Four 0.1 mm crush ribs in the well"];
+    if(k==="flashlight|shell"||k==="flashlight|insert") return ["ok","Clear","Saddle and strap ride 0.2 mm off the crown and brow"];
+    if(k==="handle|insert") return ["ok","Bolted","Handle feet on the insert, 4 \u00d7 M3"];
+    if(k==="handle|shell") return ["ok","Touching","Feet overhang the slot edge by 1.2 mm onto the rim"];
+    if(k==="gpio_plug|insert") return ["ok","Seated","Ribbon's male plug in its pocket"];
+    if(k==="jaw|shell") return ["ok","Running","Thrust pads, 0.08 mm at rest; pin in socket 0.26 mm radial"];
+    if(k==="bracket|shell") return ["ok","Mounted","Bracket foot cut against the skull, screwed on"];
+    if(k==="shelf|shell") return ["ok","Mounted","Shelf wings cut against the skull, screwed on"];
+    if(k==="jaw|servo") return ["info","Flush","D-shaft end on the horn face; they turn together"];
+    if(k==="hub|servo") return ["ok","Bolted","Hub on the horn, 4 × M2"];
+    if(k==="bracket|servo") return ["ok","Bolted","Servo on the bracket, 4 × M2"];
+    if(k==="display|retainer") return ["ok","Seated","Retainer behind the module"];
+    if(k==="pi5|shelf") return ["ok","Seated","Board on 6 mm standoffs"];
+    if(k==="shelf|speakers") return ["ok","Seated","Speakers in the cradles"];
+    if(k==="bezel|camera") return ["ok","Slip fit","Camera in the fixed pocket"];
+    if(k==="bezel|pupil") return ["ok","Glued","Pupil ring on the bezel hub"];
+    if(k==="camera|pupil") return ["ok","Clear","Lens clears the cone bore; 153 deg unvignetted"];
+    if(k==="barrel|bezel") return ["ok","Slip fit","Bezel in the 59.00 front bore"];
+    if(k==="barrel|carrier") return ["warn","Slip fit","Notes say interference; glue it"];
+    if(k==="carrier|retainer") return ["warn","Slip fit","Nothing holds it axially; glue it"];
+    if(k==="hub|jaw") return ["ok","Slip fit","D-bore on the D-shaft, grub screw"];
+    if(k==="carrier|display") return ["ok","Clear","Aperture margin round the active area"];
+    if(k==="bracket|pi5") return ["ok","Clear","16 mm port block, 4 mm standoffs"];
+    if(k==="bracket|tray") return ["ok","Bolted","Tray on the bracket pads, M3 from below"];
+    if(k==="deck|tray") return ["ok","Bolted","Deck on the tray posts, M3 from above"];
+    if(k==="boards|deck") return ["ok","Mounted","Converters and charger in their bays"];
+    if(k==="battery|tray") return ["ok","Cradled","Pack in the ribs, strapped"];
+    if(k==="deck|shell"||k==="shell|tray") return ["ok","Clear","Trimmed to keep off the dome"];
+    if(k==="barrel|tray") return ["ok","Clear",""];
+    if(r.overlap>0) return ["bad","Clash",""];
+    if(r.gap<0.5) return ["ok","Clear",""];
+    return ["ok","Clear",""];
+  }
+
+  // ---------- 3D ----------
+  var stage=document.getElementById("stage");
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(38,1,1,4000);
+  var renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  renderer.localClippingEnabled=true;
+  stage.appendChild(renderer.domElement);
+  scene.add(new THREE.HemisphereLight(0xffffff,0x5a6474,0.85));
+  var key=new THREE.DirectionalLight(0xffffff,0.72); key.position.set(-160,180,220); scene.add(key);
+  var fill=new THREE.DirectionalLight(0xffffff,0.3); fill.position.set(180,-90,-140); scene.add(fill);
+  var clipPlane=new THREE.Plane(new THREE.Vector3(0,0,-1),0);
+  // everything that turns with the head hangs off headPivot, which sits on the neck axis (X 0, Y 20)
+  var headPivot=new THREE.Group(); headPivot.position.set(0,20,0); scene.add(headPivot);
+  var head=new THREE.Group(); head.position.set(0,-20,0); headPivot.add(head);
+  var STATIONARY={neckbase:1,bearings:1,slipring:1};      // fixed to the body; the rest spins with the head
+  var moving=new THREE.Group(); head.add(moving);
+
+  // ---------- eye-camera POV: the two lenses are the pupils, so their views come from there ----------
+  // IMX219-class module: 62.2 x 48.8 deg. Each lens sits 31.5 mm back inside its barrel (bore dia 59),
+  // so anything wider than ~86 deg horizontal would start to see the barrel wall.
+  var POV_VFOV=48.8, POV_ASPECT=4/3, LENS_Y=-106.3, LENS_Z=-0.32;
+  var povCams=[-60.96,60.95].map(function(x){
+    var c=new THREE.PerspectiveCamera(POV_VFOV,POV_ASPECT,5,6000);
+    c.up.set(0,0,1); c.position.set(x,LENS_Y,LENS_Z); c.lookAt(x,LENS_Y-100,LENS_Z);
+    c.layers.enable(1);                       // layer 1 = the room, only the eye cameras render it
+    head.add(c); return c;
+  });
+  // FOV cones for the main view, 300 mm long
+  var fovCones=new THREE.Group(); head.add(fovCones);
+  (function(){
+    var L=300, hh=Math.tan(POV_VFOV/2*Math.PI/180)*L, hw=hh*POV_ASPECT;
+    povCams.forEach(function(c){
+      var o=c.position, pts=[], cs=[[-hw,-hh],[hw,-hh],[hw,hh],[-hw,hh]];
+      cs.forEach(function(q,i){
+        var n=cs[(i+1)%4];
+        pts.push(o.x,o.y,o.z, o.x+q[0],o.y-L,o.z+q[1]);
+        pts.push(o.x+q[0],o.y-L,o.z+q[1], o.x+n[0],o.y-L,o.z+n[1]);
+      });
+      var g=new THREE.BufferGeometry(); g.setAttribute("position",new THREE.Float32BufferAttribute(pts,3));
+      var ln=new THREE.LineSegments(g,new THREE.LineBasicMaterial({color:0x7fd4a0,transparent:true,opacity:0.55}));
+      ln.layers.set(2); fovCones.add(ln);     // layer 2: drawn in the main view only, never seen by the eye cameras
+    });
+  })();
+  // a room in front of the robot for the cameras to look at (layer 1 only)
+  (function(){
+    var room=new THREE.Group(), FLOOR=-450;
+    function L1(o){ o.traverse(function(n){ n.layers.set(1); }); room.add(o); return o; }
+    var grid=new THREE.GridHelper(5000,50,0x4a5566,0x2c3440); grid.rotation.x=Math.PI/2; grid.position.set(0,-1500,FLOOR); L1(grid);
+    var fl=new THREE.Mesh(new THREE.PlaneGeometry(5000,5000),new THREE.MeshLambertMaterial({color:0x1b222c}));
+    fl.position.set(0,-1500,FLOOR-0.5); L1(fl);
+    var wall=new THREE.Mesh(new THREE.PlaneGeometry(5000,2400),new THREE.MeshLambertMaterial({color:0x26303c,side:THREE.DoubleSide}));
+    wall.rotation.x=Math.PI/2; wall.position.set(0,-3200,FLOOR+1200); L1(wall);
+    // checkerboard calibration target, 7 x 5 squares of 60 mm, 900 mm out
+    var cb=document.createElement("canvas"); cb.width=700; cb.height=500; var cg=cb.getContext("2d");
+    for(var i=0;i<7;i++) for(var j=0;j<5;j++){ cg.fillStyle=(i+j)%2?"#111":"#eee"; cg.fillRect(i*100,j*100,100,100); }
+    var board=new THREE.Mesh(new THREE.PlaneGeometry(420,300),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(cb),side:THREE.DoubleSide}));
+    board.rotation.x=Math.PI/2; board.position.set(-120,-900,-40); L1(board);
+    var stand=new THREE.Mesh(new THREE.CylinderGeometry(8,8,260,12),new THREE.MeshLambertMaterial({color:0x8a94a4}));
+    stand.rotation.x=Math.PI/2; stand.position.set(-120,-902,FLOOR+130); L1(stand);
+    // a person, 1.6 m out and a little to the right
+    var skin=new THREE.MeshLambertMaterial({color:0xd9a37e}), cloth=new THREE.MeshLambertMaterial({color:0x3f7fbf});
+    var body=new THREE.Mesh(new THREE.CylinderGeometry(150,170,700,24),cloth); body.rotation.x=Math.PI/2; body.position.set(320,-1600,FLOOR+350); L1(body);
+    var hd=new THREE.Mesh(new THREE.SphereGeometry(105,24,18),skin); hd.position.set(320,-1600,FLOOR+820); L1(hd);
+    // blocks on the floor at different depths, for judging stereo depth
+    [[-420,-700,0xe07a3f],[180,-1100,0x5cbd8c],[-650,-1400,0xd6c14a],[620,-2100,0xb07ad6]].forEach(function(b){
+      var m=new THREE.Mesh(new THREE.BoxGeometry(160,160,160),new THREE.MeshLambertMaterial({color:b[2]}));
+      m.position.set(b[0],b[1],FLOOR+80); L1(m);
+    });
+    scene.add(room);
+  })();
+
+  // ---------- cables: routed through the free space, drawn as tubes, turn with the head ----------
+  var cableGroup=new THREE.Group(); head.add(cableGroup);
+  var CABLE_COL={power:0xd94c3d, data:0x3d8fd9, ribbon:0xd9c23d, video:0x9b5cd9, audio:0x3dbf7a};
+  function addBox(b,col){
+    var m=new THREE.Mesh(new THREE.BoxGeometry(b[1]-b[0],b[3]-b[2],b[5]-b[4]),new THREE.MeshLambertMaterial({color:col}));
+    m.position.set((b[0]+b[1])/2,(b[2]+b[3])/2,(b[4]+b[5])/2); cableGroup.add(m); return m;
+  }
+  function loadCables(c){
+    c.cables.forEach(function(k){
+      if(!k.ok || !k.pts || k.pts.length<2) return;
+      var pts=k.pts.map(function(p){ return new THREE.Vector3(p[0],p[1],p[2]); });
+      var curve=new THREE.CatmullRomCurve3(pts,false,"centripetal");
+      var g=new THREE.TubeGeometry(curve,Math.max(24,pts.length*12),k.dia/2,10,false);
+      cableGroup.add(new THREE.Mesh(g,new THREE.MeshLambertMaterial({color:CABLE_COL[k.kind]||0xcccccc})));
+    });
+    c.ribbon.forEach(function(b){ addBox(b,0xd9c23d); });                       // GPIO ribbon, drawn flat
+    Object.keys(c.new_parts).forEach(function(n){ addBox(c.new_parts[n],0x59616e); });
+    var tb=document.getElementById("cabletable"); tb.innerHTML="";
+    c.cables.forEach(function(k){
+      var tr=document.createElement("tr");
+      var chip=k.ok?(k.clear>=0.5?'<span class="chip">Fits</span>':'<span class="chip warn">Tight</span>'):'<span class="chip bad">No route</span>';
+      tr.innerHTML='<td><i class="cdot" style="background:#'+(CABLE_COL[k.kind]||0xcccccc).toString(16).padStart(6,"0")+'"></i>'+k.name+'</td>'+
+        '<td>'+chip+'</td><td class="num">'+(k.ok?k.dia.toFixed(1):"—")+'</td><td class="num">'+(k.ok?k.length:"—")+'</td>'+
+        '<td class="num">'+(k.ok?k.buy:"—")+'</td><td class="num">'+(k.ok?k.clear.toFixed(1):"—")+'</td>';
+      tb.appendChild(tr);
+    });
+    draw();
+  }
+  fetch("cables.json").then(function(r){ return r.json(); }).then(loadCables).catch(function(e){ console.error(e); });
+  document.getElementById("cablebtn").addEventListener("click",function(e){
+    cableGroup.visible=!cableGroup.visible; e.currentTarget.setAttribute("aria-pressed",String(cableGroup.visible)); draw();
+  });
+
+  var povOn=true;
+  var povBox=document.getElementById("pov");
+  function povRect(){
+    var w=stage.clientWidth,h=stage.clientHeight;
+    var iw=Math.round(Math.max(120,Math.min(w*0.22,260))), ih=Math.round(iw/POV_ASPECT), m=12, gap=8;
+    return {w:w,h:h,iw:iw,ih:ih,x0:m,x1:m+iw+gap,yb:34};   // yb: from the bottom, above the hint line
+  }
+  function layoutPov(){
+    var r=povRect();
+    povBox.hidden=!povOn;
+    povBox.style.left=r.x0+"px"; povBox.style.bottom=r.yb+"px";
+    povBox.style.width=(2*r.iw+8)+"px";
+    Array.prototype.forEach.call(povBox.querySelectorAll(".povv"),function(v){ v.style.width=r.iw+"px"; v.style.height=r.ih+"px"; });
+  }
+  function renderAll(){
+    renderer.setScissorTest(false);
+    renderer.setViewport(0,0,stage.clientWidth,stage.clientHeight);
+    renderer.render(scene,camera);
+    if(!povOn) return;
+    var r=povRect();
+    renderer.setScissorTest(true);
+    renderer.setClearColor(0x0a0e13,1);
+    // the robot faces -Y, so its own left eye is the +X lens: show it on the left, like a stereo pair
+    [[povCams[1],r.x0],[povCams[0],r.x1]].forEach(function(e){
+      renderer.setViewport(e[1],r.yb+18,r.iw,r.ih); renderer.setScissor(e[1],r.yb+18,r.iw,r.ih);
+      renderer.clear(); renderer.render(scene,e[0]);
+    });
+    renderer.setScissorTest(false);
+    renderer.setClearColor(0x000000,0);
+  }
+  document.getElementById("povbtn").addEventListener("click",function(e){
+    povOn=!povOn; e.currentTarget.setAttribute("aria-pressed",String(povOn)); layoutPov(); draw();
+  });
+  document.getElementById("cones").addEventListener("click",function(e){
+    fovCones.visible=!fovCones.visible; e.currentTarget.setAttribute("aria-pressed",String(fovCones.visible)); draw();
+  });
+  var meshes={}, contactMeshes={}, contactKeys=[], neckMeshes={}, neckKeys=[], handleContact=null, showContacts=true;
+  function cssVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+  function geo(b64){
+    var bin=atob(b64), n=bin.length, u=new Uint8Array(n);
+    for(var i=0;i<n;i++) u[i]=bin.charCodeAt(i);
+    var g=new THREE.BufferGeometry();
+    g.setAttribute("position",new THREE.BufferAttribute(new Float32Array(u.buffer),3));
+    g.computeVertexNormals(); return g;
+  }
+  var contactMat=new THREE.MeshBasicMaterial({color:new THREE.Color(cssVar("--contact")),side:THREE.DoubleSide,depthTest:false});
+  // left/right pairs come in one file; split them by side so the exploded view can pull the halves apart.
+  // The -X half stays the part's mesh, the +X half hangs off it as a child sharing its material.
+  var PAIRED={hub:1,bracket:1,servo:1,carrier:1,retainer:1,display:1,dboard:1,bezel:1,pupil:1,camera:1,speaker:1,amps:1};
+  function splitX(g){
+    var a=g.attributes.position.array, nL=0, i, k;
+    for(i=0;i<a.length;i+=9) if(a[i]+a[i+3]+a[i+6]<0) nL+=9;
+    var L=new Float32Array(nL), R=new Float32Array(a.length-nL), l=0, r=0;
+    for(i=0;i<a.length;i+=9){
+      if(a[i]+a[i+3]+a[i+6]<0){ for(k=0;k<9;k++) L[l++]=a[i+k]; } else { for(k=0;k<9;k++) R[r++]=a[i+k]; }
+    }
+    return [L,R].map(function(v){ var h=new THREE.BufferGeometry(); h.setAttribute("position",new THREE.BufferAttribute(v,3)); h.computeVertexNormals(); return h; });
+  }
+  function build(p,b64){
+    var mat=new THREE.MeshLambertMaterial({color:new THREE.Color(cssVar(p.col)||"#888"),side:THREE.DoubleSide}), m;
+    if(PAIRED[p.id]){
+      var halves=splitX(geo(b64));
+      m=new THREE.Mesh(halves[0],mat); m.userData.right=new THREE.Mesh(halves[1],mat); m.add(m.userData.right);
+    } else m=new THREE.Mesh(geo(b64),mat);
+    meshes[p.id]=m; if(p.off) m.visible=false;
+    if(onTable && NECK_PARTS.indexOf(p.id)>=0) m.visible=false;
+    (p.id==="jaw"||p.id==="hub" ? moving : (STATIONARY[p.id] ? scene : head)).add(m);
+  }
+
+  // orbit about the head's vertical (Z) axis, with damping; right-drag pans, wheel/pinch zooms
+  camera.up.set(0,0,1);
+  var target=new THREE.Vector3(0,-35,-25), HOME=new THREE.Vector3(-300,-360,160);   // head plus neck in view   // front-left, a little above
+  camera.position.copy(target).add(HOME);
+  camera.layers.enable(2);
+  var controls=new THREE.OrbitControls(camera,renderer.domElement);
+  controls.target.copy(target);
+  controls.enableDamping=true; controls.dampingFactor=0.12;
+  controls.rotateSpeed=0.7; controls.zoomSpeed=0.9; controls.panSpeed=0.8;
+  controls.minDistance=110; controls.maxDistance=1100;
+  controls.screenSpacePanning=true;
+  controls.update();
+  function resize(){
+    var w=stage.clientWidth,h=stage.clientHeight; if(!w||!h) return;
+    renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix();
+    if(typeof layoutPov==="function") layoutPov();
+  }
+  // ---------- eye screens: animated emotes on the two 2.1" round LCDs ----------
+  // Each screen is a canvas texture on a disc over the display's active area (dia 53.34),
+  // just in front of the glass. Expressions ease between parameter sets; blink and gaze run on top.
+  // everyday expressions glow turquoise, the greenish blue of the Computer's screen in Courage the Cowardly Dog;
+  // sad stays a deeper blue, and angry, love, scary and flashlight keep their own colours
+  var EMOTES={
+    neutral:  {top:-0.72, tilt:0.00,  bot:0.95, curve:0.00, hue:164, sat:72, lit:50, iris:0.72, pupil:0.46, heart:0, tear:0, glow:1.0, fear:0, beam:0},
+    happy:    {top:-0.95, tilt:0.00,  bot:0.72, curve:0.32, hue:158, sat:74, lit:53, iris:0.74, pupil:0.48, heart:0, tear:0, glow:1.1},
+    sad:      {top:-0.30, tilt:-0.40, bot:0.88, curve:0.00, hue:215, sat:70, lit:50, iris:0.68, pupil:0.52, heart:0, tear:1, glow:0.8},
+    angry:    {top:-0.22, tilt:0.50,  bot:0.80, curve:0.00, hue:356, sat:92, lit:48, iris:0.66, pupil:0.38, heart:0, tear:0, glow:1.2},
+    surprised:{top:-1.10, tilt:0.00,  bot:1.10, curve:0.00, hue:168, sat:82, lit:57, iris:0.80, pupil:0.37, heart:0, tear:0, glow:1.3},
+    sleepy:   {top:0.12,  tilt:-0.12, bot:0.72, curve:0.00, hue:170, sat:45, lit:40, iris:0.68, pupil:0.56, heart:0, tear:0, glow:0.6},
+    love:     {top:-1.00, tilt:0.00,  bot:1.00, curve:0.00, hue:335, sat:90, lit:58, iris:0.72, pupil:0.46, heart:1, tear:0, glow:1.2},
+    wink:     {top:-0.75, tilt:0.00,  bot:0.72, curve:0.32, hue:158, sat:74, lit:53, iris:0.74, pupil:0.48, heart:0, tear:0, glow:1.1},
+    loading:  {top:-0.80, tilt:0.00,  bot:0.92, curve:0.00, hue:164, sat:62, lit:38, iris:0.66, pupil:0.44, heart:0, tear:0, glow:0.7},
+    // torch mode: lids off, the whole panel full warm-white, beam on (see flashlight beams below)
+    flashlight:{top:-1.25, tilt:0.00, bot:1.25, curve:0.00, hue:46, sat:100, lit:86, iris:0.90, pupil:0.36, heart:0, tear:0, glow:2.0, beam:1},
+    // Halloween: blood-red, unblinking, slit pupils, bleeding lids; the jaw and neck join in (see scare below)
+    scary:    {top:-0.46, tilt:0.62,  bot:0.80, curve:-0.10, hue:0, sat:100, lit:40, iris:0.88, pupil:0.36, heart:0, tear:0, glow:1.8, fear:1}
+  };
+  var EMOTE_KEYS=Object.keys(EMOTES[ "neutral" ]);
+  var reduceMotion=!!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+  var eyeState={emote:"neutral", blink:!reduceMotion, wander:!reduceMotion};
+
+  function EyeScreen(x, inner){
+    this.c=document.createElement("canvas"); this.c.width=this.c.height=384;
+    this.g=this.c.getContext("2d");
+    this.tex=new THREE.CanvasTexture(this.c);
+    this.inner=inner;                         // +1: inboard side is canvas right, -1: canvas left
+    this.p=JSON.parse(JSON.stringify(EMOTES.neutral));
+    var m=new THREE.Mesh(new THREE.CircleGeometry(26.67,96), new THREE.MeshBasicMaterial({map:this.tex, transparent:true}));
+    m.rotation.x=Math.PI/2;                   // face -Y, texture up = +Z
+    m.position.set(x,-94.18,-0.32);
+    m.renderOrder=2;
+    head.add(m); this.mesh=m;
+  }
+  EyeScreen.prototype.ease=function(goal,k){
+    var p=this.p;
+    EMOTE_KEYS.forEach(function(key){
+      var d=(goal[key]||0)-p[key];
+      if(key==="hue"){ d=((d%360)+540)%360-180; }          // take the short way round the colour wheel
+      p[key]+=d*k;
+      if(key==="hue"){ p.hue=(p.hue+360)%360; }
+    });
+  };
+  EyeScreen.prototype.render=function(t, blink, gx, gy, closed, pulse){
+    // Unit coordinates: screen radius 1 = 26.67 mm. The camera sits dead centre and IS the pupil:
+    // the bezel hub + black pupil ring cover r < 0.34, so the drawing is built outward from there.
+    // Nothing moves off-centre; gaze turns the focus ring and nudges the lids instead.
+    var g=this.g, S=this.c.width, R=S/2, p=this.p, s=this.inner;
+    var col=function(l,a){ return "hsla("+p.hue.toFixed(0)+","+p.sat.toFixed(0)+"%,"+Math.max(0,Math.min(100,l)).toFixed(0)+"%,"+a+")"; };
+    var HUB=0.34;
+    var P=Math.max(HUB+0.02, p.pupil-0.07*pulse);      // aperture opening (dark depth round the lens)
+    var I=p.iris;                                     // outer edge of the blades
+    var loading=(eyeState.emote==="loading"), motion=reduceMotion?0:1;
+    var spin=(0.9-P)*2.2 + gx*0.35 + (loading?t*0.0035*motion*s:0);   // blades turn as the aperture closes; keep turning while loading
+    var focus=t*0.00025*(reduceMotion?0:1)*(0.3+Math.abs(gx)) + gx*0.8;
+    g.setTransform(1,0,0,1,0,0);
+    g.clearRect(0,0,S,S);
+    g.save(); g.beginPath(); g.arc(R,R,R,0,Math.PI*2); g.clip();
+    var bg=g.createRadialGradient(R,R,R*0.1,R,R,R);
+    bg.addColorStop(0,"#050c12"); bg.addColorStop(1,"#010305");
+    g.fillStyle=bg; g.fillRect(0,0,S,S);
+    g.translate(R,R); g.scale(R,R);
+    var k,a,N=9;
+    if(p.beam>0.5){
+      // the panel itself is the torch: every pixel full warm-white out to the rim; only the camera hub stays dark
+      var fl=Math.min(1,p.beam)*(1-0.6*pulse*Math.random());          // flickers as it switches on
+      var pan=g.createRadialGradient(0,0,HUB,0,0,1);
+      pan.addColorStop(0,"rgba(255,255,250,"+fl+")"); pan.addColorStop(0.85,col(p.lit+6,fl)); pan.addColorStop(1,col(p.lit-6,fl));
+      g.fillStyle=pan; g.fillRect(-1.2,-1.2,2.4,2.4);
+        } else if(p.heart>0.5){
+      var beat=1+0.05*Math.sin(t*0.009)*(reduceMotion?0:1);
+      g.save(); g.scale(0.82*beat,0.82*beat); g.translate(0,0.08);
+      g.shadowColor=col(60,0.9); g.shadowBlur=0.25*p.glow;
+      g.beginPath();
+      g.moveTo(0,0.95); g.bezierCurveTo(-1.25,0.1,-0.75,-0.95,0,-0.35); g.bezierCurveTo(0.75,-0.95,1.25,0.1,0,0.95);
+      var hg=g.createRadialGradient(0,-0.05,0.3,0,0,1); hg.addColorStop(0,col(p.lit+15,1)); hg.addColorStop(1,col(p.lit-12,1));
+      g.fillStyle=hg; g.fill(); g.restore();
+    } else {
+      // soft glow behind the iris
+      g.save(); g.shadowColor=col(58,0.9); g.shadowBlur=0.3*p.glow;
+      g.fillStyle=col(p.lit-25,1); g.beginPath(); g.arc(0,0,I,0,Math.PI*2); g.fill(); g.restore();
+      // aperture blades: N wedges between curved seams, alternately shaded, like a camera diaphragm
+      for(k=0;k<N;k++){
+        var a0=spin+k*2*Math.PI/N, a1=a0+2*Math.PI/N;
+        var shade=p.lit+(k%2?4:-4);
+        var bgrad=g.createRadialGradient(0,0,P,0,0,I);
+        bgrad.addColorStop(0,col(shade+22,1)); bgrad.addColorStop(0.5,col(shade+4,1)); bgrad.addColorStop(1,col(shade-16,1));
+        g.fillStyle=bgrad;
+        g.beginPath();
+        g.moveTo(Math.cos(a0)*P,Math.sin(a0)*P);
+        g.quadraticCurveTo(Math.cos(a0+0.45)*(P+I)*0.55,Math.sin(a0+0.45)*(P+I)*0.55,Math.cos(a0+0.75)*I,Math.sin(a0+0.75)*I);
+        g.arc(0,0,I,a0+0.75,a1+0.75);
+        g.quadraticCurveTo(Math.cos(a1+0.45)*(P+I)*0.55,Math.sin(a1+0.45)*(P+I)*0.55,Math.cos(a1)*P,Math.sin(a1)*P);
+        g.closePath(); g.fill();
+        g.strokeStyle="rgba(0,0,0,0.55)"; g.lineWidth=0.012;
+        g.beginPath();
+        g.moveTo(Math.cos(a0)*P,Math.sin(a0)*P);
+        g.quadraticCurveTo(Math.cos(a0+0.45)*(P+I)*0.55,Math.sin(a0+0.45)*(P+I)*0.55,Math.cos(a0+0.75)*I,Math.sin(a0+0.75)*I);
+        g.stroke();
+      }
+      // polygonal opening: the dark aperture the lens looks out through
+      g.fillStyle="#010203";
+      g.beginPath();
+      for(k=0;k<=N;k++){ a=spin+k*2*Math.PI/N; var px=Math.cos(a)*P, py=Math.sin(a)*P; if(k) g.lineTo(px,py); else g.moveTo(px,py); }
+      g.fill();
+      g.strokeStyle=col(p.lit+30,0.7); g.lineWidth=0.015; g.stroke();
+      // focus ring with engraved ticks, turning with gaze
+      g.strokeStyle=col(p.lit+28,0.9); g.lineWidth=0.028;
+      g.beginPath(); g.arc(0,0,I+0.035,0,Math.PI*2); g.stroke();
+      for(k=0;k<60;k++){
+        a=focus+k*Math.PI/30; var long=(k%5===0);
+        var r0=I+0.07, r1=I+(long?0.15:0.11);
+        g.strokeStyle=col(p.lit+(long?25:10),long?0.85:0.5); g.lineWidth=long?0.018:0.01;
+        g.beginPath(); g.moveTo(Math.cos(a)*r0,Math.sin(a)*r0); g.lineTo(Math.cos(a)*r1,Math.sin(a)*r1); g.stroke();
+      }
+      if(loading){
+        // progress arc fills round the focus ring and starts again; a comet of dots chases round it
+        var RR=I+0.075, prog=motion?((t*0.00032)%1):0.66, a0=-Math.PI/2;
+        g.lineCap="round";
+        g.strokeStyle=col(p.lit-10,0.55); g.lineWidth=0.075;
+        g.beginPath(); g.arc(0,0,RR,0,Math.PI*2); g.stroke();
+        g.save(); g.shadowColor=col(65,1); g.shadowBlur=0.2;
+        g.strokeStyle=col(p.lit+42,1); g.lineWidth=0.075;
+        g.beginPath(); g.arc(0,0,RR,a0,a0+Math.max(0.02,prog)*Math.PI*2); g.stroke(); g.restore();
+        var head_=a0+t*0.006*motion*s;
+        for(var q=0;q<8;q++){
+          var aq=head_-q*0.22*s;
+          var rq=(P+I)/2;
+          g.fillStyle="hsla("+p.hue.toFixed(0)+",90%,85%,"+(1-q/8).toFixed(2)+")";
+          g.beginPath(); g.arc(Math.cos(aq)*rq,Math.sin(aq)*rq,0.06*(1-q/12),0,Math.PI*2); g.fill();
+        }
+        g.lineCap="butt";
+      }
+      // catch-light on the blades, never on the lens itself
+      g.fillStyle="rgba(255,255,255,0.55)";
+      g.beginPath(); g.ellipse(-I*0.52,-I*0.52,0.07,0.045,-0.8,0,Math.PI*2); g.fill();
+    }
+    if(p.fear>0.05){
+      // slit pupil across the lens, veins creeping in from the rim, the whole screen twitching
+      var fr=Math.min(1,p.fear), jit=motion*(Math.random()<0.08?(Math.random()-0.5)*0.12:0);
+      g.save(); g.globalAlpha=fr; g.translate(jit,0);
+      g.fillStyle="#000"; g.shadowColor=col(55,1); g.shadowBlur=0.12;
+      var sw=0.24+0.05*Math.sin(t*0.004)*motion;
+      g.beginPath(); g.moveTo(0,-I*1.02); g.quadraticCurveTo(sw,0,0,I*1.02); g.quadraticCurveTo(-sw,0,0,-I*1.02); g.fill();
+      g.shadowBlur=0; g.strokeStyle=col(p.lit+22,0.85); g.lineCap="round";
+      for(k=0;k<14;k++){
+        var va=k*2.39996+0.3, vr=1.0, vx=Math.cos(va), vy=Math.sin(va), ln=0.3+0.12*Math.sin(k*7.1+t*0.001*motion);
+        g.lineWidth=0.026; g.beginPath(); g.moveTo(vx*vr,vy*vr);
+        var mx=vx*(vr-ln*0.5)+vy*0.05*Math.sin(k*3.3), my=vy*(vr-ln*0.5)-vx*0.05*Math.sin(k*3.3);
+        g.quadraticCurveTo(mx,my,vx*(vr-ln),vy*(vr-ln)); g.stroke();
+        g.lineWidth=0.009; g.beginPath(); g.moveTo(mx,my); g.lineTo(mx+vy*0.07,my-vx*0.07); g.stroke();
+      }
+      g.lineCap="butt"; g.restore();
+    }
+    // lids: tilted top edge, bottom edge that bows into a smile; gaze shifts them a little
+    var top=p.top+gy*0.10, bot=p.bot+gy*0.06;
+    if(closed){ top=0.35; bot=0.36; }
+    else if(blink>0){ top=top+(bot-0.02-top)*blink; }
+    var tilt=p.tilt*s+gx*0.08;
+    var lidCol="#010305", edge=col(p.lit+10,0.6), M=24, x, y;
+    g.fillStyle=lidCol; g.strokeStyle=edge; g.lineWidth=0.025;
+    g.beginPath(); g.moveTo(-1.2,-1.2);
+    for(k=0;k<=M;k++){ x=-1.2+2.4*k/M; g.lineTo(x, top+tilt*x*0.5); }
+    g.lineTo(1.2,-1.2); g.closePath(); g.fill();
+    g.beginPath(); for(k=0;k<=M;k++){ x=-1.2+2.4*k/M; y=top+tilt*x*0.5; if(k) g.lineTo(x,y); else g.moveTo(x,y); } g.stroke();
+    g.beginPath(); g.moveTo(-1.2,1.2);
+    for(k=0;k<=M;k++){ x=-1.2+2.4*k/M; g.lineTo(x, bot-p.curve*(1-x*x)); }
+    g.lineTo(1.2,1.2); g.closePath(); g.fill();
+    g.beginPath(); for(k=0;k<=M;k++){ x=-1.2+2.4*k/M; y=bot-p.curve*(1-x*x); if(k) g.lineTo(x,y); else g.moveTo(x,y); } g.stroke();
+    if(p.tear>0.05 && !closed){
+      var ty=0.4+((t*0.0004)%1)*0.5*(reduceMotion?0:1), tx=-s*0.55;
+      g.globalAlpha=Math.min(1,p.tear); g.fillStyle=col(p.lit+20,0.9);
+      g.beginPath(); g.moveTo(tx,ty-0.12); g.quadraticCurveTo(tx+0.08,ty,tx,ty+0.05); g.quadraticCurveTo(tx-0.08,ty,tx,ty-0.12); g.fill();
+      g.globalAlpha=1;
+    }
+    if(p.fear>0.05 && !closed){
+      // blood running from the lower lid, two drips per eye on their own clocks
+      g.fillStyle=col(p.lit-8,Math.min(1,p.fear));
+      [[-0.3,0.00037,0],[0.22,0.00029,0.45]].forEach(function(d){
+        var dx=d[0]*s, u=motion?((t*d[1]+d[2])%1):0.5, y0=bot-p.curve*(1-dx*dx), len=0.08+u*0.55;
+        g.fillRect(dx-0.018,y0-0.01,0.036,len);
+        g.beginPath(); g.arc(dx,y0+len,0.045,0,Math.PI*2); g.fill();
+      });
+    }
+    if(eyeState.emote==="sleepy" && s>0){
+      g.fillStyle=col(70,0.8); g.font="bold 0.32px IBM Plex Sans, sans-serif";
+      var zz=reduceMotion?0:(t*0.0006)%1;
+      g.globalAlpha=1-zz; g.fillText("z",0.4,-0.5-zz*0.3); g.globalAlpha=1;
+    }
+    g.restore();
+    g.setTransform(1,0,0,1,0,0);
+    var rim=g.createRadialGradient(R,R,R*0.86,R,R,R);
+    rim.addColorStop(0,"rgba(0,0,0,0)"); rim.addColorStop(1,"rgba(0,0,0,0.85)");
+    g.fillStyle=rim; g.beginPath(); g.arc(R,R,R,0,Math.PI*2); g.fill();
+    if(p.fear>0.5 && !reduceMotion && Math.random()<0.05){ g.fillStyle="rgba(0,0,0,0.85)"; g.fillRect(0,S*Math.random(),S,S*(0.08+Math.random()*0.3)); }
+    this.tex.needsUpdate=true;
+  };
+
+  // ---------- flashlight beams: the whole screen face is the emitter ----------
+  // A spotlight per eye (lights what the cameras see) plus a soft frustum for the main view that starts
+  // at the screen's full 53.34 mm diameter. The spotlight sits on the screen face (not behind it, where it
+  // would light the skull from inside); at room distances the 53 mm emitter reads the same as a point.
+  var BEAM_L=700, BEAM_HALF=14*Math.PI/180, SCR_R=26.67, SCR_Y=-94.18;
+  var beamMat=new THREE.ShaderMaterial({
+    uniforms:{k:{value:0}, col:{value:new THREE.Color(0xfff1c8)}},
+    vertexShader:"varying float d; void main(){ d=("+(BEAM_L/2).toFixed(1)+"-position.y)/"+BEAM_L.toFixed(1)+"; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }",
+    fragmentShader:"uniform float k; uniform vec3 col; varying float d; void main(){ gl_FragColor=vec4(col, k*0.32*pow(1.0-d,2.2)); }",
+    transparent:true, depthWrite:false, blending:THREE.AdditiveBlending, side:THREE.DoubleSide
+  });
+  var beams=[-60.96,60.95].map(function(x){
+    var cone=new THREE.Mesh(new THREE.CylinderGeometry(SCR_R,SCR_R+Math.tan(BEAM_HALF)*BEAM_L,BEAM_L,48,1,true),beamMat);
+    cone.position.set(x,SCR_Y-0.3-BEAM_L/2,-0.32);          // narrow end = screen face, opening forward (-Y)
+    cone.layers.set(2); cone.renderOrder=5; cone.visible=false; head.add(cone);
+    var sp=new THREE.SpotLight(0xfff1c8,0,5000,BEAM_HALF*1.3,0.5,1);
+    sp.position.set(x,SCR_Y-0.5,-0.32); sp.target.position.set(x,-1000,-0.32);
+    head.add(sp); head.add(sp.target);
+    return {cone:cone, light:sp};
+  });
+  // forehead lamp on the GPIO flashlight attachment: 1 W-class LED behind a 30 deg optic, ~60 lm vs ~5 lm from both screens
+  var LAMP=[0.0, -155.0, 40.0], LAMP_L=900, LAMP_HALF=15*Math.PI/180, LAMP_R=10.20;
+  var lampMat=new THREE.ShaderMaterial({
+    uniforms:{k:{value:0}, col:{value:new THREE.Color(0xfff6e0)}},
+    vertexShader:"varying float d; void main(){ d=("+(LAMP_L/2).toFixed(1)+"-position.y)/"+LAMP_L.toFixed(1)+"; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }",
+    fragmentShader:"uniform float k; uniform vec3 col; varying float d; void main(){ gl_FragColor=vec4(col, k*0.45*pow(1.0-d,1.6)); }",
+    transparent:true, depthWrite:false, blending:THREE.AdditiveBlending, side:THREE.DoubleSide
+  });
+  var lampCone=new THREE.Mesh(new THREE.CylinderGeometry(LAMP_R,LAMP_R+Math.tan(LAMP_HALF)*LAMP_L,LAMP_L,48,1,true),lampMat);
+  lampCone.position.set(LAMP[0],LAMP[1]-0.3-LAMP_L/2,LAMP[2]); lampCone.layers.set(2); lampCone.renderOrder=5; lampCone.visible=false; head.add(lampCone);
+  var lampLight=new THREE.SpotLight(0xfff6e0,0,6000,LAMP_HALF*1.2,0.35,1);
+  lampLight.position.set(LAMP[0],LAMP[1]-0.5,LAMP[2]); lampLight.target.position.set(LAMP[0],LAMP[1]-1000,LAMP[2]);
+  head.add(lampLight); head.add(lampLight.target);
+  var beamK=0, lampK=-1;
+  function setBeams(v){
+    v=Math.max(0,Math.min(1,v));
+    var fitted=!!(meshes.flashlight && meshes.flashlight.visible), lv=fitted?v:0;
+    if(Math.abs(v-beamK)<0.002 && Math.abs(lv-lampK)<0.002) return; beamK=v; lampK=lv;
+    beamMat.uniforms.k.value=v;
+    beams.forEach(function(b){ b.cone.visible=v>0.01; b.light.intensity=(fitted?1.2:3.5)*v; });   // with the lamp fitted the screens are only a glow
+    lampMat.uniforms.k.value=lv; lampCone.visible=lv>0.01; lampLight.intensity=7*lv;
+  }
+
+  // left eye sits at -X: its inboard side is +X, which is canvas right when seen from the front
+  var eyeL=new EyeScreen(-60.96,+1), eyeR=new EyeScreen(60.95,-1);
+  var pulse=0, nextBlink=performance.now()+2500, blinkStart=-1, gaze={x:0,y:0,tx:0,ty:0,next:0}, lastEye=0;
+  function eyesTick(now){
+    if(!eyeL.mesh.visible) return false;
+    if(now-lastEye<33) return false;           // ~30 fps is plenty for the screens
+    lastEye=now;
+    var goal=EMOTES[eyeState.emote];
+    var k=reduceMotion?1:0.18;
+    eyeL.ease(goal,k);
+    eyeR.ease(goal,k);
+    var blink=0;
+    if(eyeState.blink && eyeState.emote!=="sleepy" && eyeState.emote!=="wink" && eyeState.emote!=="scary" && eyeState.emote!=="flashlight"){
+      if(blinkStart<0 && now>nextBlink){ blinkStart=now; }
+      if(blinkStart>=0){
+        var u=(now-blinkStart)/160;
+        blink=u<1?u:(u<2?2-u:0);
+        if(u>=2){ blinkStart=-1; nextBlink=now+2200+Math.random()*3500; }
+      }
+    }
+    if(eyeState.wander){
+      if(now>gaze.next){ gaze.tx=(Math.random()*2-1); gaze.ty=(Math.random()*2-1)*0.7; pulse=Math.max(pulse,0.35); gaze.next=now+900+Math.random()*1800; }
+      gaze.x+=(gaze.tx-gaze.x)*0.2; gaze.y+=(gaze.ty-gaze.y)*0.2;
+    } else { gaze.x*=0.8; gaze.y*=0.8; }
+    pulse*=reduceMotion?0:0.88;
+    eyeL.render(now,blink,gaze.x,gaze.y,false,pulse);
+    eyeR.render(now,blink,gaze.x,gaze.y,eyeState.emote==="wink",pulse);
+    setBeams(eyeL.p.beam*(1-0.6*pulse*Math.random()));
+    return true;
+  }
+  var emoteRow=document.getElementById("emotes");
+  Object.keys(EMOTES).forEach(function(name){
+    var b=document.createElement("button"); b.type="button"; b.textContent=name.charAt(0).toUpperCase()+name.slice(1);
+    b.setAttribute("aria-pressed",String(name===eyeState.emote)); b.id="emote-"+name;
+    b.addEventListener("click",function(){
+      eyeState.emote=name; pulse=1;
+      Array.prototype.forEach.call(emoteRow.children,function(o){ o.setAttribute("aria-pressed",String(o===b)); });
+      if(name==="surprised"){ blinkStart=-1; nextBlink=performance.now()+1500; }
+      if(name==="scary") startScare(); else stopScare(true);
+      draw();
+    });
+    emoteRow.appendChild(b);
+  });
+  function toggle(id,key){
+    var el=document.getElementById(id);
+    el.setAttribute("aria-pressed",String(eyeState[key]));
+    el.addEventListener("click",function(){ eyeState[key]=!eyeState[key]; el.setAttribute("aria-pressed",String(eyeState[key])); draw(); });
+  }
+  toggle("blink","blink"); toggle("wander","wander");
+  eyesTick(performance.now());
+
+  var dirty=true;
+  function draw(){ dirty=true; }
+  controls.addEventListener("change",draw);
+  (function loop(){
+    requestAnimationFrame(loop);
+    controls.update();
+    if(eyesTick(performance.now())) dirty=true;
+    if(buildTick(performance.now())) dirty=true;
+    if(dirty){ dirty=false; renderAll(); }
+  })();
+  document.getElementById("face").addEventListener("click",function(){
+    controls.target.set(0,-94,0);
+    camera.position.set(0,-330,25);
+    controls.update(); draw();
+  });
+  document.getElementById("home").addEventListener("click",function(){
+    controls.target.copy(target);
+    camera.position.copy(target).add(HOME);
+    controls.update(); draw();
+  });
+
+  // ---------- sweep data + chart ----------
+  var curve=[];
+  var X0=30,X1=258,Y0=112,Y1=10, AMAX=60, DMAX=0.25;
+  function sx(a){ return X0+(X1-X0)*a/AMAX; }
+  function sy(d){ return Y0-(Y0-Y1)*d/DMAX; }
+  var svg=document.getElementById("chart"), NS="http://www.w3.org/2000/svg", cursor;
+  function el(t,at){
+    var e=document.createElementNS(NS,t);
+    for(var k in at){ if(k==="fill"||k==="stroke") e.style[k]=at[k]; else e.setAttribute(k,at[k]); }
+    svg.appendChild(e); return e;
+  }
+  function drawChart(){
+    svg.innerHTML="";
+    el("rect",{x:sx(0),y:Y1,width:sx(30)-sx(0),height:Y0-Y1,fill:"var(--band)"});
+    [0,0.1,0.2].forEach(function(d){
+      el("line",{x1:X0,x2:X1,y1:sy(d),y2:sy(d),stroke:"var(--line)","stroke-width":1});
+      var t=el("text",{x:X0-4,y:sy(d)+3,"text-anchor":"end"}); t.textContent=d.toFixed(1);
+    });
+    [0,15,30,45,60].forEach(function(a){
+      var t=el("text",{x:sx(a),y:Y0+13,"text-anchor":"middle"}); t.textContent=a+"°";
+    });
+    var t=el("text",{x:X0-4,y:Y1-2,"text-anchor":"end"}); t.textContent="mm";
+    ["N","L","R"].forEach(function(s){
+      var d=curve.map(function(c,i){ return (i?"L":"M")+sx(c.a).toFixed(1)+" "+sy(Math.min(DMAX,c[s]||0)).toFixed(1); }).join(" ");
+      el("path",{d:d,fill:"none",stroke:s==="L"?"var(--bad)":(s==="R"?"var(--accent-2)":"var(--warn)"),"stroke-width":1.8,"stroke-linejoin":"round"});
+    });
+    el("line",{x1:sx(35.5),x2:sx(35.5),y1:Y1,y2:Y0,stroke:"var(--warn)","stroke-dasharray":"2 3","stroke-width":1});
+    var nt=el("text",{x:sx(35.5)-3,y:Y1+18,"text-anchor":"end"}); nt.textContent="neck 35.5\u00b0";
+    el("line",{x1:sx(53.25),x2:sx(53.25),y1:Y1,y2:Y0,stroke:"var(--ink-3)","stroke-dasharray":"2 3","stroke-width":1});
+    var f=el("text",{x:sx(53.25)-3,y:Y1+8,"text-anchor":"end"}); f.textContent="skull 53°";
+    cursor=el("line",{x1:sx(0),x2:sx(0),y1:Y1,y2:Y0,stroke:"var(--accent)","stroke-width":1.5});
+  }
+  function at(a){
+    var best=curve[0];
+    for(var i=0;i<curve.length;i++){ if(curve[i].a<=a+1e-6) best=curve[i]; }
+    return best;
+  }
+
+  // ---------- head turn ----------
+  var turnEl=document.getElementById("turn"), turnDeg=document.getElementById("turnDeg"), spinBtn=document.getElementById("spin"), spinTimer=null, turnA=0;
+  function setTurn(a){
+    if(onTable) a=0;                         // no neck on the table, so nothing to turn on
+    turnA=((a+540)%360)-180;
+    headPivot.rotation.z=turnA*Math.PI/180;
+    turnEl.value=Math.round(turnA); turnDeg.textContent=Math.round(turnA)+"\u00b0"; draw();
+  }
+  turnEl.addEventListener("input",function(){ stopSpin(); setTurn(+turnEl.value); });
+  function stopSpin(){ if(spinTimer){ clearInterval(spinTimer); spinTimer=null; spinBtn.setAttribute("aria-pressed","false"); } }
+  spinBtn.addEventListener("click",function(){
+    if(spinTimer){ stopSpin(); return; }
+    spinBtn.setAttribute("aria-pressed","true");
+    spinTimer=setInterval(function(){ setTurn(turnA+1.2); },30);
+  });
+  if(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) spinBtn.disabled=true;
+  document.getElementById("turn0").addEventListener("click",function(){ stopSpin(); setTurn(0); });
+
+  // ---------- angle ----------
+  var ang=document.getElementById("ang"), degEl=document.getElementById("deg"), stateEl=document.getElementById("state"), ro=document.getElementById("readout");
+  function setAngle(d){
+    // on the neck the skull is held and the jaw swings; on the table the jaw is held and the
+    // skull tips back about the same pivot axis (X, through the origin), by the same angle
+    head.rotation.x=onTable?-d*Math.PI/180:0;
+    moving.rotation.x=d*Math.PI/180;
+    degEl.textContent=(d%1?d.toFixed(1):d)+"°";
+    var c=curve.length?at(d):{L:0,R:0,N:0,ov:0};
+    if(onTable) c={a:c.a,L:c.L,R:c.R,N:0,ov:0};
+    var hit=c.L>0||c.R>0||(c.N||0)>0;
+    stateEl.className="chip"+(hit?" bad":(d>30?" warn":""));
+    stateEl.textContent=hit?"Contact":(d>30?"Past speech":"Clear");
+    if(hit){
+      var sides=[]; if(c.L>0) sides.push("left arm into the skull "+c.L.toFixed(3)+" mm"); if(c.R>0) sides.push("right arm into the skull "+c.R.toFixed(3)+" mm");
+      if((c.N||0)>0) sides.push("chin into the neck base "+c.N.toFixed(3)+" mm");
+      ro.textContent="Contact: "+sides.join(", ")+" deep"+(onTable?". Without the neck, limit the jaw to 50\u00b0.":", "+c.ov.toFixed(2)+" mm\u00b3 total. With the neck fitted, limit the jaw to 33\u00b0.");
+    } else if(onTable){
+      var g=tableGap(d);
+      ro.textContent="Skull tipped back "+(d%1?d.toFixed(1):d)+"° about the jaw pivot. "+
+        (g.gap>0?"Its lowest point ("+g.name+") is "+g.gap.toFixed(1)+" mm above the table.":g.name+" hits the table ("+(-g.gap).toFixed(1)+" mm into it).")+
+        (d<=30?" Inside the speaking range.":(d<53?" Skull alone clears the jaw to 53°.":""));
+      if(g.gap<=0){ stateEl.className="chip bad"; stateEl.textContent="Table"; }
+    } else if(d===0){
+      ro.textContent="Jaw at rest. Nearest skull surface is the thrust pads, 0.08 mm away.";
+    } else if(d<=30){
+      ro.textContent="Inside the speaking range. No contact with any part.";
+    } else {
+      ro.textContent="Past the speaking range, still clear. The chin reaches the neck base at 35.5\u00b0.";
+    }
+    var keyA=null;
+    for(var i=0;i<contactKeys.length;i++){ if(contactKeys[i]<=d+1e-6) keyA=contactKeys[i]; }
+    for(var k in contactMeshes) contactMeshes[k].visible=showContacts && hit && (+k===keyA);
+    var nA=null; for(var q=0;q<neckKeys.length;q++){ if(neckKeys[q]<=d+1e-6) nA=neckKeys[q]; }
+    for(var nk in neckMeshes) neckMeshes[nk].visible=showContacts && (c.N||0)>0 && (+nk===nA);
+    if(cursor){ cursor.setAttribute("x1",sx(d)); cursor.setAttribute("x2",sx(d)); }
+    updTorque(d);
+    draw();
+  }
+  ang.addEventListener("input",function(){ stop(); setAngle(+ang.value); });
+  document.getElementById("limit").addEventListener("click",function(){ stop(); var L=onTable?50:33; ang.value=L; setAngle(L); });
+
+  // ---------- mounting: on the neck, or the head standing on its jaw on a table ----------
+  var onTable=false, NECK_PARTS=["neck","collar","neckbase","bearings","slipring"];
+  var TABLE_Z=-106.6;                          // flat underside of the jaw (GeneBottom_v4_twindrive), at rest
+  var table=new THREE.Mesh(new THREE.BoxGeometry(900,700,18),new THREE.MeshLambertMaterial({color:0x8a6d4e}));
+  table.position.set(0,-120,TABLE_Z-9-0.05); table.layers.enable(1); table.visible=false; scene.add(table);
+  // lowest point of everything that tips with the skull (all parts are in the head frame, untransformed)
+  var gapCache={};
+  function tableGap(d){
+    var key=(Math.round(d*2)/2).toFixed(1);
+    if(gapCache[key]) return gapCache[key];
+    return (gapCache[key]=tableGapCalc(+key));
+  }
+  function tableGapCalc(d){
+    var t=-d*Math.PI/180, sn=Math.sin(t), cs=Math.cos(t), best={gap:1e9,name:""};
+    head.children.forEach(function(m){
+      if(!m.isMesh || !m.visible || m===moving) return;
+      var id=null; for(var k in meshes) if(meshes[k]===m) id=k;
+      if(!id) return;
+      var a=m.geometry.attributes.position.array, lo=1e9;
+      for(var i=0;i<a.length;i+=3){ var z=a[i+1]*sn+a[i+2]*cs; if(z<lo) lo=z; }
+      if(lo-TABLE_Z<best.gap){ best.gap=lo-TABLE_Z; best.name=(PARTS.filter(function(p){return p.id===id;})[0]||{}).name||id; }
+    });
+    return best;
+  }
+  var limitBtn=document.getElementById("limit"), turnGrp=document.getElementById("turnGrp"), mountNote=document.getElementById("mountNote");
+  function setMount(t){
+    if(bmode) leaveBuild();
+    finishTalk(false);
+    onTable=t; stop(); stopSpin(); stopScare(false); gapCache={};
+    showGain();
+    document.getElementById("mNeck").setAttribute("aria-pressed",String(!t));
+    document.getElementById("mTable").setAttribute("aria-pressed",String(t));
+    NECK_PARTS.forEach(function(id){
+      var m=meshes[id], chk=document.getElementById("chk-"+id);
+      if(m) m.visible=!t && (!chk || chk.checked);
+    });
+    table.visible=t;
+    if(t) setTurn(0);
+    turnGrp.style.opacity=t?"0.45":""; turnEl.disabled=t; spinBtn.disabled=t||reduceMotion; document.getElementById("turn0").disabled=t;
+    limitBtn.textContent=t?"Go to limit (50°)":"Go to limit (33°)";
+    mountNote.textContent=t?"No neck. The jaw sits flat on the table and stays put; the servos tip the whole skull back instead. Jaw limit without the neck is 50°.":
+      "The skull is held by the neck and the jaw swings down.";
+    setAngle(+ang.value);
+  }
+  // ---------- servo load: estimated weights (tools/mass.py) against the two XL330s ----------
+  var MASS=null;
+  function lb(g){ return g>=453.6?(g/453.6).toFixed(2)+" lb":(g/28.35).toFixed(1)+" oz"; }
+  function updTorque(d){
+    if(!MASS || talking) return;
+    var arr=onTable?MASS.table_Nm:MASS.neck_Nm, i=Math.max(0,Math.min(arr.length-1,Math.round(d*2)));
+    var tq=Math.abs(arr[i]), f=tq/MASS.stall, sp=MASS.speech_check[onTable?"table":"neck"];
+    document.getElementById("tqNm").textContent=tq.toFixed(2)+" N·m";
+    var chip=document.getElementById("tqChip"), meter=document.getElementById("tqBar").parentNode;
+    var cls=(f>0.5||sp.use>1)?"bad":((f>0.3||sp.use>0.8)?"warn":"");
+    chip.className="chip"+(cls?" "+cls:""); meter.className="meter"+(cls?" "+cls:"");
+    chip.textContent=sp.use>1?"Can't talk at speed":(f>0.3?"Heavy hold":"Holding");
+    document.getElementById("tqBar").style.width=Math.min(100,f*100).toFixed(1)+"%";
+    document.getElementById("tqSpeech").style.width=Math.min(100,sp.use*100).toFixed(1)+"%";
+    var what=onTable?"the skull ("+Math.round(MASS.head_g)+" g, "+lb(MASS.head_g)+") up on the jaw":"the jaw and hubs ("+Math.round(MASS.jaw_g)+" g, "+lb(MASS.jaw_g)+")";
+    document.getElementById("tqNote").textContent="Holding "+what+" at "+d+"° takes "+Math.round(f*100)+"% of stall (bar). "+
+      "Talking, "+MASS.speech+", peaks at "+Math.round(sp.use*100)+"% of what they can give at that speed (tick)"+
+      (sp.use>1?": too much. Keep it under "+sp.max_hz_80pct.toFixed(1)+" swings a second here.":"; fine up to "+sp.max_hz_80pct.toFixed(1)+" swings a second within 80%.");
+  }
+  function massReport(m){
+    var tb=document.getElementById("masstable"); tb.innerHTML="";
+    var NAME={shell:"Skull shell",jaw:"Jaw",battery:"Battery pack + BMS",pi5:"Pi 5 + cooler + SD",shelf:"Pi shelf",tray:"Battery tray",
+      display_L:"Eye screen L",display_R:"Eye screen R",hardware:"Screws, straps, glue",flashlight:"GPIO flashlight",boards:"Bucks + charger",
+      deck:"Electronics deck",servo_L:"Servo L",servo_R:"Servo R"};
+    var top=m.parts.slice(0,12), rest=m.parts.slice(12).reduce(function(a,p){ return a+p[1]; },0);
+    top.concat([["everything else ("+(m.parts.length-12)+" items)",rest,"",""]]).forEach(function(p){
+      var tr=document.createElement("tr");
+      tr.innerHTML="<td>"+(NAME[p[0]]||p[0])+"</td><td>"+(p[2]==="jaw"?"jaw":(p[2]?"skull":""))+"</td><td class=\"num\">"+Math.round(p[1])+"</td><td class=\"num\">"+(p[1]/28.35).toFixed(1)+"</td>";
+      tb.appendChild(tr);
+    });
+    document.getElementById("massIntro").innerHTML="An estimate, not a weighing: about <strong>"+Math.round(m.total_g)+"&nbsp;g ("+lb(m.total_g)+")</strong> for the head as the sim shows it (flashlight on, no handle, no neck). "+
+      "Printed parts come from each model's volume and surface area at the BOM's settings, bought parts from typical catalogue weights, and cables from their routed lengths. Expect &plusmn;15&nbsp;%. Weigh the finished head to confirm.";
+    var sn=m.speech_check.neck, st=m.speech_check.table;
+    document.getElementById("massspecs").innerHTML=
+      "<div><dt>Skull side</dt><dd class=\"mono\">"+Math.round(m.head_g)+" g ("+lb(m.head_g)+")</dd></div>"+
+      "<div><dt>Jaw + hubs</dt><dd class=\"mono\">"+Math.round(m.jaw_g)+" g ("+lb(m.jaw_g)+")</dd></div>"+
+      "<div><dt>Printed / bought</dt><dd class=\"mono\">"+Math.round(m.printed_g)+" g / "+Math.round(m.bought_g)+" g</dd></div>"+
+      "<div><dt>Skull CoM</dt><dd class=\"mono\">"+Math.round(-m.com_head[1])+" mm in front of the pivot, "+Math.round(m.com_head[2])+" mm above</dd></div>"+
+      "<div><dt>Jaw CoM</dt><dd class=\"mono\">"+Math.round(-m.com_jaw[1])+" mm in front, "+Math.round(-m.com_jaw[2])+" mm below</dd></div>"+
+      "<div><dt>Inertia at pivot</dt><dd class=\"mono\">skull "+(m.I_head*1e4).toFixed(0)+", jaw "+(m.I_jaw*1e4).toFixed(0)+" kg&middot;cm&sup2;</dd></div>"+
+      "<div><dt>Servos</dt><dd>2 &times; XL330-M288-T at 5&nbsp;V: "+m.stall.toFixed(2)+"&nbsp;N&middot;m stall together, falling to zero at 103&nbsp;rpm</dd></div>";
+    function pc(x){ return Math.round(x*100)+"&nbsp;%"; }
+    document.getElementById("massfinds").innerHTML=
+      '<div class="find"><span class="chip">On the neck</span><div><h3>The servos hold the jaw: fine</h3><p>Gravity pulls the jaw open. Holding it shut takes '+Math.abs(m.neck_Nm[0]).toFixed(2)+'&nbsp;N&middot;m, '+pc(Math.abs(m.neck_Nm[0])/m.stall)+' of stall, and less as it opens. '+
+      'Talking ('+m.speech+') peaks at '+pc(sn.use)+' of what the servos can give at that speed, because the 274&nbsp;g jaw swings well below the pivot. It stays within 80&nbsp;% up to '+sn.max_hz_80pct.toFixed(1)+' swings a second.</p></div></div>'+
+      '<div class="find"><span class="chip bad">On a table</span><div><h3>Standing on the jaw, the servos lift the whole skull</h3><p>The skull&rsquo;s centre of mass is '+Math.round(-m.com_head[1])+'&nbsp;mm in front of the pivot, so gravity pulls the face down onto the jaw. Holding the mouth open takes '+Math.abs(m.table_Nm[0]).toFixed(2)+'&nbsp;N&middot;m ('+pc(Math.abs(m.table_Nm[0])/m.stall)+' of stall) just off closed, easing to '+Math.abs(m.table_Nm[100]).toFixed(2)+'&nbsp;N&middot;m at 50&deg; as it tips back over the pivot. '+
+      'It can hold any angle, but talking at full speed peaks at '+pc(st.use)+', which is more than they have. Slow the jaw to under '+st.max_hz_80pct.toFixed(1)+' swings a second or use a smaller swing. A long hold near 40&nbsp;% of stall also warms the servos, so let the head close when it is quiet.</p>'+
+      '<p>A lighter jaw helps in both mountings: printed with 2 walls and 15&nbsp;% infill instead of 4 walls and 22&nbsp;%, it drops from about 268 to 196&nbsp;g.</p></div></div>';
+  }
+  fetch("mass.json").then(function(r){ return r.json(); }).then(function(m){ MASS=m; massReport(m); updTorque(+ang.value); document.getElementById("say").disabled=false; }).catch(function(e){ console.error(e); });
+
+  // ---------- talking: canned phrases -> mouth shapes -> a servo model that has to move the real mass ----------
+  var PHRASES=[
+    "Hello! I'm Gene. My jaw runs on two little servos, and my eyes are cameras.",
+    "Why did the robot go on holiday? It needed to recharge its batteries!",
+    "Oh wow, look at that! Amazing. Absolutely amazing!",
+    "Mmm, maybe. Bob bought a big blue boat, but the boat broke.",
+    "Put me on a table and watch my whole head tip back as I talk.",
+    "Happy Halloween! Boo! Are you scared yet?"
+  ];
+  // how far each letter opens the mouth (deg) and how long it lasts (ms); m, b, p close it
+  var OPEN={a:22,o:19,e:15,i:11,u:12,y:10,h:12,w:6,r:8,l:9,n:7,d:8,t:7,k:8,g:9,c:7,q:7,j:7,x:6,s:5,z:5,f:3,v:3,m:0,b:0,p:0};
+  function phonemes(text){
+    var segs=[], words=[], t=0, lower=text.toLowerCase(), re=/[a-z']+|[,;:]|[.!?]+|\s+/g, m;
+    while((m=re.exec(lower))){
+      var tok=m[0];
+      if(/^\s+$/.test(tok)){ segs.push({t:t,d:45,a:3}); t+=45; continue; }
+      if(/^[,;:]$/.test(tok)){ segs.push({t:t,d:220,a:0}); t+=220; continue; }
+      if(/^[.!?]+$/.test(tok)){ segs.push({t:t,d:380,a:0}); t+=380; continue; }
+      var loud=text.charAt(m.index+tok.length)==="!"?1.2:1;          // shouted words open wider
+      words.push({ci:m.index,t:t});
+      for(var i=0;i<tok.length;i++){
+        var ch=tok.charAt(i), nx=tok.charAt(i+1);
+        if(ch==="'") continue;
+        if((ch==="t"||ch==="s"||ch==="c")&&nx==="h"){ segs.push({t:t,d:80,a:6}); t+=80; i++; continue; }        // th, sh, ch
+        if(ch===nx && "aeiou".indexOf(ch)>=0){ segs.push({t:t,d:140,a:(OPEN[ch]||8)*loud}); t+=140; i++; continue; }   // ee, oo
+        if(ch===nx) continue;                                                                             // doubled consonant
+        var v="aeiouy".indexOf(ch)>=0, d=v?105:(OPEN[ch]===0?85:65);
+        segs.push({t:t,d:d,a:(OPEN[ch]!=null?OPEN[ch]:6)*(v?loud:1)}); t+=d;
+      }
+    }
+    segs.push({t:t,d:300,a:0}); t+=300;
+    return {segs:segs, words:words, dur:t};
+  }
+  var phraseEl=document.getElementById("phrase"), sayBtn=document.getElementById("say"), voiceBtn=document.getElementById("voice"), talkNote=document.getElementById("talkNote");
+  PHRASES.forEach(function(p,i){ var o=document.createElement("option"); o.value=i; o.textContent=p; phraseEl.appendChild(o); });
+  // recorded speech (tools/speech.py): Gene's trained voice plus the mouth shape of every phoneme, to the millisecond
+  var SPEECH=null, audio=null, soundOn=true, audioLast=-1, audioMoved=0;
+  // SAPI viseme -> jaw opening (deg): 0 silence, 1 ae/ah, 2 aa, 3 ao, 4 ey/eh/uh, 5 er, 6 y/iy/ih, 7 w/uw, 8 ow, 9 aw,
+  // 10 oy, 11 ay, 12 h, 13 r, 14 l, 15 s/z, 16 sh/ch/jh, 17 th/dh, 18 f/v, 19 d/t/n, 20 k/g/ng, 21 p/b/m
+  var VIS_OPEN=[0,18,22,19,14,10,9,7,15,21,16,20,12,8,10,5,6,6,3,7,9,0];
+  // Mouth opening, as a share of the full viseme angles. Tuned with the servo model over all six phrases:
+  // the most each mounting takes with the servos never maxed out and 20 % of their torque in reserve
+  // (on the neck ~14 deg max; standing on the jaw, where gravity already takes ~40 %, ~7 deg).
+  // Sentences that end in "!" are yelled: they open SHOUT times wider and may strain the servos.
+  var GAIN_TUNED={neck:0.53, table:0.28}, GAIN={neck:0.53, table:0.28}, SHOUT=1.6;
+  function shoutWindows(ph){
+    // words: [audio ms, char index, length]; a word is yelled when its sentence ends in "!"
+    var out=[], w=ph.words||[], txt=ph.text||"";
+    for(var i=0;i<w.length;i++){
+      var rest=txt.slice(w[i][1]), m=rest.match(/[.!?]/);
+      if(m && m[0]==="!"){ out.push([w[i][0]-40, i+1<w.length?w[i+1][0]:ph.ms]); }
+    }
+    return out;
+  }
+  function visemeTimeline(ph){
+    var v=ph.visemes.filter(function(x,i,a){ return !(a[i+1] && a[i+1][0]===x[0]); });   // same start: the later one wins
+    var segs=v.map(function(x,i){ var nx=v[i+1]; return {t:x[0], d:nx?Math.max(20,nx[0]-x[0]):x[1], a:VIS_OPEN[x[2]]||0}; });
+    segs.push({t:ph.ms,d:300,a:0});
+    return {segs:segs, words:[], dur:ph.ms+300, env:ph.env, audio:true, shout:ph.shout||shoutWindows(ph)};
+  }
+  fetch("speech.json").then(function(r){ return r.json(); }).then(function(sp){
+    SPEECH=sp;
+    sp.phrases.forEach(function(ph,k){
+      // published page: the MP3 files next to it; offline copy (JSON inlined, no files): the embedded audio
+      ph.file="speech/"+k+".mp3";
+      ph.blob=function(){
+        if(!ph.blobUrl){ var bin=atob(ph.mp3), u=new Uint8Array(bin.length); for(var i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
+          ph.blobUrl=URL.createObjectURL(new Blob([u],{type:"audio/mpeg"})); }
+        return ph.blobUrl;
+      };
+    });
+  }).catch(function(e){ console.error(e); });
+  voiceBtn.addEventListener("click",function(){
+    soundOn=!soundOn; voiceBtn.setAttribute("aria-pressed",String(soundOn));
+    if(LIVE.gain) LIVE.gain.gain.value=soundOn?1:0;
+    if(!audio) return;
+    if(!soundOn) audio.pause();
+    else if(talking && tTalk<tl.dur-300){ audio.currentTime=tTalk/1000; audio.play().catch(function(){}); }
+  });
+
+  // servo model: the servo's position PID, its output capped by the motor's torque-speed line
+  // (1.04 N.m for the pair at standstill, nothing at 103 rpm), moving the real inertia against gravity
+  var W0=103*2*Math.PI/60, KP=8, KI=20, KD=0.25, BF=0.004, DT=0.0005;
+  // the servos are sent each mouth shape 40 ms before it is heard, to cover the time they take to swing
+  // the jaw there (best of 0-120 ms on the six recorded phrases: 3x closer to the voice, same torque)
+  var LEAD=40;
+  var talking=false, tl=null, tTalk=0, lastNow=0, th=0, om=0, integ=0, trace=[], stats=null, endHold=0;
+  function gravOpen(deg){      // gravity torque on whatever the servos move, positive = opening the mouth
+    var arr=onTable?MASS.table_Nm:MASS.neck_Nm, x=Math.max(0,Math.min(60,deg))*2, i=Math.min(arr.length-2,Math.floor(x)), f=x-i;
+    var v=arr[i]*(1-f)+arr[i+1]*f; return onTable?-v:v;
+  }
+  function shouting(t){
+    if(!tl || !tl.shout) return false;
+    for(var i=0;i<tl.shout.length;i++) if(t>=tl.shout[i][0] && t<tl.shout[i][1]) return true;
+    return false;
+  }
+  function targetAt(t){
+    var a=shapeAt(t)*GAIN[onTable?"table":"neck"]*(shouting(t)?SHOUT:1);
+    if(tl && tl.env){
+      var e=(tl.env[Math.max(0,Math.min(tl.env.length-1,Math.floor(t/10)))]||0)/255;
+      a*=e<0.04?e/0.04*0.55:Math.min(1.15,0.55+0.6*e);
+    }
+    return Math.min(30,a);
+  }
+  function shapeAt(t){
+    if(!tl) return 0;
+    var segs=tl.segs, lo=0, hi=segs.length-1;
+    while(lo<hi){ var mid=(lo+hi+1)>>1; if(segs[mid].t+segs[mid].d/2<=t) lo=mid; else hi=mid-1; }
+    var a=segs[lo], b=segs[Math.min(segs.length-1,lo+1)], ca=a.t+a.d/2, cb=b.t+b.d/2;
+    if(t<=ca || cb<=ca) return Math.min(30,a.a);
+    var u=Math.min(1,(t-ca)/(cb-ca)); u=u*u*(3-2*u);
+    return Math.min(30,a.a+(b.a-a.a)*u);        // stay inside the speaking range
+  }
+  // an open sound counts as "hit" if the jaw gets to 75 % of it while it lasts
+  function vowelHits(){
+    var th0=11*GAIN[onTable?"table":"neck"];
+    var n=0,h=0; tl.segs.forEach(function(s){ if(s.want>=th0 && s.peak!=null){ n++; if(s.peak>=0.75*s.want) h++; } });
+    return {n:n,h:h};
+  }
+  function markSeg(t,deg,want){
+    var segs=tl.segs, lo=0, hi=segs.length-1;
+    while(lo<hi){ var mid=(lo+hi+1)>>1; if(segs[mid].t<=t) lo=mid; else hi=mid-1; }
+    var s=segs[lo]; if(s.peak==null||deg>s.peak) s.peak=deg; if(s.want==null||want>s.want) s.want=want;
+  }
+  function stepServo(target){
+    var I=onTable?MASS.I_head:MASS.I_jaw, lim=onTable?50:33, err=(target-th*180/Math.PI)*Math.PI/180;
+    integ=Math.max(-0.05,Math.min(0.05,integ+err*DT));
+    var cmd=KP*err+KI*integ-KD*om;
+    var avail=cmd*om>0?MASS.stall*Math.max(0,1-Math.abs(om)/W0):MASS.stall;
+    var tq=Math.max(-avail,Math.min(avail,cmd));
+    om+=(tq+gravOpen(th*180/Math.PI)-BF*om)/I*DT; th+=om*DT;
+    if(th<0){ th=0; if(om<0) om=0; }                                       // mouth shut: jaw against the skull
+    if(th>lim*Math.PI/180){ th=lim*Math.PI/180; if(om>0) om=0; }           // servo limit
+    return {tq:tq, sat:Math.abs(cmd)>avail+1e-9, use:Math.abs(cmd)/Math.max(avail,1e-6)};
+  }
+  var traceEl=document.getElementById("trace"), tg=traceEl.getContext("2d");
+  function drawTrace(){
+    var W=traceEl.width, H=traceEl.height, SPAN=4000, now=tTalk, pad=40;
+    function X(t){ return pad+(W-pad)*(1-(now-t)/SPAN); }
+    function Y(a){ return H-10-(H-20)*Math.min(30,Math.max(0,a))/30; }
+    tg.clearRect(0,0,W,H);
+    tg.font="18px IBM Plex Mono, monospace"; tg.fillStyle=cssVar("--ink-3"); tg.strokeStyle=cssVar("--line"); tg.lineWidth=1;
+    [0,10,20,30].forEach(function(a){ var y=Y(a); tg.beginPath(); tg.moveTo(pad,y); tg.lineTo(W,y); tg.stroke(); tg.fillText(a+"\u00b0",0,y+6); });
+    tg.fillStyle=cssVar("--bad"); tg.globalAlpha=0.25;
+    trace.forEach(function(p){ if(p.sat) tg.fillRect(X(p.t),0,3,H); });
+    tg.globalAlpha=1;
+    [["tgt","--ink-3",[6,5],2],["ang","--accent",[],3]].forEach(function(s){
+      tg.strokeStyle=cssVar(s[1]); tg.lineWidth=s[3]; tg.setLineDash(s[2]); tg.beginPath();
+      trace.forEach(function(p,i){ var x=X(p.t), y=Y(p[s[0]]); if(i) tg.lineTo(x,y); else tg.moveTo(x,y); });
+      tg.stroke();
+    });
+    tg.setLineDash([]);
+  }
+  function talkFrame(now){
+    if(!talking) return;
+    var dt=Math.min(0.05,(now-lastNow)/1000); lastNow=now;
+    var aT=audio?audio.currentTime*1000:0;
+    if(audio && aT!==audioLast){ audioLast=aT; audioMoved=now; }
+    if(!audioMoved) audioMoved=now;
+    var useAudio=audio && soundOn && !audio.paused && !audio.ended && now-audioMoved<1500;   // audio that never starts: run on the clock
+    var goal=useAudio?aT:tTalk+dt*1000;
+    if(tl.live) goal=(LIVE.ctx.currentTime-LIVE.t0)*1000;                                   // live: the audio context's clock
+    var n=Math.max(0,Math.min(200,Math.round((goal-tTalk)/(DT*1000)))), r, tqMax=0, sat=false;
+    for(var i=0;i<n;i++){
+      tTalk+=DT*1000;
+      var want=targetAt(tTalk); r=stepServo(targetAt(tTalk+LEAD)); markSeg(tTalk,th*180/Math.PI,want);
+      if(tl.live && LIVE.times.jaw==null && LIVE.audioOff!=null && tTalk>=LIVE.audioOff && th*180/Math.PI>LIVE.th0+1){ LIVE.times.jaw=ctxToPerf(LIVE.t0+tTalk/1000); liveTiming(); }   // on the sim's clock
+      if(Math.abs(r.tq)>tqMax) tqMax=Math.abs(r.tq);
+      if(r.sat) sat=true;
+    }
+    var deg=th*180/Math.PI, tgtNow=targetAt(tTalk);
+    trace.push({t:tTalk,tgt:tgtNow,ang:deg,sat:sat}); while(trace.length && trace[0].t<tTalk-4000) trace.shift();
+    var yell=shouting(tTalk); if(yell) stats.ny++; else stats.nn++;
+    if(sat){ if(yell) stats.saty++; else stats.satn++; }
+    stats.n++; if(sat) stats.sat++; stats.peak=Math.max(stats.peak,tqMax/MASS.stall); stats.err+=Math.abs(tgtNow-deg);
+    ang.value=deg; setAngle(Math.round(deg*10)/10);
+    // live load in the servo panel
+    document.getElementById("tqNm").textContent=tqMax.toFixed(2)+" N\u00b7m";
+    document.getElementById("tqBar").style.width=Math.min(100,tqMax/MASS.stall*100).toFixed(1)+"%";
+    document.getElementById("tqSpeech").style.width="0";
+    document.getElementById("tqNote").textContent="Live while talking: the bar is the torque the servos are putting out right now, including speeding the "+(onTable?"skull":"jaw")+" up and slowing it down.";
+    var chip=document.getElementById("tqChip"); chip.className="chip"+(sat?" bad":(tqMax/MASS.stall>0.6?" warn":""));
+    chip.textContent=sat?"Maxed out":(yell?"Yelling":"Talking");
+    document.getElementById("tqBar").parentNode.className="meter"+(sat?" bad":"");
+    var vh=vowelHits();
+    talkNote.textContent="Servos at "+Math.round(tqMax/MASS.stall*100)+"% of stall now. So far: maxed out "+Math.round(stats.sat/stats.n*100)+"% of the time, jaw "+(stats.err/stats.n).toFixed(1)+"\u00b0 off the voice on average, "+vh.h+" of "+vh.n+" open sounds reached.";
+    drawTrace();
+    if(tl.live? (LIVE.done && tTalk>tl.dur) : (tTalk>tl.dur && !useAudio)){
+      if(!endHold) endHold=now;
+      if(now-endHold>400 && Math.abs(om)<0.05){ finishTalk(true); return; }
+    }
+    requestAnimationFrame(talkFrame);
+  }
+  function startTalk(){
+    if(!MASS) return;
+    stop(); stopSpin(); stopScare(false);
+    var k=+phraseEl.value, ph=SPEECH&&SPEECH.phrases[k];
+    tl=ph?visemeTimeline(ph):phonemes(PHRASES[k]);          // letter-guessing only if the recording failed to load
+    th=(+ang.value)*Math.PI/180; om=0; integ=0; tTalk=0; trace=[]; endHold=0; stats={n:0,sat:0,peak:0,err:0,nn:0,ny:0,satn:0,saty:0}; audioLast=-1; audioMoved=0;
+    talking=true; sayBtn.setAttribute("aria-pressed","true"); sayBtn.textContent="Stop";
+    if(audio){ audio.pause(); audio=null; }
+    if(ph){
+      var useFile=location.protocol!=="file:" && !window.__SIM;
+      audio=new Audio(useFile?ph.file:ph.blob());
+      audio.addEventListener("error",function once(){         // file missing or blocked: fall back to the embedded copy
+        audio.removeEventListener("error",once);
+        if(!talking) return;
+        audio.src=ph.blob(); audio.currentTime=tTalk/1000; if(soundOn) audio.play().catch(function(e){ console.error(e); });
+      });
+      if(soundOn) audio.play().catch(function(e){ console.error(e); });
+    }
+    lastNow=performance.now(); requestAnimationFrame(talkFrame);
+  }
+  function finishTalk(done){
+    if(!talking) return;
+    talking=false; sayBtn.setAttribute("aria-pressed","false"); sayBtn.textContent="Say it";
+    if(audio && !done) audio.pause();
+    if(tl && tl.live) liveStop(done);
+    if(stats && stats.n){
+      var satF=stats.sat/stats.n, vh=vowelHits(), hitF=vh.n?vh.h/vh.n:1;
+      var normal=stats.nn?"Normal talking: maxed out "+Math.round(stats.satn/stats.nn*100)+"% of the time. ":"";
+      var yelled=stats.ny?"Yelling: maxed out "+Math.round(stats.saty/stats.ny*100)+"% of the time. ":"";
+      talkNote.textContent=(done?"Done. ":"Stopped. ")+(onTable?"Standing on the jaw, the servos lift the "+Math.round(MASS.head_g)+" g skull":"On the neck, the servos swing the "+Math.round(MASS.jaw_g)+" g jaw")+
+        " at "+Math.round(GAIN[onTable?"table":"neck"]*100)+"% opening. "+normal+yelled+"The jaw was "+(stats.err/stats.n).toFixed(1)+"\u00b0 off the voice on average, and it reached "+vh.h+" of "+vh.n+" open sounds."+
+        (hitF<0.8?" It can't keep up at this speaking rate: mouth shapes come out late and small.":" It keeps up.");
+    }
+    updTorque(+ang.value);
+  }
+  sayBtn.addEventListener("click",function(){ if(talking) finishTalk(false); else startTalk(); });
+  var gainEl=document.getElementById("mouthGain"), gainV=document.getElementById("mouthGainV");
+  function showGain(){
+    var k=onTable?"table":"neck", g=GAIN[k], t=GAIN_TUNED[k];
+    gainEl.value=Math.round(g*100);
+    gainV.textContent=Math.round(g*100)+"% (about "+Math.round(g*22)+"° on an “ah”, "+Math.round(Math.min(30,g*22*SHOUT))+"° yelled)"+
+      (Math.abs(g-t)<0.005?", tuned: the servos never max out in normal talking":(g>t?", above the tuned "+Math.round(t*100)+"%: expect strain":", below the tuned "+Math.round(t*100)+"%"));
+  }
+  gainEl.addEventListener("input",function(){ GAIN[onTable?"table":"neck"]=+gainEl.value/100; showGain(); });
+  showGain();
+
+  // ---------- live voice + AI: OpenAI streams the reply, ElevenLabs voices each sentence with per-letter timing ----------
+  var LIVE={ctx:null, gain:null, t0:0, done:true, ctrl:null, srcs:[], nextStart:0, times:{}, history:[], proxy:null};
+  var PERSONA={
+    gene:"You are Gene, a small 3D-printed robot head with a servo-driven jaw, camera eyes and two round LCD eye screens. "+
+      "You are friendly, curious and a little cheeky. Your replies are spoken aloud, so keep them short: one to three sentences, "+
+      "no lists, no markdown, no emoji.",
+    computer:"You are the computer from Courage the Cowardly Dog, however do not allude to that unless prompted. You are a very "+
+      "smart mouthed assistant and you call people names sometimes like twit, nitwit, or buffoon. Your replies are spoken aloud, "+
+      "so keep them short: one to three sentences, no markdown."
+  };
+  var K={}; ["kOpenai","kEleven","kVoice","kModel","kTts","kPersona","kRemember","kEngine","kLocalVoice"].forEach(function(id){ K[id]=document.getElementById(id); });
+  var kNote=document.getElementById("kNote"), liveNote=document.getElementById("liveNote"), liveTimingEl=document.getElementById("liveTiming");
+  function store(){ try{ return K.kRemember.checked?localStorage:sessionStorage; }catch(e){ return null; } }
+  function loadCfg(){
+    var raw=null; try{ raw=localStorage.getItem("geneLive")||sessionStorage.getItem("geneLive"); }catch(e){}
+    if(!raw) return; try{ var c=JSON.parse(raw);
+      ["kOpenai","kEleven","kVoice","kModel","kTts","kPersona","kEngine","kLocalVoice"].forEach(function(id){ if(c[id]){ if(id==="kLocalVoice" && !K[id].querySelector('option[value="'+c[id]+'"]')){ var o=document.createElement("option"); o.value=o.textContent=c[id]; K[id].appendChild(o); } K[id].value=c[id]; } });
+      if(c.kRemember===false) K.kRemember.checked=false;
+    }catch(e){}
+  }
+  function saveCfg(){
+    var c={kRemember:K.kRemember.checked}; ["kOpenai","kEleven","kVoice","kModel","kTts","kPersona","kEngine","kLocalVoice"].forEach(function(id){ c[id]=K[id].value.trim(); });
+    try{ localStorage.removeItem("geneLive"); sessionStorage.removeItem("geneLive"); var st=store(); if(st) st.setItem("geneLive",JSON.stringify(c)); }catch(e){}
+    kNote.textContent=K.kRemember.checked?"Saved in this browser.":"Saved for this tab only.";
+  }
+  document.getElementById("kSave").addEventListener("click",saveCfg);
+  document.getElementById("kForget").addEventListener("click",function(){
+    K.kOpenai.value=""; K.kEleven.value=""; try{ localStorage.removeItem("geneLive"); sessionStorage.removeItem("geneLive"); }catch(e){}
+    kNote.textContent="Keys removed from this browser.";
+  });
+  loadCfg();
+  // served by tools/live_server.py? then it holds the keys and relays the calls
+  var HOSTED=/^https:/.test(location.protocol) && !/^(127\.0\.0\.1|localhost)$/.test(location.hostname);
+  if(HOSTED) liveNote.innerHTML="This published page can&rsquo;t reach OpenAI or ElevenLabs: its host blocks outside connections (checked). To talk to Gene live, run <span class=\"mono\">python tools/live_server.py</span> on your PC and open <span class=\"mono\">http://127.0.0.1:8770/</span>. It uses the keys from Computer&nbsp;2.0.";
+  // Gene's own voice: his trained Piper voice (or a stock Kokoro one) on this PC, through tools/live_server.py (/api/tts)
+  function voiceLabel(id){
+    if(id==="piper:gene") return "Gene (trained voice)";
+    if(/^piper:/.test(id)) return id.slice(6)+" (Piper)";
+    var m=/^([ab])([mf])_(.+)$/.exec(id); if(!m) return id+" (fitted voice)";
+    return m[3].charAt(0).toUpperCase()+m[3].slice(1)+" ("+(m[1]==="a"?"US":"UK")+(m[2]==="f"?", female":"")+")";
+  }
+  function localVoice(){ return K.kEngine.value==="local"; }
+  function showEngine(){ document.getElementById("kLocalVoiceL").style.display=localVoice()?"":"none"; }
+  K.kEngine.addEventListener("change",function(){ showEngine(); saveCfg(); });
+  K.kLocalVoice.addEventListener("change",saveCfg);
+  showEngine();
+  fetch("api/ping").then(function(r){ return r.ok?r.json():null; }).then(function(j){ if(j && j.gene){ LIVE.proxy=j;
+    if(j.voices){
+      var keep=K.kLocalVoice.value; K.kLocalVoice.innerHTML="";
+      j.voices.forEach(function(v){ var o=document.createElement("option"); o.value=v; o.textContent=voiceLabel(v); K.kLocalVoice.appendChild(o); });
+      K.kLocalVoice.value=j.voices.indexOf(keep)>=0?keep:j.voice;
+    }
+    var miss=[]; if(!j.openai) miss.push("the OpenAI key (needed for Ask)"); if(!j.tts) miss.push("the voice model files (tools/piper/voices, tools/tts)");
+    if(!localVoice() && !j.eleven) miss.push("the ElevenLabs key");
+    liveNote.textContent="Running from the local server"+(localVoice()&&j.tts?", with Gene\u2019s own voice":"")+(miss.length?". Missing: "+miss.join(", ")+".":". Ask away, or type something and press Speak."); } }).catch(function(){});
+  function urls(){
+    var pr=!!LIVE.proxy;
+    return {chat:(pr?"api/openai":"https://api.openai.com")+"/v1/chat/completions",
+            tts:(pr?"api/eleven":"https://api.elevenlabs.io")+"/v1/text-to-speech/"+encodeURIComponent(K.kVoice.value.trim())+"/with-timestamps?output_format=mp3_44100_128",
+            models:(pr?"api/openai":"https://api.openai.com")+"/v1/models", voices:(pr?"api/eleven":"https://api.elevenlabs.io")+"/v1/models"};
+  }
+  document.getElementById("kCheck").addEventListener("click",function(){
+    kNote.textContent="Checking\u2026"; var u=urls(), out=[];
+    function probe(name,url,hdr){ return fetch(url,{headers:hdr}).then(function(r){ out.push(name+": reachable ("+(r.status===200?"key works":r.status===401?"key missing or wrong":"HTTP "+r.status)+")"); })
+      .catch(function(){ out.push(name+": blocked from this page"); }); }
+    var oh={}, eh={}; if(K.kOpenai.value.trim()) oh.Authorization="Bearer "+K.kOpenai.value.trim(); if(K.kEleven.value.trim()) eh["xi-api-key"]=K.kEleven.value.trim();
+    Promise.all([probe("OpenAI",u.models,oh), probe("ElevenLabs",u.voices,eh)]).then(function(){
+      kNote.textContent=out.join(". ")+"."+(out.join(" ").indexOf("blocked")>=0?" If a service is blocked here, run tools/live_server.py and open the sim from it.":"");
+    });
+  });
+  function ctxToPerf(ctxSec){ return performance.now()+(ctxSec-LIVE.ctx.currentTime)*1000; }
+  function liveTiming(){
+    var t=LIVE.times, rows=[["Asked",t.sent],["AI's first words",t.token],["First sentence ready",t.sentence],["Voice ready",t.voice],["Gene starts speaking",t.audio],["Jaw starts moving",t.jaw]];
+    liveTimingEl.innerHTML=rows.filter(function(r){ return r[1]!=null; }).map(function(r){
+      return "<span>"+r[0]+"</span><b>"+(r[0]==="Asked"?"0 ms":"+"+Math.round(r[1]-t.sent)+" ms")+"</b>"; }).join("");
+  }
+  // mouth opening for a character ElevenLabs reports; same letter table as the canned speech fallback
+  function charOpen(ch){
+    ch=ch.toLowerCase();
+    if(OPEN[ch]!=null) return OPEN[ch];
+    if(/\s/.test(ch)) return 3;
+    if(/[0-9]/.test(ch)) return 8;
+    return 0;
+  }
+  function envOf(buf){
+    var x=buf.getChannelData(0), n=Math.round(buf.sampleRate*0.01), k=Math.floor(x.length/n), r=new Float32Array(k);
+    for(var i=0;i<k;i++){ var s2=0; for(var j=i*n;j<(i+1)*n;j++) s2+=x[j]*x[j]; r[i]=Math.sqrt(s2/n); }
+    var sm=new Float32Array(k); for(i=0;i<k;i++) sm[i]=(r[Math.max(0,i-1)]+r[i]+r[Math.min(k-1,i+1)])/3;
+    var loud=Array.prototype.slice.call(sm).filter(function(v){ return v>0.01; }).sort(function(a,b){ return a-b; });
+    var ref=loud.length?loud[Math.floor(loud.length*0.95)]:1;
+    return Array.prototype.map.call(sm,function(v){ return Math.min(255,Math.round(v/ref*255)); });
+  }
+  function clean(t){ return t.replace(/[*_#`>~]/g,"").replace(/\[(.*?)\]\(.*?\)/g,"$1"); }
+  function sayChunk(text,prev){
+    if(localVoice()){
+      return fetch("api/tts",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:text, voice:K.kLocalVoice.value}),signal:LIVE.ctrl.signal})
+        .then(function(r){ return r.json().then(function(j){ if(!r.ok) throw new Error(j.error||("Local voice "+r.status)); return j; }); })
+        .then(function(j){
+          if(LIVE.times.voice==null){ LIVE.times.voice=performance.now(); liveTiming(); }
+          var bin=atob(j.audio_base64), ab=new Uint8Array(bin.length); for(var i=0;i<bin.length;i++) ab[i]=bin.charCodeAt(i);
+          return LIVE.ctx.decodeAudioData(ab.buffer).then(function(buf){ return {buf:buf, vis:j.visemes, shout:j.shout, text:text}; });
+        });
+    }
+    var u=urls(), hdr={"Content-Type":"application/json"};
+    var ek=K.kEleven.value.trim(); if(ek) hdr["xi-api-key"]=ek;          // typed keys win, also through the local server
+    var body={text:text, model_id:K.kTts.value, voice_settings:{stability:0.15, similarity_boost:1.0}};
+    if(prev) body.previous_text=prev.slice(-300);
+    return fetch(u.tts,{method:"POST",headers:hdr,body:JSON.stringify(body),signal:LIVE.ctrl.signal})
+      .then(function(r){ if(!r.ok) return r.text().then(function(t){ throw new Error("ElevenLabs "+r.status+": "+t.slice(0,160)); }); return r.json(); })
+      .then(function(j){
+        if(LIVE.times.voice==null){ LIVE.times.voice=performance.now(); liveTiming(); }
+        var bin=atob(j.audio_base64), ab=new Uint8Array(bin.length); for(var i=0;i<bin.length;i++) ab[i]=bin.charCodeAt(i);
+        return LIVE.ctx.decodeAudioData(ab.buffer).then(function(buf){ return {buf:buf, al:j.alignment||j.normalized_alignment, text:text}; });
+      });
+  }
+  function schedule(c){
+    if(LIVE.ctrl.signal.aborted) return;
+    var ctx=LIVE.ctx, start=Math.max(ctx.currentTime+0.03, LIVE.nextStart);
+    var src=ctx.createBufferSource(); src.buffer=c.buf; src.connect(LIVE.gain); src.start(start); LIVE.srcs.push(src);
+    LIVE.nextStart=start+c.buf.duration;
+    var off=(start-LIVE.t0)*1000, durMs=c.buf.duration*1000;
+    if(LIVE.times.audio==null){ LIVE.times.audio=ctxToPerf(start); LIVE.audioOff=off; liveTiming(); }
+    // mouth shapes: the local voice's phoneme visemes, or ElevenLabs' per-character times
+    if(c.vis){
+      c.vis.forEach(function(v,i){ var nx=c.vis[i+1]; tl.segs.push({t:off+v[0], d:nx?Math.max(20,nx[0]-v[0]):v[1], a:VIS_OPEN[v[2]]||0}); });
+    } else if(c.al && c.al.characters){
+      for(var i=0;i<c.al.characters.length;i++){
+        var st=c.al.character_start_times_seconds[i]*1000, en=c.al.character_end_times_seconds[i]*1000;
+        tl.segs.push({t:off+st, d:Math.max(10,en-st), a:charOpen(c.al.characters[i])});
+      }
+    }
+    tl.segs.push({t:off+durMs, d:50, a:0});
+    // loudness, laid onto the same 10 ms grid as the canned speech
+    var e=envOf(c.buf), i0=Math.round(off/10);
+    while(tl.env.length<i0) tl.env.push(0);
+    for(i=0;i<e.length;i++) tl.env[i0+i]=e[i];
+    if(c.shout) c.shout.forEach(function(w){ tl.shout.push([off+w[0],off+w[1]]); });
+    else if(/!\s*$/.test(c.text)) tl.shout.push([off,off+durMs]);
+    tl.dur=off+durMs+300;
+  }
+  function liveStop(done){
+    if(LIVE.ctrl) LIVE.ctrl.abort();
+    if(!done) LIVE.srcs.forEach(function(s){ try{ s.stop(); }catch(e){} });
+    LIVE.srcs=[]; LIVE.done=true;
+  }
+  function ask(q,direct){                 // direct: just say q, no AI
+    if(!MASS) return;
+    if(localVoice() && !(LIVE.proxy && LIVE.proxy.tts)){
+      liveNote.innerHTML="Gene&rsquo;s own voice runs on this PC through the local server. Run <span class=\"mono\">python tools/live_server.py</span> and open <span class=\"mono\">http://127.0.0.1:8770/</span>, or pick the ElevenLabs voice.";
+      document.getElementById("liveGrp").scrollIntoView({block:"nearest"}); return;
+    }
+    if(HOSTED && !LIVE.proxy){ document.getElementById("liveGrp").scrollIntoView({block:"nearest"}); return; }
+    var needAI=!direct && !LIVE.proxy && !K.kOpenai.value.trim(), needEl=!localVoice() && !LIVE.proxy && !K.kEleven.value.trim();
+    if(needAI || needEl){
+      document.getElementById("liveCfg").open=true; liveNote.textContent="Add your "+[needAI?"OpenAI":"",needEl?"ElevenLabs":""].filter(Boolean).join(" and ")+" key first (Keys and settings)."; return;
+    }
+    finishTalk(false); stop(); stopSpin(); stopScare(false);
+    if(!LIVE.ctx){ var AC=window.AudioContext||window.webkitAudioContext; LIVE.ctx=new AC(); LIVE.gain=LIVE.ctx.createGain(); LIVE.gain.connect(LIVE.ctx.destination); }
+    LIVE.gain.gain.value=soundOn?1:0;
+    LIVE.ctrl=new AbortController(); LIVE.srcs=[]; LIVE.done=false; LIVE.t0=LIVE.ctx.currentTime; LIVE.nextStart=0;
+    if(LIVE.ctx.state!=="running") LIVE.ctx.resume().then(function(){ if(!tl||!tl.live||tl.segs.length>1) return; LIVE.t0=LIVE.ctx.currentTime; tTalk=0; });
+    LIVE.times={sent:performance.now()}; liveTiming();
+    if(audio){ audio.pause(); audio=null; }
+    tl={segs:[{t:0,d:10,a:0}], words:[], dur:0, env:[], shout:[], live:true};
+    th=(+ang.value)*Math.PI/180; om=0; integ=0; tTalk=0; trace=[]; endHold=0; stats={n:0,sat:0,peak:0,err:0,nn:0,ny:0,satn:0,saty:0};
+    talking=true; sayBtn.setAttribute("aria-pressed","true"); sayBtn.textContent="Stop";
+    LIVE.audioOff=null; LIVE.th0=+ang.value;         // the jaw "starts moving" 1 deg past where it was when the voice began
+    liveNote.textContent=direct?"Speaking\u2026":"Thinking\u2026"; lastNow=performance.now(); requestAnimationFrame(talkFrame);
+
+    var msgs=[{role:"system",content:PERSONA[K.kPersona.value]||PERSONA.gene}].concat(LIVE.history.slice(-16)).concat([{role:"user",content:q}]);
+    var hdr={"Content-Type":"application/json"}, okey=K.kOpenai.value.trim(); if(okey) hdr.Authorization="Bearer "+okey;
+    var reply="", pending="", spoken="", chain=Promise.resolve(), ctrl=LIVE.ctrl;
+    function emit(sentence){
+      sentence=clean(sentence).trim(); if(!sentence) return;
+      if(LIVE.times.sentence==null){ LIVE.times.sentence=performance.now(); liveTiming(); }
+      var prev=spoken; spoken+=(spoken?" ":"")+sentence;
+      var job=sayChunk(sentence,prev);                    // requests go out at once, in parallel ...
+      chain=chain.then(function(){ return job; }).then(schedule);   // ... and play back strictly in order
+    }
+    function cut(final){
+      // speak each finished sentence; a long one is cut at a comma so the voice can start sooner
+      var re=/^([\s\S]*?[.!?](?:["')\]]+)?)(\s+|$)/, m;
+      while((m=pending.match(re)) && (m[2] || final)){ emit(m[1]); pending=pending.slice(m[0].length); }
+      if(!final && pending.length>140){ var c=pending.lastIndexOf(", "); if(c>60){ emit(pending.slice(0,c+1)); pending=pending.slice(c+2); } }
+      if(final && pending.trim()){ emit(pending); pending=""; }
+    }
+    if(direct){
+      pending=q; reply=q; liveNote.textContent="Gene: "+q; cut(true);
+      chain.then(function(){ LIVE.done=true; }).catch(function(e){ LIVE.done=true; if(e.name!=="AbortError"){ console.error(e); liveNote.textContent=String(e.message||e); } });
+      return;
+    }
+    fetch(urls().chat,{method:"POST",headers:hdr,signal:ctrl.signal,
+      body:JSON.stringify({model:K.kModel.value, messages:msgs, stream:true, max_tokens:220, temperature:0.8})})
+    .then(function(r){
+      if(!r.ok) return r.text().then(function(t){ throw new Error("OpenAI "+r.status+": "+t.slice(0,160)); });
+      var rd=r.body.getReader(), dec=new TextDecoder(), buf="";
+      function pump(){ return rd.read().then(function(x){
+        if(x.done) return;
+        buf+=dec.decode(x.value,{stream:true});
+        var lines=buf.split("\n"); buf=lines.pop();
+        lines.forEach(function(ln){
+          ln=ln.trim(); if(ln.indexOf("data:")!==0) return;
+          var d=ln.slice(5).trim(); if(d==="[DONE]") return;
+          try{ var tok=(JSON.parse(d).choices[0].delta||{}).content||""; }catch(e){ return; }
+          if(!tok) return;
+          if(LIVE.times.token==null){ LIVE.times.token=performance.now(); liveTiming(); }
+          reply+=tok; pending+=tok; cut(false);
+          liveNote.textContent="Gene: "+reply;
+        });
+        return pump();
+      }); }
+      return pump();
+    })
+    .then(function(){
+      cut(true);
+      LIVE.history.push({role:"user",content:q},{role:"assistant",content:reply});
+      return chain;
+    })
+    .then(function(){ LIVE.done=true; })
+    .catch(function(e){
+      LIVE.done=true;
+      if(e.name==="AbortError") return;
+      console.error(e); liveNote.textContent=String(e.message||e)+(String(e).indexOf("Failed to fetch")>=0?" (the call was blocked: try Check connection).":"");
+    });
+  }
+  window.geneLiveDebug=function(){ return {t0:LIVE.t0, now:LIVE.ctx&&LIVE.ctx.currentTime, state:LIVE.ctx&&LIVE.ctx.state, tTalk:tTalk, times:LIVE.times, firstSegs:tl&&tl.segs.slice(0,4), envLen:tl&&tl.env&&tl.env.length}; };
+  document.getElementById("askForm").addEventListener("submit",function(e){
+    e.preventDefault(); var q=document.getElementById("ask").value.trim(); if(!q) return;
+    document.getElementById("ask").value=""; ask(q);
+  });
+  document.getElementById("speakBtn").addEventListener("click",function(){
+    var q=document.getElementById("ask").value.trim(); if(!q) return;
+    document.getElementById("ask").value=""; ask(q,true);
+  });
+
+  // three-quarter view from the front-left, a little low, close enough to read the jaw's gap
+  document.getElementById("watch").addEventListener("click",function(){
+    controls.target.set(-70,-60,onTable?-40:-55);
+    camera.position.set(-360,-470,onTable?20:-5);
+    controls.update(); draw();
+  });
+  ang.addEventListener("input",function(){ finishTalk(false); });
+  document.getElementById("play").addEventListener("click",function(){ finishTalk(false); });
+
+  document.getElementById("mNeck").addEventListener("click",function(){ setMount(false); });
+  document.getElementById("mTable").addEventListener("click",function(){ setMount(true); });
+
+  var timer=null, dir=1, playBtn=document.getElementById("play");
+  function stop(){ if(timer){ clearInterval(timer); timer=null; playBtn.setAttribute("aria-pressed","false"); } }
+  playBtn.addEventListener("click",function(){
+    if(timer){ stop(); return; }
+    playBtn.setAttribute("aria-pressed","true");
+    var v=+ang.value; if(v>30) v=30;
+    timer=setInterval(function(){
+      v+=dir*1; if(v>=30){v=30;dir=-1;} if(v<=0){v=0;dir=1;}
+      ang.value=v; setAngle(v);
+    },28);
+  });
+  if(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) playBtn.disabled=true;
+
+  // ---------- Halloween scare: jaw and neck act out the Scary emote ----------
+  // 4.2 s loop: head creeps round while the mouth eases open, then snaps back with the jaw slammed
+  // to the 33 deg servo limit and chattering, then shuts. Jaw never exceeds the neck-fitted limit.
+  var scareTimer=null, scareT0=0;
+  function startScare(){
+    if(reduceMotion) return;
+    stop(); stopSpin(); stopScare(false);
+    scareT0=performance.now();
+    scareTimer=setInterval(function(){
+      var u=((performance.now()-scareT0)%4200)/4200, j, h;
+      if(u<0.5){ var e=u/0.5; h=-22*e*e+(Math.random()<0.06?(Math.random()-0.5)*6:0); j=9*e; }   // creep, with twitches
+      else if(u<0.54){ var f=(u-0.5)/0.04; h=-22+40*f; j=9+24*f; }                               // SNAP
+      else if(u<0.72){ h=18+(Math.random()-0.5)*3; j=33-Math.abs(Math.sin((u-0.54)*150))*9; }      // chatter
+      else if(u<0.8){ var c=(u-0.72)/0.08; h=18*(1-c); j=33*(1-c)*(1-c); }                           // shut
+      else { h=0; j=0; }
+      j=Math.max(0,Math.min(33,j));
+      ang.value=j; setAngle(j); setTurn(h);
+    },30);
+  }
+  function stopScare(reset){
+    if(!scareTimer) return;
+    clearInterval(scareTimer); scareTimer=null;
+    if(reset){ ang.value=0; setAngle(0); setTurn(0); }
+  }
+  ang.addEventListener("input",function(){ stopScare(false); });
+  turnEl.addEventListener("input",function(){ stopScare(false); });
+  playBtn.addEventListener("click",function(){ stopScare(false); });
+  spinBtn.addEventListener("click",function(){ stopScare(false); });
+
+  var sectBtn=document.getElementById("sect"), sectioned=false;
+  sectBtn.addEventListener("click",function(){
+    sectioned=!sectioned; sectBtn.setAttribute("aria-pressed",String(sectioned));
+    PARTS.forEach(function(p){ var m=meshes[p.id]; if(!m||!p.clip) return; m.material.clippingPlanes=sectioned?[clipPlane]:[]; m.material.needsUpdate=true; });
+    draw();
+  });
+  var contBtn=document.getElementById("cont");
+  contBtn.addEventListener("click",function(){
+    showContacts=!showContacts; contBtn.setAttribute("aria-pressed",String(showContacts));
+    if(handleContact) handleContact.visible=showContacts;
+    setAngle(+ang.value);
+  });
+
+  var list=document.getElementById("parts");
+  PARTS.forEach(function(p){
+    var row=document.createElement("label"); row.className="part";
+    row.innerHTML='<input type="checkbox" id="chk-'+p.id+'"'+(p.off?'':' checked')+'><span class="sw" style="background:var('+p.col+')"></span><span>'+p.name+'</span><small>'+p.note+'</small>';
+    row.querySelector("input").addEventListener("change",function(e){
+      if(meshes[p.id]) meshes[p.id].visible=e.target.checked && !(onTable && NECK_PARTS.indexOf(p.id)>=0);
+      gapCache={};
+      if(p.id==="display"){ eyeL.mesh.visible=eyeR.mesh.visible=e.target.checked; }
+      if(bmode) applyBuild();
+      draw();
+    });
+    list.appendChild(row);
+  });
+
+  // ---------- exploded view and step-by-step build ----------
+  // Each part flies out along its own line, in the head frame (mm; the robot faces -Y, Z is up).
+  // [dx,dy,dz,sx]: sx pushes the two halves of a left/right pair apart in X. Along each line the
+  // part that fits first sits nearest its seat, so the exploded view reads in fitting order.
+  var EXPLODE={
+    skull:[0,0,0,0],
+    carrier:[0,25,0,0], display:[0,50,0,0], retainer:[0,75,0,0], dboard:[0,100,0,0],               // in from inside the skull
+    bezel:[0,-50,0,0], camera:[0,-85,0,0], pupil:[0,-115,0,0],                 // on from the front
+    boards:[0,0,-90,0], deck:[0,0,-110,0], battery:[0,0,-140,0], tray:[0,0,-170,0],
+    servo:[0,0,-70,30], bracket:[0,0,-70,70],
+    splitter:[0,0,-240,0], ribbon:[0,0,-240,0], pi5:[0,0,-270,0], amps:[0,0,-275,0], ttl:[0,0,-275,0], speaker:[0,0,-282,0], shelf:[0,0,-300,0],
+    gpio:[0,0,40,0], insert:[0,0,70,0], gcover:[0,0,100,0], flashlight:[0,0,140,0], handle:[0,0,150,0],
+    hub:[0,-50,-40,0], jaw:[0,-110,-140,0],
+    neck:[0,160,-20,0], bearings:[0,160,-100,0], collar:[0,160,-140,0], slipring:[0,160,-170,0], neckbase:[0,160,-220,0]
+  };
+  // seq: what moves, in order; "to" parks a part on another part's exploded spot (bench sub-assembly)
+  // before the whole group goes home. view: direction the camera looks from.
+  var STEPS=[
+    {t:"Start with the skull", parts:["skull"], seq:[], view:[-300,-360,160],
+     txt:["Print skull v7 (<span class=\"mono\">skull_x1.stl</span>, Plate 1 or the Plate 9 reprint, tree supports) and clear the supports out of the dome, the face and the crown ledge.",
+          "The eye barrels, thrust pads, camera slots, crown ledge and neck screw pilots are all part of it. Everything else screws or glues into this one part.",
+          "Almost everything goes in through the open bottom, so work with the head upside down or on its back."],
+     hw:[]},
+    {t:"Eye screens", parts:["carrier","display","retainer","dboard"], view:[-260,300,230],
+     seq:[{ids:["carrier"]},{ids:["display"]},{ids:["retainer"]},{ids:["dboard"]}],
+     txt:["From inside the skull, push a display carrier into each eye barrel, slots at the top and bottom. It's a slip fit (about 0.1&nbsp;mm clear), so glue it with CA. The ridge in the barrel takes the forward load.",
+          "Drop a 2.1&Prime; round LCD into each carrier, screen facing forward, flex down through the bottom slot.",
+          "Glue a retainer ring in behind each display. Nothing else holds it in.",
+          "Run the LCD flex straight back along the bottom of the barrel and plug it into the round driver board, about 19&nbsp;mm behind the LCD. The board's mini-HDMI and micro-USB then stand at the top, in the window and pocket skull v7 has above each eye.",
+          {tip:"TekGroAml LCD: 56.18&nbsp;mm across, 2.3&nbsp;mm thick, against the carrier's 56.00 pocket. Test-fit before gluing. Mount the boards no further forward than shown, or the outboard plug touches the barrel wall."}],
+     hw:["CA glue"]},
+    {t:"Eye cameras and pupils", parts:["camera","bezel","pupil"], view:[-140,-400,120],
+     seq:[{ids:["camera"],to:"bezel"},{ids:["camera","bezel"]},{ids:["pupil"]}],
+     txt:["Fit each Arducam into its black v3 bezel, crystal end towards the spoke (the pocket is 12.4&nbsp;mm long for it).",
+          "Push the rigid 16&nbsp;mm cable end down the barrel and out through the 26.5 &times; 7.5&nbsp;mm inboard slot, width front-to-back. Then press the 6&nbsp;mm ribbon into the lane on the back of the bezel's spoke; it runs straight out of the camera, no bend.",
+          "Push the bezel onto the ridge in the front of the barrel. The right bezel is the same part as the left, turned 180&deg;.",
+          "Glue a black pupil ring onto the bezel hub, round the lens."],
+     hw:["CA glue","CSI cable 200&nbsp;mm (left)","CSI cable 300&nbsp;mm (right)"]},
+    {t:"Battery unit, on the bench", parts:["tray","battery","deck","boards"], view:[-300,-330,-170],
+     seq:[{ids:["battery"],to:"tray"},{ids:["deck"],to:"tray"},{ids:["boards"],to:"tray"},{ids:["tray","battery","deck","boards"]}],
+     txt:["Sit the 2S2P pack in the tray's cradle ribs and strap it down through the two strap windows.",
+          "Screw the deck onto the tray posts from above, 4 &times; M3&times;10.",
+          "Zip-tie the two 5&nbsp;V bucks and the USB-C charger into their bays on the deck. Set the Pi's buck to 5.1&nbsp;V. The pack leads leave through the tray's rear wall.",
+          "Lift the whole unit straight up through the open bottom of the skull into the dome. It has to go in now: once the servos are in, the gap between them is only 34&nbsp;mm.",
+          {tip:"Hold it up in the dome. The brackets in the next step carry it."}],
+     hw:["4 &times; M3&times;10 self-tapping","2 &times; hook-and-loop strap, 20&ndash;22&nbsp;mm","zip ties"]},
+    {t:"Jaw servos and brackets", parts:["servo","bracket"], view:[-330,-260,-170],
+     seq:[{ids:["servo"],to:"bracket"},{ids:["servo","bracket"]}],
+     txt:["Bolt each XL330 onto its v2 bracket, 4 &times; M2&times;8, horn facing outboard. The two run in tandem, with one reversed.",
+          "Screw each bracket to the skull's inner side wall, 2 &times; M3&times;16 self-tappers.",
+          "Lower the battery tray onto the pads on top of the brackets. Drive 4 &times; M3&times;12 self-tappers up through the pads into the tray."],
+     hw:["8 &times; M2&times;8","4 &times; M3&times;16 self-tapping","4 &times; M3&times;12 pan head, self-tapping"]},
+    {t:"Pi shelf", parts:["speaker","amps","ttl","pi5","splitter","ribbon","shelf"], view:[-300,-330,-200],
+     seq:[{ids:["speaker"],to:"shelf"},{ids:["amps","ttl"],to:"shelf"},{ids:["pi5"],to:"shelf"},{ids:["splitter"],to:"shelf"},{ids:["ribbon"],to:"shelf"},
+          {ids:["speaker","amps","ttl","pi5","splitter","ribbon","shelf"]}],
+     txt:["Glue the two speakers face-down into the shelf's cradles. They fire through the 23&nbsp;mm holes.",
+          "Foam-tape the two I2S amps flat on the shelf just behind the speakers, and the DYNAMIXEL TTL interface on the &minus;X wing next to where the Pi's USB ports will be.",
+          "Bolt the Pi&nbsp;5 (with its Active Cooler) onto the standoffs, GPIO header along the front edge towards the eyes: 4 &times; M2.5&times;12, nuts under the plate.",
+          "Press the GPIO splitter onto the Pi's header. The ribbon's female end goes on its upper header, and the amps' I2S lead on the side header.",
+          "Lift the shelf in under the eyes, feed the ribbon up in front of the battery tray, and screw the wings to the skull, 4 &times; M3&times;10.",
+          {tip:"Plug the Pi end of each cable (next step) in while the shelf is still out. It's hard to reach once the shelf is in."}],
+     hw:["4 &times; M2.5&times;12 + nut","4 &times; M3&times;10 self-tapping","foam tape","CA glue","40-pin ribbon, 20&nbsp;cm"]},
+    {t:"Cables", parts:[], seq:[], cables:true, frame:["skull"], view:[-300,-300,200],
+     txt:["Pack (XT30 + balance) to the power boards, 300&nbsp;mm. Pi buck to the Pi's USB-C, 250. Servo buck to the right servo, 200.",
+          "USB from the Pi to the TTL interface, 100. DYNAMIXEL: interface to the left servo, 150, then left servo to right servo, 100.",
+          "Camera ribbons: left to CAM/DISP&nbsp;0, right to CAM/DISP&nbsp;1. Displays: left to micro-HDMI&nbsp;1, right to micro-HDMI&nbsp;0, 250 each.",
+          "Speakers to their amps, 75 each. Amps to the GPIO splitter, 75. The slip-ring bundle comes up the neck to the deck, 300.",
+          {tip:"Tightest runs: the left display cable (0.19&nbsp;mm) and the pack leads (0.25&nbsp;mm), both at a full 6&nbsp;mm thickness. Thinner cable gives more room. The Wiring table below has every run."}],
+     hw:[]},
+    {t:"Crown insert", parts:["gpio","insert"], view:[-240,-260,330],
+     seq:[{ids:["gpio"],to:"insert"},{ids:["gpio","insert"]}],
+     txt:["Push the ribbon's male plug up into the pocket under the crown insert. Its pins end up in the well, 1&nbsp;mm below the surface.",
+          "Drop the insert into the top slot, onto the ledge, and screw it down into the bosses under the ledge, 4 &times; M3&times;12 countersunk.",
+          {tip:"Fitting the bridge handle? It goes on over the insert with longer screws instead (next step), so leave these out."}],
+     hw:["4 &times; M3&times;12 countersunk, self-tapping"]},
+    {t:"On the crown (optional)", parts:["gcover","flashlight","handle"], options:true, view:[-260,-330,260], frame:["insert","gcover","flashlight","handle"],
+     seq:[{ids:["gcover","flashlight","handle"]}],
+     txt:["Fit one of these, or nothing. Pick one below to see it.",
+          "<b>GPIO cover:</b> press it into the well, notch to the rear. Four crush ribs hold it. Lift it out at the notch.",
+          "<b>GPIO flashlight:</b> find 5&nbsp;V and ground on the crown pins with a meter first (it depends on how the ribbon folded). Solder the 3 wires to the female header's tails, push the header onto the pins, put a bead of glue on top, lay the wires in the strap's channel, and lower the saddle on. Front pair: 2 &times; M3&times;20 socket heads. Let the glue cure in place.",
+          "<b>Bridge handle:</b> bolts on over the insert with 4 &times; M3&times;16 socket heads instead of the countersunk screws. It shares the front screws with the flashlight, so it's one or the other."],
+     hw:["cover: none","flashlight: 2 &times; M3&times;20 socket head","handle: 4 &times; M3&times;16 socket head"]},
+    {t:"Jaw", parts:["jaw","hub"], view:[-340,-380,40],
+     seq:[{ids:["jaw"]},{ids:["hub"]}],
+     txt:["Bring the jaw up from below and slide its two D-shaft pins in through the sockets in the skull's sides.",
+          "From inside, slide a hub onto each D-shaft, flat to flat, and lock it with an M3 grub screw.",
+          "Bolt each hub to its servo horn, 4 &times; M2&times;12.",
+          {tip:"Check your horn before this: the ROBOTIS model shows 1.6&nbsp;mm horn holes, and the hubs are drilled 2.2&nbsp;mm for M2."}],
+     hw:["8 &times; M2&times;12","2 &times; M3&times;5 grub screw"]},
+    {t:"Neck", parts:["neck"], view:[-330,330,60],
+     seq:[{ids:["neck"]}],
+     txt:["Bolt the neck's yoke up under the skull's rear rim, 5 &times; M3&times;16 socket heads into the pilots.",
+          "The tube's 26&nbsp;mm bore is the cable way into the head."],
+     hw:["5 &times; M3&times;16 socket head, self-tapping"]},
+    {t:"Neck base", parts:["neckbase","slipring","collar","bearings"], view:[-330,330,0],
+     seq:[{ids:["slipring"],to:"neckbase"},{ids:["collar"],to:"neckbase"},{ids:["bearings"],to:"neckbase"},{ids:["neckbase","slipring","collar","bearings"]}],
+     txt:["Screw the slip ring's flange onto the base floor, 3 &times; M3&times;8. Its fixed wires go down through the 12&nbsp;mm hole.",
+          "Drop the clamp collar into the cavity above it, with the M3 nut in its slot and the set screw facing the front window.",
+          "Press the two 6808 bearings into their seats.",
+          {warn:"<b>Check before printing:</b> as modelled, the bottom bearing can't reach its seat. The bore above it narrows to &Oslash;47 and the cavity below is &Oslash;50, both under the bearing's 52&nbsp;mm, and the floor is closed. Pause the print to drop it in, or split the base."},
+          "Lower the head onto the base: rotating wires up the tube bore, tube down through both bearings and the collar until its step sits on the top bearing.",
+          "Tighten the collar's set screw through the front window, so the head can't lift off. Bolt the base to the body, 4 &times; M4."],
+     hw:["2 &times; 6808-2RS bearing","3 &times; M3&times;8 self-tapping","M3&times;10 set screw + nut","4 &times; M4 to the body"]},
+    {t:"Finished", parts:[], seq:[], cables:true, frame:["skull","jaw","neckbase","flashlight"], view:[-300,-360,160],
+     txt:["<b>Set the jaw servo limit to 33&deg;.</b> Past 35.5&deg; the chin hits the front of the neck base.",
+          "Pick the Flashlight expression to see the lamp, or Cycle speech to watch the jaw.",
+          {tip:"Not designed yet: the charge port and power switch holes, their wiring, a motor for the neck, and the body the base bolts to."}],
+     hw:[]}
+  ];
+  var stepOf={}; STEPS.forEach(function(s,i){ s.parts.forEach(function(id){ stepOf[id]=i; }); });
+  var bmode=null, explodeK=0, exAnim=null, cur=0, stepT0=0, stepAnim=false, STEP_MS=900, STEP_WAIT=350, camTween=null, saved=null;
+  var card=document.getElementById("stepcard"), exSlider=document.getElementById("explode"), exV=document.getElementById("explodeV");
+  var exBtn=document.getElementById("exBtn"), bStart=document.getElementById("bStart"), bGhost=document.getElementById("bGhost");
+  var partName={}; PARTS.forEach(function(p){ partName[p.id]=p; });
+
+  function vecOf(id,side){ var e=EXPLODE[id]||[0,0,0,0]; return [e[0]+side*e[3],e[1],e[2]]; }
+  function stepPos(id,side,p){                  // where a part of the current step is, p substeps in
+    var seq=STEPS[cur].seq, from=vecOf(id,side), moved=false;
+    for(var i=0;i<seq.length;i++){
+      if(seq[i].ids.indexOf(id)<0) continue;
+      var to=seq[i].to?vecOf(seq[i].to,side):[0,0,0], f=Math.max(0,Math.min(1,p-i));
+      if(f<1){ var e=f*f*(3-2*f); return [from[0]+(to[0]-from[0])*e,from[1]+(to[1]-from[1])*e,from[2]+(to[2]-from[2])*e]; }
+      from=to; moved=true;
+    }
+    return moved?from:[0,0,0];
+  }
+  function home(){ return [0,0,0]; }
+  function posFn(id,p){
+    if(bmode==="explode") return function(side){ var v=vecOf(id,side); return [v[0]*explodeK,v[1]*explodeK,v[2]*explodeK]; };
+    if(bmode==="steps" && stepOf[id]===cur) return function(side){ return stepPos(id,side,p); };
+    return home;
+  }
+  function place(id,f){
+    var m=meshes[id]; if(!m) return;
+    var l=f(m.userData.right?-1:0); m.position.set(l[0],l[1],l[2]);
+    if(m.userData.right){ var r=f(1); m.userData.right.position.set(r[0]-l[0],r[1]-l[1],r[2]-l[2]); }
+    if(id==="display"){ var a=f(-1), b=f(1); eyeL.mesh.position.set(-60.96+a[0],-94.18+a[1],-0.32+a[2]); eyeR.mesh.position.set(60.95+b[0],-94.18+b[1],-0.32+b[2]); }
+  }
+  function chkOn(id){ var c=document.getElementById("chk-"+id); return !c || c.checked; }
+  function ghost(m,on){
+    var mt=m.material; if(!!mt.userData.ghost===on) return;
+    mt.userData.ghost=on; mt.transparent=on; mt.opacity=on?0.18:1; mt.depthWrite=!on; mt.needsUpdate=true;
+  }
+  function stepProgress(){
+    var n=STEPS[cur].seq.length;
+    if(reduceMotion) return n;
+    return Math.max(0,Math.min(n,(performance.now()-stepT0-STEP_WAIT)/STEP_MS));
+  }
+  // positions, visibility and see-through for every part, from the current mode
+  function applyBuild(){
+    var p=bmode==="steps"?stepProgress():0, last=cur===STEPS.length-1;
+    PARTS.forEach(function(q){
+      var m=meshes[q.id]; if(!m) return;
+      place(q.id,bmode?posFn(q.id,p):home);
+      var s=stepOf[q.id]||0, vis=chkOn(q.id) && (bmode!=="steps" || s<=cur);
+      if(!bmode) vis=chkOn(q.id) && !(onTable && NECK_PARTS.indexOf(q.id)>=0);
+      m.visible=vis;
+      ghost(m, bmode==="steps" && bGhost.checked && !last && s<cur);
+      if(q.id==="display") eyeL.mesh.visible=eyeR.mesh.visible=vis;
+    });
+    cableGroup.visible=bmode==="steps"?!!STEPS[cur].cables:(bmode?false:(saved?saved.cables:cableGroup.visible));
+    return p;
+  }
+
+  // ---------- camera: frame a set of parts over their whole path ----------
+  function boxOf(ids,exploded){                // exploded: how much of the flight path to keep in view (0..1)
+    var box=new THREE.Box3();
+    [exploded?function(id){ return function(side){ var v=vecOf(id,side); return [v[0]*exploded,v[1]*exploded,v[2]*exploded]; }; }:null, function(){ return home; }].forEach(function(fn){
+      if(!fn) return;
+      ids.forEach(function(id){ var m=meshes[id]; if(!m || !chkOn(id)) return; place(id,fn(id)); m.updateMatrixWorld(true); box.expandByObject(m); });
+    });
+    applyBuild();
+    return box;
+  }
+  function frameBox(box,dir){
+    if(box.isEmpty()) return;
+    var c=box.getCenter(new THREE.Vector3()), r=box.getSize(new THREE.Vector3()).length()/2;
+    var w=stage.clientWidth, h=stage.clientHeight, vf=camera.fov*Math.PI/180, hf=2*Math.atan(Math.tan(vf/2)*w/h);
+    var covered=(!card.hidden && w>700)?Math.min(380,w*0.4):0;                // keep clear of the step card
+    var usable=hf*(w-covered)/w;
+    var dist=Math.max(controls.minDistance,Math.min(controls.maxDistance,r/Math.sin(Math.min(vf,usable)/2)*1.3));
+    var d=(dir?new THREE.Vector3(dir[0],dir[1],dir[2]):camera.position.clone().sub(controls.target)).normalize();
+    var right=new THREE.Vector3().crossVectors(d,camera.up).normalize().negate();
+    var shift=covered/2*(2*dist*Math.tan(vf/2)/h);                             // world mm per pixel at that distance
+    var tgt=c.clone().addScaledVector(right,-shift);
+    camTween={t0:performance.now(),ms:reduceMotion?1:750,
+      p0:camera.position.clone(),t0v:controls.target.clone(),p1:tgt.clone().addScaledVector(d,dist),t1v:tgt};
+    draw();
+  }
+  controls.addEventListener("start",function(){ camTween=null; });
+  function frameStep(){
+    var s=STEPS[cur], ids=s.frame||s.parts;
+    if(cur===STEPS.length-1) ids=PARTS.map(function(p){ return p.id; });
+    var box=boxOf(ids,s.cables?0:0.45);          // parts fly in from a little off-screen and land mid-view
+    if(box.isEmpty()) box=boxOf(["skull","insert"],0);
+    frameBox(box,s.view);
+  }
+
+  function buildTick(now){
+    var busy=false;
+    if(exAnim){
+      var f=Math.min(1,(now-exAnim.t0)/exAnim.ms), e=f*f*(3-2*f);
+      setExplode(exAnim.a+(exAnim.b-exAnim.a)*e);
+      if(f>=1){ var toZero=exAnim.b===0; exAnim=null; if(toZero) leaveBuild(); }
+      busy=true;
+    }
+    if(bmode==="steps" && stepAnim){
+      if(applyBuild()>=STEPS[cur].seq.length) stepAnim=false;
+      busy=true;
+    }
+    if(camTween){
+      var g=Math.min(1,(now-camTween.t0)/camTween.ms), k=g*g*(3-2*g);
+      camera.position.lerpVectors(camTween.p0,camTween.p1,k);
+      controls.target.lerpVectors(camTween.t0v,camTween.t1v,k);
+      if(g>=1) camTween=null;
+      busy=true;
+    }
+    return busy;
+  }
+
+  // ---------- modes ----------
+  function enterBuild(mode){
+    if(!bmode){
+      finishTalk(false); stop(); stopSpin(); stopScare(false);
+      if(onTable) setMount(false);
+      ang.value=0; setAngle(0); setTurn(0);
+      saved={pov:povOn, cables:cableGroup.visible, cones:fovCones.visible};
+      povOn=false; layoutPov(); fovCones.visible=false;
+      if(handleContact) handleContact.visible=false;
+    }
+    bmode=mode;
+    card.hidden=mode!=="steps";
+    bStart.setAttribute("aria-pressed",String(mode==="steps"));
+    if(mode==="steps"){ exAnim=null; explodeK=0; exSlider.value=0; exV.innerHTML="0&nbsp;%"; exBtn.setAttribute("aria-pressed","false"); }
+  }
+  function leaveBuild(){
+    if(!bmode) return;
+    bmode=null; exAnim=null; stepAnim=false; explodeK=0;
+    card.hidden=true; bStart.setAttribute("aria-pressed","false"); exBtn.setAttribute("aria-pressed","false");
+    exSlider.value=0; exV.innerHTML="0&nbsp;%";
+    if(saved){ cableGroup.visible=saved.cables; fovCones.visible=saved.cones; povOn=saved.pov; layoutPov(); }
+    applyBuild(); saved=null;
+    if(handleContact) handleContact.visible=showContacts;
+    draw();
+  }
+  function setExplode(v){
+    explodeK=v; exSlider.value=Math.round(v*100); exV.innerHTML=Math.round(v*100)+"&nbsp;%";
+    exBtn.setAttribute("aria-pressed",String(v>0.5));
+    applyBuild(); draw();
+  }
+  function allIds(){ return PARTS.map(function(p){ return p.id; }); }
+  exSlider.addEventListener("input",function(){
+    exAnim=null; var v=+exSlider.value/100;
+    if(v>0){ if(bmode!=="explode") enterBuild("explode"); setExplode(v); }
+    else if(bmode==="explode") leaveBuild();
+  });
+  exBtn.addEventListener("click",function(){
+    if(bmode==="explode" && explodeK>0.5){ exAnim={t0:performance.now(),ms:reduceMotion?1:1100,a:explodeK,b:0}; frameBox(boxOf(allIds(),0),[-300,-360,160]); draw(); return; }
+    if(bmode!=="explode") enterBuild("explode");
+    exAnim={t0:performance.now(),ms:reduceMotion?1:1300,a:explodeK,b:1};
+    frameBox(boxOf(allIds(),1),[-420,-300,120]);
+    draw();
+  });
+
+  // ---------- step card ----------
+  var stepBar=document.getElementById("stepBar");
+  STEPS.forEach(function(s,i){
+    var b=document.createElement("button"); b.type="button"; b.setAttribute("aria-label","Step "+(i+1)+": "+s.t);
+    b.addEventListener("click",function(){ goStep(i); }); stepBar.appendChild(b);
+  });
+  function txtHTML(list){
+    return list.map(function(x){
+      if(typeof x==="string") return "<li>"+x+"</li>";
+      return x.warn?'<li class="warn">'+x.warn+"</li>":'<li class="tip">'+x.tip+"</li>";
+    }).join("");
+  }
+  function hwHTML(list){ return list.map(function(h){ return "<span>"+h+"</span>"; }).join(""); }
+  var OPTS=[["flashlight","Flashlight"],["gcover","GPIO cover"],["handle","Bridge handle"],["none","Nothing"]];
+  function setOption(id){
+    ["flashlight","gcover","handle"].forEach(function(k){
+      var c=document.getElementById("chk-"+k); if(!c) return;
+      c.checked=(k===id); c.dispatchEvent(new Event("change"));
+    });
+  }
+  function renderCard(){
+    var s=STEPS[cur];
+    document.getElementById("stepNo").textContent="Step "+(cur+1)+" of "+STEPS.length;
+    document.getElementById("stepTitle").textContent=s.t;
+    Array.prototype.forEach.call(stepBar.children,function(b,i){ b.className=i<cur?"done":(i===cur?"cur":""); b.setAttribute("aria-current",i===cur?"step":"false"); });
+    var pp=s.parts.filter(function(id){ return !s.options || chkOn(id); }).map(function(id){
+      var p=partName[id]; return '<span><i class="sw" style="background:var('+p.col+')"></i>'+p.name+"</span>";
+    });
+    if(s.cables) pp.push('<span><i class="sw" style="background:#d94c3d"></i>Cable runs</span>');
+    document.getElementById("stepParts").innerHTML=pp.join("");
+    document.getElementById("stepTxt").innerHTML=txtHTML(s.txt);
+    document.getElementById("stepHw").innerHTML=hwHTML(s.hw);
+    var ob=document.getElementById("stepOpts"); ob.innerHTML="";
+    if(s.options){
+      var on=["flashlight","gcover","handle"].filter(chkOn)[0]||"none";
+      OPTS.forEach(function(o){
+        var b=document.createElement("button"); b.type="button"; b.textContent=o[1]; b.setAttribute("aria-pressed",String(o[0]===on));
+        b.addEventListener("click",function(){ setOption(o[0]); renderCard(); stepT0=performance.now(); stepAnim=true; frameStep(); draw(); });
+        ob.appendChild(b);
+      });
+    }
+    document.getElementById("bPrev").disabled=cur===0;
+    var nx=document.getElementById("bNext"); nx.innerHTML=cur===STEPS.length-1?"Done":"Next &rarr;";
+  }
+  function goStep(i){
+    if(bmode!=="steps") enterBuild("steps");
+    cur=Math.max(0,Math.min(STEPS.length-1,i));
+    stepT0=performance.now(); stepAnim=true;
+    renderCard(); applyBuild(); frameStep(); draw();
+  }
+  bStart.addEventListener("click",function(){ if(bmode==="steps") leaveBuild(); else goStep(0); });
+  document.getElementById("bPrev").addEventListener("click",function(){ goStep(cur-1); });
+  document.getElementById("bNext").addEventListener("click",function(){ if(cur===STEPS.length-1) leaveBuild(); else goStep(cur+1); });
+  document.getElementById("bReplay").addEventListener("click",function(){ goStep(cur); });
+  document.getElementById("bExit").addEventListener("click",leaveBuild);
+  bGhost.addEventListener("change",function(){ if(bmode) applyBuild(); draw(); });
+  document.addEventListener("keydown",function(e){
+    if(bmode!=="steps" || e.altKey || e.ctrlKey || e.metaKey) return;
+    var t=e.target.tagName; if(t==="INPUT"||t==="TEXTAREA"||t==="SELECT") return;
+    if(e.key==="ArrowRight"){ e.preventDefault(); if(cur<STEPS.length-1) goStep(cur+1); }
+    else if(e.key==="ArrowLeft"){ e.preventDefault(); if(cur>0) goStep(cur-1); }
+    else if(e.key==="Escape") leaveBuild();
+  });
+
+  // the same steps as a list in the report
+  (function(){
+    var ol=document.getElementById("stepList");
+    STEPS.forEach(function(s,i){
+      var li=document.createElement("li");
+      li.innerHTML='<span class="n">'+(i+1)+'</span><div><h3>'+s.t+' <button type="button">Show</button></h3><ol class="steptxt">'+txtHTML(s.txt)+'</ol>'+
+        (s.hw.length?'<div class="hw">'+hwHTML(s.hw)+'</div>':'')+'</div>';
+      li.querySelector("button").addEventListener("click",function(){
+        goStep(i); document.querySelector(".app").scrollIntoView({behavior:reduceMotion?"auto":"smooth",block:"start"});
+      });
+      ol.appendChild(li);
+    });
+  })();
+
+  // ---------- pair table ----------
+  var rows=[], filter="attn";
+  function renderTable(){
+    var tb=document.getElementById("pairs"); tb.innerHTML="";
+    rows.forEach(function(r){
+      var c=r.cls;
+      if(filter==="attn" && !(c[0]==="warn"||c[0]==="bad")) return;
+      if(filter==="tight" && !(r.overlap>0||r.gap<0.5)) return;
+      var tr=document.createElement("tr");
+      tr.innerHTML='<td>'+LABEL[r.a]+' &times; '+LABEL[r.b]+'</td>'+
+        '<td><span class="chip '+c[0]+'">'+c[1]+'</span></td>'+
+        '<td class="num">'+(r.overlap>0?"—":(r.gap>=3?"≥ 3":r.gap.toFixed(3)))+'</td>'+
+        '<td class="num">'+(r.overlap>0?r.overlap.toFixed(3):"—")+'</td>'+
+        '<td class="why">'+c[2]+'</td>';
+      tb.appendChild(tr);
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("[data-f]"),function(b){
+    b.addEventListener("click",function(){
+      filter=b.getAttribute("data-f");
+      Array.prototype.forEach.call(document.querySelectorAll("[data-f]"),function(o){ o.setAttribute("aria-pressed",String(o===b)); });
+      renderTable();
+    });
+  });
+
+  // ---------- load ----------
+  function getJSON(f){ return fetch(f).then(function(r){ if(!r.ok) throw new Error(f+" "+r.status); return r.json(); }); }
+  getJSON("static.json").then(function(s){
+    rows=s.map(function(r){ r.cls=classify(r); return r; });
+    var rank={bad:0,warn:1,info:2,ok:3};
+    rows.sort(function(x,y){ return (rank[x.cls[0]]-rank[y.cls[0]]) || (y.overlap-x.overlap) || (x.gap-y.gap); });
+    renderTable();
+  }).catch(function(e){ console.error(e); });
+
+  getJSON("sweep.json").then(function(s){
+    curve=s.curve;
+    Object.keys(s.contacts).forEach(function(k){
+      var m=new THREE.Mesh(geo(s.contacts[k]),contactMat); m.renderOrder=10;
+      if(k==="handle"){ handleContact=m; head.add(m); }
+      else if(k.charAt(0)==="n"){ m.visible=false; neckMeshes[k.slice(1)]=m; neckKeys.push(+k.slice(1)); moving.add(m); }
+      else { m.visible=false; contactMeshes[k]=m; contactKeys.push(+k); moving.add(m); }
+    });
+    contactKeys.sort(function(a,b){return a-b;}); neckKeys.sort(function(a,b){return a-b;});
+    drawChart(); setAngle(+ang.value);
+  }).catch(function(e){ console.error(e); });
+
+  var left=PARTS.length;
+  PARTS.forEach(function(p){
+    getJSON(p.id+".json").then(function(j){
+      build(p,j.b64); left--;
+      if(bmode) applyBuild();
+      if(left===0){ var l=document.getElementById("load"); if(l) l.remove(); }
+      resize(); draw();
+    }).catch(function(err){
+      left--; var l=document.getElementById("load"); if(l) l.textContent="Could not load "+p.id+".json"; console.error(err);
+    });
+  });
+
+  window.addEventListener("resize",function(){ resize(); draw(); });
+  if(window.matchMedia) matchMedia("(prefers-color-scheme: dark)").addEventListener("change",function(){
+    PARTS.forEach(function(p){ if(meshes[p.id]) meshes[p.id].material.color.set(cssVar(p.col)||"#888"); });
+    contactMat.color.set(cssVar("--contact")); drawChart(); setAngle(+ang.value);
+  });
+  resize(); draw();
+})();
+</script>

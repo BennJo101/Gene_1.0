@@ -1,0 +1,7 @@
+* text=auto
+*.stl  binary
+*.3mf  binary
+*.png  binary
+*.mp3  binary
+*.html text eol=lf
+*.json text eol=lf
