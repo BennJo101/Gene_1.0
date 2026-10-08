@@ -5,7 +5,7 @@
 Gene is a 3D-printed, expressive robot head. It has two round LCD eyes with cameras for pupils, a talking jaw driven by twin DYNAMIXEL servos, a Raspberry Pi 5 brain with stereo speakers, an onboard 2S Li-ion pack, and a slip-ring neck so the head can turn without winding up its cables.
 
 <p align="center">
-  <img src="docs/images/head_cover.png" height="300" alt="Gene head with the GPIO cover, no handle">
+  <img src="docs/images/head_cover.png" height="300" alt="Gene head straight on with the GPIO cover and resting eye screens">
   <img src="docs/images/head_neck_cover.png" height="300" alt="Gene head on its neck, with the GPIO cover">
   <img src="docs/images/head_handle.png" height="300" alt="Gene head with the bridge handle, no neck">
 </p>
