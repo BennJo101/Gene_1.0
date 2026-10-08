@@ -1,7 +1,7 @@
 # Optional crown accessories that use the GPIO well in the crown insert:
-#   GeneHead_gpio_flashlight.stl - saddle on the crown insert + strap over the brow + lamp pod on the forehead.
+#   gpio_flashlight.stl - saddle on the crown insert + strap over the brow + lamp pod on the forehead.
 #                                  An inverted 2x20 female header in the saddle plugs onto the crown pins.
-#   GeneHead_gpio_cover.stl      - flush plug for the well when nothing is fitted, with a pry notch.
+#   gpio_cover.stl      - flush plug for the well when nothing is fitted, with a pry notch.
 # Head frame: pivot axis = X, -Y front, +Z up. Run with cwd = tools.
 import numpy as np, trimesh, json, os
 from trimesh.creation import box, cylinder
@@ -187,6 +187,6 @@ print(f"   header top {HDR_TOP:.1f}, pin tips {PIN_TIP:.1f}, insert top over the
 
 # header mock for fit checks (body only)
 hdr = bx(CX - HDR_W / 2, CX + HDR_W / 2, GYC - HDR_L / 2, GYC + HDR_L / 2, BODY_TOP, HDR_TOP)
-for m, fn in ((mount, "GeneHead_gpio_flashlight.stl"), (cov, "GeneHead_gpio_cover.stl"), (hdr, "GeneHead_gpio_header_MOCK.stl")):
+for m, fn in ((mount, "gpio_flashlight.stl"), (cov, "gpio_cover.stl"), (hdr, "mocks/gpio_header.stl")):
     m.export(os.path.join(OUT, fn))
 json.dump({"pod": [0.0, POD_FRONT, POD_Z], "pod_d": POD_D, "lens_d": LENS_D}, open("flashlight_meta.json", "w"))

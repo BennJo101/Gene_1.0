@@ -4,7 +4,7 @@ import trimesh, numpy as np, os
 OUT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SHIFT=np.array([-64.8,-61.4,-35.0]); AXL,AXR,ZC=-60.96,60.95,-0.32
 def Lh(n): m=trimesh.load(os.path.join(OUT,n)); m.apply_translation(SHIFT); return m
-v6=Lh("GeneTop_v6_neck.stl"); v7=Lh("GeneTop_v7_skull.stl")   # v7 here includes the fused carriers
+v6=Lh("GeneTop_v6_neck.stl"); v7=Lh("skull.stl")   # v7 here includes the fused carriers
 # 1. skin: points on v7 surface that are not on v6 surface = new pocket faces
 pts,fi=trimesh.sample.sample_surface_even(v7,60000)
 d6=np.abs(trimesh.proximity.signed_distance(v6,pts))

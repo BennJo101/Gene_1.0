@@ -135,7 +135,7 @@ def build():
     print(f"skull v7: removed {(v0-new.volume)/1000:.2f} cm3, bodies={len(bodies)}, watertight={new.is_watertight}, vol {new.volume/1000:.1f} cm3")
     for k,(a0,a1) in report.items(): print(f"   {k} eye top window spans {a0:+.1f} .. {a1:+.1f} deg (+ = towards +X)")
     out=new.copy(); out.apply_translation(-SHIFT)
-    out.export(os.path.join(OUT,"GeneTop_v7_skull.stl"))
+    out.export(os.path.join(OUT,"skull.stl"))
     return sh,new
 
 if __name__=="__main__":

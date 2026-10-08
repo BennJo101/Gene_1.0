@@ -58,7 +58,7 @@ sk = max(sk.split(only_watertight=False), key=lambda b: b.volume)
 print(f"skull v6: watertight={sk.is_watertight} bodies={sk.body_count} vol={sk.volume / 1000:.1f} cm3")
 sk.apply_translation([64.8, 61.4, 35.0]); sk.export(os.path.join(OUT, "GeneTop_v6_neck.stl"))
 # collar clamp: radial M3 through the tube wall below the bottom bearing is done by the collar, not the tube
-neck.export(os.path.join(OUT, "GeneHead_neck.stl"))
+neck.export(os.path.join(OUT, "neck.stl"))
 print(f"neck: watertight={neck.is_watertight} bodies={neck.body_count} vol={neck.volume / 1000:.1f} cm3 bounds {np.round(neck.bounds, 1).tolist()}")
 
 # ---- base housing: 2 x 6808 (40x52x7), slip ring below; bolts to the body/stand ----
@@ -85,7 +85,7 @@ for bx_, by_ in ((-38.0, 5.0), (38.0, 5.0), (-38.0, 50.0), (38.0, 50.0)):
 # side window so the collar screw and slip-ring wires can be reached
 bc.append(bx(NX - 8, NX + 8, NY - 40, NY, CAV_BOT + 1, BOT_SEAT[0] - 2))
 base = D(base, U(bc))
-base.export(os.path.join(OUT, "GeneHead_neck_base.stl"))
+base.export(os.path.join(OUT, "neck_base.stl"))
 print(f"base: watertight={base.is_watertight} bodies={base.body_count} vol={base.volume / 1000:.1f} cm3 bounds {np.round(base.bounds, 1).tolist()}")
 
 # ---- clamp collar under the bottom bearing's inner race: M3 grub through a captive nut ----
@@ -95,13 +95,13 @@ nut = bx(NX - 3.1, NX + 3.1, NY - 22.5 + 1.2, NY - 22.5 + 3.8, C_Z0 - 1, C_Z1 + 
 grub = cylinder(radius=1.7, height=10, sections=32); grub.apply_transform(trimesh.transformations.rotation_matrix(np.pi / 2, [1, 0, 0]))
 grub.apply_translation([NX, NY - 21.0, (C_Z0 + C_Z1) / 2])
 collar = D(collar, U([nut, grub]))
-collar.export(os.path.join(OUT, "GeneHead_neck_collar.stl"))
+collar.export(os.path.join(OUT, "neck_collar.stl"))
 print(f"collar: watertight={collar.is_watertight} vol={collar.volume / 1000:.2f} cm3 Z {C_Z0}..{C_Z1}")
 
 # ---- mocks: bearings and slip ring ----
 brgs = U([ring(BRG_OD, BRG_ID, TOP_SEAT[0], TOP_SEAT[1], NX, NY), ring(BRG_OD, BRG_ID, BOT_SEAT[0], BOT_SEAT[1], NX, NY)])
-brgs.export(os.path.join(OUT, "GeneHead_neck_bearings_MOCK.stl"))
+brgs.export(os.path.join(OUT, "mocks/neck_bearings.stl"))
 sr = U([zcyl(SR_FL, CAV_BOT, CAV_BOT + 2.0, NX, NY), zcyl(SR_BODY, CAV_BOT + 2.0, CAV_BOT + 2.0 + SR_LEN, NX, NY)])
-sr.export(os.path.join(OUT, "GeneHead_slip_ring_MOCK.stl"))
+sr.export(os.path.join(OUT, "mocks/slip_ring.stl"))
 print(f"slip ring mock: flange Z {CAV_BOT}..{CAV_BOT + 2}, body to Z {CAV_BOT + 2 + SR_LEN:.1f} (tube bore bottom at {Z_TUBE_BOT})")
 print("screws into the rim at", [(round(x, 1), round(y, 1)) for x, y in screws])

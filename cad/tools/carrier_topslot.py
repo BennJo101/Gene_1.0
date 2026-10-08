@@ -35,4 +35,4 @@ for sgn in (1,-1):                                       # top and bottom
     new=D(new,trimesh.convex.convex_hull(V))
 print(f"v3 slots: +/-{wide:.2f} deg top and bottom, side walls {2*half:.1f} deg each")
 print(f"carrier v3: watertight={new.is_watertight} bodies={new.body_count} vol {new.volume/1000:.2f} cm3 (was {car.volume/1000:.2f})")
-new.export(os.path.join(OUT,"GeneHead_eye_display_carrier.stl"))
+new.export(os.path.join(OUT,"eye_display_carrier.stl"))

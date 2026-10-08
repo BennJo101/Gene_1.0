@@ -25,11 +25,11 @@ for i in range(N):
         F+= [[a,b,c],[a,c,d]]
 ring=trimesh.Trimesh(V,F,process=True)
 if ring.volume<0: ring.invert()
-ring.export(os.path.join(OUT,"GeneHead_pupil_ring.stl"))
+ring.export(os.path.join(OUT,"pupil_ring.stl"))
 print(f"pupil ring: watertight={ring.is_watertight} vol={ring.volume:.1f} mm3 bounds={np.round(ring.bounds,2).tolist()}")
 print(f"   bore {BORE0:.2f} at the face -> {2*r1:.2f} at the lip, wall at lip {R-0.4-r1:.2f} mm")
 # field-of-view check: rays from the lens entrance pupil (r ~1.0 mm, at the lens front y=-6.5)
-cam=trimesh.load(os.path.join(OUT,"GeneHead_eye_camera_MOCK.stl"))
+cam=trimesh.load(os.path.join(OUT,"mocks/camera.stl"))
 lens_front=cam.bounds[0][1]
 ep=1.0
 lip_y=FACE_Y-H

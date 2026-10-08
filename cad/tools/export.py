@@ -5,8 +5,8 @@ def b64(m, dec=None):
     tri=np.asarray(m.vertices,np.float32)[m.faces].reshape(-1)
     return base64.b64encode(tri.tobytes()).decode()
 # real servo meshes for display (checks used the solid envelope)
-sL=L("XL330_M288_from_STEP.stl"); sL.apply_transform(ML)
-sR=L("XL330_R_placed_MOCK.stl")
+sL=L("mocks/xl330_servo.stl"); sL.apply_transform(ML)
+sR=L("mocks/xl330_servo_R_placed.stl")
 groups={
  "skull":[P["shell"]], "jaw":[P["jaw"]], "insert":[P["insert"]], "gpio":[P["gpio_plug"]], "pupil":[P["pupil_L"],P["pupil_R"]],
  "hub":[P["hub_L"],P["hub_R"]], "bracket":[P["bracket_L"],P["bracket_R"]], 

@@ -1,4 +1,4 @@
-"""Self-contained copy of the head sim for opening straight from disk: cleaned/GeneHead_sim.html.
+"""Self-contained copy of the head sim for opening straight from disk: cleaned/head_sim.html.
 
 All JSON the page fetches is inlined as window.__SIM, keyed by file name, and window.fetch is shimmed to serve it.
 Rebuild after any export.py run or edit to web/index.html."""
@@ -17,6 +17,6 @@ shim = ("<script>window.__SIM=" + json.dumps(data, separators=(",", ":")) + ";"
 anchor = '<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>'
 assert html.count(anchor) == 1, "three.js tag not found"
 out = '<meta charset="utf-8">\n' + html.replace(anchor, shim + anchor)
-fn = os.path.join(os.path.dirname(HERE), "GeneHead_sim.html")
+fn = os.path.join(os.path.dirname(HERE), "head_sim.html")
 open(fn, "w", encoding="utf-8").write(out)
 print(f"{fn}: {len(data)} data files inlined, {os.path.getsize(fn) / 1e6:.1f} MB")

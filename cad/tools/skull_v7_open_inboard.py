@@ -23,7 +23,7 @@ def cutter(ax):
     return ring^box
 
 def build():
-    fn=os.path.join(OUT,"GeneTop_v7_skull.stl")
+    fn=os.path.join(OUT,"skull.stl")
     bak=os.path.join(OUT,"tools","retired","GeneTop_v7_before_open_inboard.stl")
     if not os.path.exists(bak): shutil.copy(fn,bak)
     sh=trimesh.load(bak); sh.apply_translation(SHIFT); A=to_mf(sh)

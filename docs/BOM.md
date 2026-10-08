@@ -10,12 +10,12 @@ shape of the stated size - check your actual part before buying.
 
 Print-ready files are in `print/parts/` (plates in `print/plates/`): every part is a single clean solid, oriented
 flat side down, and reloads watertight. Each plate fits a 250 x 250 mm bed, so any
-Creality K2 takes it. Anything named `_MOCK` in `cad/` is fit-check geometry,
+Creality K2 takes it. Everything in `cad/mocks/` is fit-check geometry,
 not a part.
 
 | Part | Qty | File (in `print/parts/`) | Solid vol | On plate |
 |---|---|---|---|---|
-| Skull v7 (shell, brow, eye barrels, thrust pads, crown-bay ledge, neck screw pilots; v7: 26.5 x 7.5 camera ribbon slots, top window in each barrel + plug pocket above it for the display boards' HDMI/USB, inboard barrel wall open above the camera slot) | 1 | `01_skull_x1.stl` | 585.4 cm3 | 1 (reprint: 9) |
+| Skull v7 (shell, brow, eye barrels, thrust pads, crown-bay ledge, neck screw pilots; v7: 26.5 x 7.5 camera ribbon slots, top window in each barrel + plug pocket above it for the display boards' HDMI/USB, inboard barrel wall open above the camera slot) | 1 | `01_skull_x1.stl` | 589.8 cm3 | 1 |
 | Jaw, twin D-shafts | 1 | `02_jaw_x1.stl` | 407.5 cm3 | 2 |
 | Pi 5 shelf v6 (4 mm standoffs, speaker cradles) | 1 | `03_pi_shelf_x1.stl` | 41.9 cm3 | 3 |
 | Battery tray | 1 | `04_battery_tray_x1.stl` | 23.4 cm3 | 3 |
@@ -30,9 +30,9 @@ not a part.
 | Servo bracket, left (v2, with battery pads) | 1 | `06_servo_bracket_L_x1.stl` | 7.0 cm3 | 4 |
 | Servo bracket, right (v2, with battery pads) | 1 | `07_servo_bracket_R_x1.stl` | 7.0 cm3 | 4 |
 | Jaw drive hub (same part both sides) | 2 | `08_jaw_drive_hub_x2.stl` | 2.5 cm3 each | 4 |
-| Eye display carrier v3 (wide top + bottom slots, side walls only behind the front lip) | 2 | `09_eye_display_carrier_x2.stl` | 2.5 cm3 each | 4 (reprint: 8) |
+| Eye display carrier v3 (wide top + bottom slots, side walls only behind the front lip) | 2 | `09_eye_display_carrier_x2.stl` | 2.5 cm3 each | 4 |
 | Eye display retainer ring | 2 | `10_eye_display_retainer_x2.stl` | 2.4 cm3 each | 4 |
-| Camera bezel v3 (same part both eyes, turned 180 deg; 8.6 x 12.4 pocket for the Arducam, 6.8 mm cable lane on the back) - **print in black** | 2 | `11_camera_bezel_x2.stl` | 5.2 cm3 each | 4 (reprint: 8) |
+| Camera bezel v3 (same part both eyes, turned 180 deg; 8.6 x 12.4 pocket for the Arducam, 6.8 mm cable lane on the back) - **print in black** | 2 | `11_camera_bezel_x2.stl` | 5.2 cm3 each | 4 |
 | Pupil ring (glues round the camera lens) - **print in black** | 2 | `12_pupil_ring_x2.stl` | 0.3 cm3 each | 4 |
 
 Plates (drop the `.3mf` straight into Creality Print; if the parts don't land
@@ -47,8 +47,6 @@ centred, press **Arrange**):
 | `Plate5_crown_insert_handle.3mf` | crown insert, bridge handle (skip the handle if you don't want it) | 58 x 225 mm | 29 mm |
 | `Plate6_neck.3mf` | neck, neck base, clamp collar | 153 x 149 mm | 86 mm |
 | `Plate7_gpio_flashlight_cover.3mf` | GPIO flashlight, GPIO cover (both optional) | 86 x 143 mm | 30 mm |
-| `Plate8_bezels_carriers_reprint.3mf` | 2 v3 camera bezels (black) + 2 v3 display carriers with the wide slots (reprint: Plate 4 was printed before these) - no supports | 129 x 127 mm | 12 mm |
-| `Plate9_skull_v7_reprint.3mf` | v7 skull (reprint: Plate 1 was printed as v6) - tree supports | 191 x 183 mm | 144 mm |
 
 Print notes:
 
@@ -87,7 +85,8 @@ Print notes:
 | M2 x 8 screw | 8 | Servos to brackets (4 per side) |
 | M3 x 5 set screw (grub) | 2 | Hub to D-shaft |
 | M3 x 16 self-tapping, pan head | 4 | Brackets to skull wall |
-| M3 x 10 self-tapping, pan head | 4 | Pi shelf wings to skull |
+| M2 x 16 hex socket head bolt + M2 hex nut | 4 + 4 | Brackets to skull, through-bolted: in from outside the skull (counterbored flush), nut in the hex pocket in each bracket foot (2 per side) |
+| M2 x 8 hex socket head bolt + M2 hex nut | 4 + 4 | Pi shelf wings to the skull's nut posts: up from under the wing, nut slid sideways into the slot in each post's inboard face (2 per side) |
 | M3 x 12 self-tapping, pan head | 4 | Battery tray up through the bracket pads |
 | M3 x 10 self-tapping, pan head | 4 | Deck to battery tray |
 | M2.5 x 12 screw + M2.5 nut | 4 + 4 | Pi 5 to shelf standoffs (nut under the plate) |
@@ -97,6 +96,7 @@ Print notes:
 | M3 x 16 socket head, self-tapping | 5 | Neck yoke up into the skull's rear rim |
 | M3 x 8 self-tapping | 3 | Slip-ring flange to the neck base floor |
 | M3 x 10 set screw + M3 nut | 1 + 1 | Clamp collar onto the neck tube (nut in the collar's slot) |
+| M3 screw, supplied with the USB-C extension (11 mm) | 2 | Charge port: from outside the skull into the flange |
 | M4 bolt (length to suit your body) | 4 | Neck base to the body/stand (76 x 45 mm rectangle) |
 | 6808-2RS bearing, 40 x 52 x 7 | 2 | Neck base |
 | Hook-and-loop strap, 20-22 mm wide, ~250 mm | 2 | Pack to tray |
@@ -115,7 +115,7 @@ before final assembly.
 | Pi 5 Active Cooler | 1 | Stack fit-checked at 14 mm, USB/Ethernet block at 16 mm |
 | microSD card, 32 GB+ | 1 | |
 | ROBOTIS DYNAMIXEL XL330-M288-T | 2 | Horns included. Run in tandem, **one reversed** |
-| DYNAMIXEL TTL interface (ROBOTIS U2D2, or a half-duplex buffer on the Pi UART) | 1 | On the left shelf wing (fit-checked at U2D2 size, 48 x 18 x 15), foam tape |
+| DYNAMIXEL TTL interface (ROBOTIS U2D2, or a half-duplex buffer on the Pi UART) | 1 | On the two left shelf nut posts, above the left wing (fit-checked at U2D2 size, 48 x 18 x 15), foam tape |
 | GPIO 1-to-2 splitter board (2x20) | 1 | On the Pi header: one header for the crown ribbon, one for the I2S amp |
 | TekGroAml 2.1" round 480 x 480 LCD + mini-HDMI driver board (Amazon B0DZ2ZKP7B) | 2 | Bought. LCD 56.18 x 59.71 x 2.3 mm (53.28 active) with a 26.9 mm, 40-pin flex off the bottom. Driver board is **round, 57 mm dia**, 4 x M2.5 holes (2.5 mm), mini-HDMI (11.5 wide) and **micro-USB** (8 wide) on the edge opposite the flex connector, each angled 15 deg - so they splay apart. Mount each LCD + board **turned 180 deg** (LCD flex at the top, plugs pointing down) and flip the picture on the Pi with a 180 deg display rotation: flex-down puts the outboard plug only 8-10 mm from the barrel skin. The barrels' inboard walls are open above the camera slot so the LCD ribbon can swing past while you turn it. 5 V 1 A+ |
 | Arducam B0066 mini camera, OV5647 5 MP (Amazon B012QRGUCQ) | 2 | Bought. 8.5 mm square head, ~12 mm long with the crystal behind it; 300 mm, 6 mm wide flex ending in a rigid 16 x 30 mm 15-pin (1 mm pitch) tail |
@@ -147,7 +147,7 @@ Optional GPIO flashlight (only if you print it):
 | 2S BMS with balancing, 20 A (HW-391, 48 x 20 x 3 mm) | 1 | Sits in the deck's BMS bay |
 | 5 V 5 A step-down converter, Pololu D36V50F5 (25.4 x 25.4 x 9.5 mm) | 2 | One for the Pi (set 5.1 V), one for servos and audio |
 | 2S Li-ion USB-C charger board, 5 V in, board max 40 x 20 mm | 1 | Sits in the deck's charger bay |
-| Panel-mount USB-C (charge port) | 1 | **Skull hole not cut yet** |
+| Charge port: Poyiccot USB-C male-to-female panel-mount extension, 30 cm, right-angle male (Amazon B086W2R8Z6) | 1 | Bought. Female end mounts **inside** the lower back of the skull (X 0, Z -14), flange (25 x 8, long axis horizontal, M3 holes 16.6 apart side by side) on a flat seat, 2 x M3 from outside into the flange. Right-angle male end plugs into the charger board on the deck. The supplied screws are 11 mm (8 mm into the flange): if they bottom out, use M3 x 8 |
 | Power switch (rocker or slide) | 1 | **Location not chosen yet** |
 | XT30 connector pair | 1 | Pack to power boards |
 | 18 AWG silicone wire (red/black) | ~1 m | Pack, converters, servo rail |
@@ -159,6 +159,8 @@ Power budget: about **14 W talking and 36 W peak** from the pack, which gives ab
 `usb_max_current_enable=1` to `config.txt` or its USB ports are limited to 600 mA.
 
 ## 5. Cables
+
+Wiring diagrams for the audio chain and the power stack are in [`WIRING.md`](WIRING.md).
 
 Every run was routed through the free space in the head and checked as a solid tube
 against every part and every other cable (all 14 clear). "Buy" is the route plus 15 %
@@ -189,9 +191,9 @@ with a 6 mm worst case sized for micro-HDMI.
 
 - Display power: the driver boards take **micro-USB**. The USB-C 90 deg pigtails on the order fit the Pi 5, not these boards, so the displays need two micro-USB (ideally right-angle) leads from the 5 V rail.
 
-- Charge port hole and power switch hole in the skull.
-- Wiring for the charge port and power switch (once their holes exist), and the slip
-  ring's fixed-side wires below the neck base.
+- Power switch hole in the skull (the charge port is cut, see `DESIGN_NOTES.md`).
+- Wiring for the power switch (once its hole exists), and the slip ring's fixed-side
+  wires below the neck base.
 - A motor to drive the neck rotation. The exposed tube between the head and the
   neck base has room for a gear or pulley.
 - The body or stand the neck base bolts to (4 x M4 on a 76 x 45 mm rectangle).

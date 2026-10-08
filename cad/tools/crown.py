@@ -161,6 +161,6 @@ for x, y in SCREWS:
     zt = ztop(x, y); zi = zin(x, y)
     print(f"   screw ({x:6.2f},{y:6.1f}): insert top {zt:.1f}, ledge top {zi + LEDGE_T:.1f}, insert over ledge {zt - (zi + LEDGE_T):.1f} mm, thread engagement {LEDGE_T + BOSS_H - 0.8:.1f} mm")
 
-for m, fn in ((skull5, "GeneTop_v5_crownbay.stl"), (insert, "GeneHead_crown_insert.stl"), (handle, "GeneHead_bridge_handle.stl")):
+for m, fn in ((skull5, "GeneTop_v5_crownbay.stl"), (insert, "crown_insert.stl"), (handle, "bridge_handle.stl")):
     e = m.copy(); e.apply_translation([64.8, 61.4, 35.0]) if fn.startswith("GeneTop") else None; e.export(os.path.join(OUT, fn))
 json.dump({"SCREWS": SCREWS, "BODY_TOP": BODY_TOP, "BODY_BOT": BODY_BOT, "GYC": GYC, "CX": CX, "IDC": [IDC_L, IDC_W, IDC_H, PIN_H]}, open("crown_meta.json", "w"))

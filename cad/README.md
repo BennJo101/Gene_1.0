@@ -8,15 +8,14 @@ The print-ready copies in `../print/` are the same parts, reoriented flat side d
 
 | Kind | Files |
 |---|---|
-| Skull | `GeneTop_v7_skull.stl` (current). `GeneTop_v6_neck.stl` is the base that `skull_v7.py` builds v7 from, and the reference for `check_v7.py` |
-| Jaw | `GeneBottom_v4_twindrive.stl` |
-| Jaw drive | `GeneHead_xl330_bracket_v2.stl`, `GeneHead_xl330_bracket_R_v2.stl`, `GeneHead_jaw_drive_hub.stl` |
-| Eyes | `GeneHead_eye_display_carrier.stl`, `GeneHead_eye_display_retainer.stl`, `GeneHead_eye_camera_bezel.stl`, `GeneHead_pupil_ring.stl` |
-| Interior | `GeneHead_pi_shelf_v6.stl`, `GeneHead_battery_tray.stl`, `GeneHead_battery_deck.stl` |
-| Crown | `GeneHead_crown_insert.stl`, `GeneHead_bridge_handle.stl`, `GeneHead_gpio_flashlight.stl`, `GeneHead_gpio_cover.stl` |
-| Neck | `GeneHead_neck.stl`, `GeneHead_neck_base.stl`, `GeneHead_neck_collar.stl` |
-| Fit-check only | `*_MOCK.stl`: stand-ins for the bought parts (Pi 5, displays, cameras, battery, boards, servos, slip ring and so on). **Do not print these** |
-| Sim only | `XL330_M288_from_STEP.stl`: the servo model used for display |
+| Skull | `skull.stl` (v7). Its build scripts start from the v6 skull, `GeneTop_v6_neck.stl`, which is no longer in the folder (see below) |
+| Jaw | `jaw.stl` |
+| Jaw drive | `servo_bracket_L.stl`, `servo_bracket_R.stl`, `jaw_drive_hub.stl` |
+| Eyes | `eye_display_carrier.stl`, `eye_display_retainer.stl`, `camera_bezel.stl`, `pupil_ring.stl` |
+| Interior | `pi_shelf.stl`, `battery_tray.stl`, `battery_deck.stl` |
+| Crown | `crown_insert.stl`, `bridge_handle.stl`, `gpio_flashlight.stl`, `gpio_cover.stl` |
+| Neck | `neck.stl`, `neck_base.stl`, `neck_collar.stl` |
+| Fit-check only | `mocks/`: stand-ins for the bought parts (Pi 5, displays, cameras, battery, boards, servos, speakers, slip ring and so on), used by the sim and the clearance checks. **Do not print these** |
 
 ## Setup
 
@@ -41,19 +40,25 @@ python check.py
 | `mass.py` | Mass, centre of mass and jaw-servo torque estimate |
 | `occ_all.py`, `route.py` | Occupancy grid of the assembly, then a cable routing check for every run in `cables.json` |
 | `printprep.py` → `plates.py` | Orients every part for printing (writes `printparts.pkl` and `cad/print/`), then lays out the `.3mf` plates |
-| `export.py` → `build_local_sim.py` | Exports meshes and the jaw sweep to `web/`, then inlines `web/` into one self-contained `GeneHead_sim.html` |
+| `export.py` → `build_local_sim.py` | Exports meshes and the jaw sweep to `web/`, then inlines `web/` into one self-contained `head_sim.html` |
 
-The skull is built in five steps. Run them in this order:
+The skull is built in eight steps. Run them in this order:
 
 1. `skull_v7.py`: v6 plus the camera ribbon slots, the top display windows and the plug pockets
 2. `skull_v7_mirror_eye.py`: makes the right eye's plug pocket an exact mirror of the left one
 3. `skull_v7_seal_corners.py`: seals the small holes at the outboard bottom corners of the eye barrels
 4. `skull_v7_barrel_taper.py`: blends the back end of each eye barrel into the skull
 5. `skull_v7_open_inboard.py`: opens the inboard wall of each eye barrel above the camera slot, so the display ribbon can swing past when the screen is turned 180°
+6. `skull_v7_usbc_port.py`: cuts the USB-C charge port (flange seat, opening and 2 x M3 holes) in the lower back wall (flange horizontal), and writes `mocks/usbc_panel.stl`
+7. `motor_mount_m2.py`: M2 through-bolt holes (counterbore outside, clearance, hex nut pocket) through the skull wall into both servo bracket feet. It changes the two bracket files too
 
-Steps 2–5 keep a copy of their input in `tools/retired/` the first time they run. If you rebuild from step 1, delete those `GeneTop_v7_before_*.stl` copies first, so each step starts from the new file.
+8. `skull_v7_shelf_posts.py`: 4 nut posts on the inner wall above the Pi shelf wing holes (M2 x 8 up through each wing into a side-loaded M2 nut)
 
-Part generators: `cam3_arducam.py` (camera bezel v3), `carrier_topslot.py` (display carrier v3, built from `retired/carrier_v1_before_topslot.stl`), `pupil.py`, `gpio_flashlight.py`, `gpio_mocks.py`, `dboard_mock.py`.
+Steps 2–8 save a copy of their input in `tools/retired/` the first time they run, and read from it on later runs.
+
+`skull.stl` is the only skull kept in the repo. Step 1 and `check_v7.py` read the v6 skull, which has been removed; to rebuild from step 1, restore it with `git checkout 8078433 -- cad/GeneTop_v6_neck.stl`. All old part versions in `tools/retired/` were deleted too (the skull, jaw and bracket copies), so rerunning a single step now starts from the finished part rather than its original input.
+
+Part generators: `jaw_fill_pivot_holes.py` (filled the old pivot-screw holes in the jaw; already applied), `cam3_arducam.py` (camera bezel v3), `carrier_topslot.py` (display carrier v3; its input `retired/carrier_v1_before_topslot.stl` was removed, so restore it with `git checkout 8078433 -- cad/tools/retired/carrier_v1_before_topslot.stl` before rerunning), `pupil.py`, `gpio_flashlight.py`, `gpio_mocks.py`, `dboard_mock.py`.
 
 `battery.py`, `crown.py`, `neck.py` and `shelf6.py` generated their parts at earlier stages of the skull (v4/v5). They are kept as the record of how those parts were made, but they need skull files that are not in this repo. Their output STLs are included and current.
 

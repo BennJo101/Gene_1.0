@@ -13,8 +13,6 @@ PLATES={
  "Plate6_neck":[["neck"],["neck_base","neck_collar"]],
  "Plate7_gpio_flashlight_cover":[["gpio_flashlight","gpio_cover"]],
  "Plate4_small_parts":[["carrier","carrier","bezel"],["bezel","retainer","retainer"],["bracket_L","bracket_R","hub","hub","pupil_ring","pupil_ring"]],
- "Plate8_bezels_carriers_reprint":[["bezel","bezel"],["carrier","carrier"]],   # reprint: Arducam-sized bezels + carriers with the top slot (Plate 4 was printed before them)
- "Plate9_skull_v7_reprint":[["skull"]],                           # reprint: skull with the camera-slot and display-plug clearances (Plate 1 was printed as v6)
 }
 # individual oriented STLs (one copy each; qty in the file name)
 for k,m in M.items():

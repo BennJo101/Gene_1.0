@@ -33,12 +33,14 @@ Gene 1.0/
 ├── docs/
 │   ├── BOM.md / BOM.csv    Printed parts, hardware, electronics, power and cables
 │   ├── DESIGN_NOTES.md     Assembly order, software limits, verification and full design history
+│   ├── WIRING.md           Wiring diagrams: audio (Pi, amp, speakers) and power (pack, BMS, charger, bucks)
 │   └── images/             Renders
 ├── cad/                    Model sources in the head frame (see cad/README.md)
-│   ├── *.stl               Current parts, plus *_MOCK.stl fit-check stand-ins (not printed)
+│   ├── *.stl               Current parts, one file per part (skull.stl, jaw.stl, ...)
+│   ├── mocks/              Fit-check stand-ins for the bought parts (not printed)
 │   └── tools/              Python scripts that build, check and export the parts and the sim
 ├── sim/
-│   └── GeneHead_sim.html   Self-contained interactive sim: open it in a browser
+│   └── head_sim.html       Self-contained interactive sim: open it in a browser
 └── software/
     └── pi/                 Raspberry Pi audio config and volume control
 ```
@@ -47,7 +49,7 @@ Gene 1.0/
 
 1. **Print:** follow [`print/PRINT_LIST.md`](print/PRINT_LIST.md). Load the plates from `print/plates/` straight into your slicer. Print the camera bezels and pupil rings in black. Use PETG for the battery tray, deck, servo brackets and flashlight; PLA or PETG is fine for everything else. Plan on about 1.3 kg of filament.
 2. **Buy:** order the hardware, electronics and power parts listed in [`docs/BOM.md`](docs/BOM.md). Items marked **(assumed)** were fit-checked against a placeholder of the stated size, so check your actual part.
-3. **Assemble:** follow the assembly order in [`docs/DESIGN_NOTES.md`](docs/DESIGN_NOTES.md): eyes, cameras, battery unit, jaw drive, Pi, crown, jaw, neck.
+3. **Assemble:** follow the assembly order in [`docs/DESIGN_NOTES.md`](docs/DESIGN_NOTES.md): eyes, cameras, battery unit, jaw drive, Pi, crown, jaw, neck. Wire it up from [`docs/WIRING.md`](docs/WIRING.md).
 4. **Set the limits in software:**
 
    | | |
@@ -61,13 +63,13 @@ Gene 1.0/
 
 ## Simulator
 
-Open [`sim/GeneHead_sim.html`](sim/GeneHead_sim.html) in a browser. You don't need a server or an install. It shows every part in place. You can sweep the jaw, turn the head, run the eye expressions, preview the two camera views, and cut a section to look inside.
+Open [`sim/head_sim.html`](sim/head_sim.html) in a browser. You don't need a server or an install. It shows every part in place. You can sweep the jaw, turn the head, run the eye expressions, preview the two camera views, and cut a section to look inside.
 
 ## Status
 
 Designed, fit-checked, and partly printed. Still open:
 
-- Holes in the skull for the charge port and power switch
+- A hole in the skull for the power switch (the USB-C charge port is cut in the lower back)
 - Micro-USB power leads for the display driver boards
 - A motor to drive the neck rotation
 - The body or stand the neck base bolts to (4 × M4 on a 76 × 45 mm rectangle)
@@ -84,4 +86,4 @@ If Gene helped you or you just like the project, you can support its development
 
 ## Credits
 
-- `cad/XL330_M288_from_STEP.stl` is converted from ROBOTIS's published STEP model of the DYNAMIXEL XL330-M288-T. It is used only to draw the servos in the sim.
+- `cad/mocks/xl330_servo.stl` is converted from ROBOTIS's published STEP model of the DYNAMIXEL XL330-M288-T. It is used only to draw the servos in the sim.

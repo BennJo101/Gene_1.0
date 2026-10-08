@@ -24,13 +24,13 @@ pi = U([board, stack, ports, header])
 HZ = PZ + 1.6 + 8.5                                   # top of the Pi's header pins
 splitter = bx((hx0 + hx1) / 2 - 28.0, (hx0 + hx1) / 2 + 28.0, -57.0 + 3.5 - 5.0, -57.0 + 3.5 + 5.0, HZ, HZ + 12.0)      # socket rides on the pin tops
 idc_top = bx((hx0 + hx1) / 2 - 28.0, (hx0 + hx1) / 2 + 28.0, -57.0 + 3.5 - 4.6, -57.0 + 3.5 + 4.6, HZ + 12.0, HZ + 21.2)
-U([splitter, idc_top]).export(os.path.join(OUT, "GeneHead_gpio_splitter_MOCK.stl"))
+U([splitter, idc_top]).export(os.path.join(OUT, "mocks/gpio_splitter.stl"))
 print(f"splitter + ribbon IDC: Z {HZ:.1f}..{HZ + 21.2:.1f}")
-# DYNAMIXEL TTL interface (U2D2 size) on the left shelf wing, and one MAX98357A amp centred on the shelf
+# DYNAMIXEL TTL interface (U2D2 size) on the left shelf wing, resting on the two skull nut posts there (tops Z -31), and one MAX98357A amp centred on the shelf
 # between the speakers (mono: both speakers in parallel on its output)
-bx(-69.0, -51.0, -58.0, -10.0, -36.9, -22.3).export(os.path.join(OUT, "GeneHead_ttl_interface_MOCK.stl"))
-bx(-9.0, 9.0, -87.0, -69.0, -36.9, -33.9).export(os.path.join(OUT, "GeneHead_i2s_amps_MOCK.stl"))
-pi.export(os.path.join(OUT, "GeneHead_pi5_MOCK.stl"))
+bx(-69.0, -51.0, -58.0, -10.0, -30.9, -16.3).export(os.path.join(OUT, "mocks/ttl_interface.stl"))
+bx(-9.0, 9.0, -87.0, -69.0, -36.9, -33.9).export(os.path.join(OUT, "mocks/i2s_amp.stl"))
+pi.export(os.path.join(OUT, "mocks/pi5.stl"))
 print(f"Pi mock: GPIO header X {hx0:.1f}..{hx1:.1f} at Y {-57 + 3.5:.1f}; ribbon IDC top Z {PZ + 1.6 + 2.5 + 9.2:.1f}")
 
 # Male IDC plug of the ribbon, seated in the crown insert
@@ -38,5 +38,5 @@ m = json.load(open("crown_meta.json"))
 L_, W_, H_, P_ = m["IDC"]; CX, GYC = m["CX"], m["GYC"]
 plug = bx(CX - W_ / 2, CX + W_ / 2, GYC - L_ / 2, GYC + L_ / 2, m["BODY_BOT"], m["BODY_TOP"])
 pins = bx(CX - 2.54, CX + 2.54, GYC - 25.4, GYC + 25.4, m["BODY_TOP"], m["BODY_TOP"] + P_)   # pin field as a block
-U([plug, pins]).export(os.path.join(OUT, "GeneHead_gpio_plug_MOCK.stl"))
+U([plug, pins]).export(os.path.join(OUT, "mocks/gpio_plug.stl"))
 print(f"GPIO plug mock: body Z {m['BODY_BOT']:.1f}..{m['BODY_TOP']:.1f}, pins to {m['BODY_TOP'] + P_:.1f}")

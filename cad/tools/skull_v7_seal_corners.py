@@ -35,7 +35,7 @@ def filler(ax):
     return sec-lw
 
 def build():
-    fn=os.path.join(OUT,"GeneTop_v7_skull.stl")
+    fn=os.path.join(OUT,"skull.stl")
     bak=os.path.join(OUT,"tools","retired","GeneTop_v7_before_corner_seal.stl")
     if not os.path.exists(bak): shutil.copy(fn,bak)
     sh=trimesh.load(bak); sh.apply_translation(SHIFT)

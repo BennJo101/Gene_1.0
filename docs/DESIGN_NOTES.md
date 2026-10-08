@@ -18,19 +18,19 @@ Everything is in `print/`, oriented and laid out on six plates (each fits
 
 | Part | Source file | Qty |
 |---|---|---|
-| Skull v7 | `GeneTop_v7_skull.stl` (built by `tools/skull_v7.py` from v6) | 1 |
-| Jaw, twin D-shafts | `GeneBottom_v4_twindrive.stl` | 1 |
-| Servo brackets v2 (with battery pads) | `GeneHead_xl330_bracket_v2.stl`, `GeneHead_xl330_bracket_R_v2.stl` | 1 + 1 |
-| Jaw drive hub | `GeneHead_jaw_drive_hub.stl` | 2 |
-| Eye display carrier v3 (wide top + bottom slots) / retainer | `GeneHead_eye_display_carrier.stl`, `GeneHead_eye_display_retainer.stl` | 2 + 2 |
-| Camera bezel (black) / pupil ring (black) | `GeneHead_eye_camera_bezel.stl`, `GeneHead_pupil_ring.stl` | 2 + 2 |
-| Pi 5 shelf v6 | `GeneHead_pi_shelf_v6.stl` | 1 |
-| Battery tray / deck | `GeneHead_battery_tray.stl`, `GeneHead_battery_deck.stl` | 1 + 1 |
-| Crown insert | `GeneHead_crown_insert.stl` | 1 |
-| Bridge handle (optional) | `GeneHead_bridge_handle.stl` | 1 |
-| GPIO flashlight (optional, instead of the handle) | `GeneHead_gpio_flashlight.stl` | 1 |
-| GPIO cover (optional, for when nothing is plugged in) | `GeneHead_gpio_cover.stl` | 1 |
-| Neck / neck base / clamp collar | `GeneHead_neck.stl`, `GeneHead_neck_base.stl`, `GeneHead_neck_collar.stl` | 1 each |
+| Skull v7 | `skull.stl` (built by `tools/skull_v7.py` from v6) | 1 |
+| Jaw, twin D-shafts (pivot-screw holes filled) | `jaw.stl` | 1 |
+| Servo brackets v2 (with battery pads) | `servo_bracket_L.stl`, `servo_bracket_R.stl` | 1 + 1 |
+| Jaw drive hub | `jaw_drive_hub.stl` | 2 |
+| Eye display carrier v3 (wide top + bottom slots) / retainer | `eye_display_carrier.stl`, `eye_display_retainer.stl` | 2 + 2 |
+| Camera bezel (black) / pupil ring (black) | `camera_bezel.stl`, `pupil_ring.stl` | 2 + 2 |
+| Pi 5 shelf v6 | `pi_shelf.stl` | 1 |
+| Battery tray / deck | `battery_tray.stl`, `battery_deck.stl` | 1 + 1 |
+| Crown insert | `crown_insert.stl` | 1 |
+| Bridge handle (optional) | `bridge_handle.stl` | 1 |
+| GPIO flashlight (optional, instead of the handle) | `gpio_flashlight.stl` | 1 |
+| GPIO cover (optional, for when nothing is plugged in) | `gpio_cover.stl` | 1 |
+| Neck / neck base / clamp collar | `neck.stl`, `neck_base.stl`, `neck_collar.stl` | 1 each |
 
 Retired, do not print: `GeneTop_v6_neck` (v7 is v6 + clearances), `GeneTop_v3_*`, `GeneTop_v4_camslots`, `GeneTop_v5_crownbay`,
 `GeneBottom_v3_jawdrive`, `GeneHead_xl330_bracket(_R).stl` (v1), `GeneHead_pi_shelf_v4/v5`,
@@ -73,11 +73,12 @@ and rerun. Printing the jaw with 2 walls / 15 % instead of 4 / 22 % cuts it from
    bucks, BMS and charger on the deck. Lift the whole unit straight up through the
    open bottom of the skull into the dome.
 4. Drive: servos onto the v2 brackets (4 x M2x8 each), brackets onto the skull
-   walls (2 x M3x16 each). Lower the tray onto the bracket pads, 4 x M3x12 up
+   walls (2 x M3x16 each, then 2 x M2x16 hex bolts each in from outside the skull,
+   M2 nut in the foot's hex pocket). Lower the tray onto the bracket pads, 4 x M3x12 up
    through the pads.
 5. Pi: GPIO ribbon's female end onto the header, Pi onto the v6 shelf with the
    header along the front edge (4 x M2.5x12 + nuts). Route the ribbon up in front
-   of the battery tray. Shelf into the skull (4 x M3x10 through the wings).
+   of the battery tray. Shelf up into the skull until the wings meet the 4 nut posts; slide an M2 nut into each post's slot, then 4 x M2x8 hex bolts up through the wings.
 6. Crown: push the ribbon's male plug up into the crown insert's pocket, drop the
    insert into the slot, 4 x M2x12 hex bolts. With the handle: bridge handle on
    top, 4 x M3x16 socket heads instead.
@@ -92,8 +93,8 @@ and rerun. Printing the jaw with 2 walls / 15 % instead of 4 / 22 % cuts it from
 
 ## Still open
 
-- Charge port and power switch holes in the skull.
-- Wiring for the charge port and power switch once their holes exist.
+- Power switch hole in the skull (the USB-C charge port is cut).
+- Wiring for the power switch once its hole exists.
 - A drive for the neck rotation, and the body/stand the neck base bolts to.
 - Assumed sizes to check against real parts: 2.1" round LCDs, eye cameras,
   speakers, the GPIO ribbon's male plug, the slip ring.
@@ -106,7 +107,7 @@ intersection; no overlaps except seating contacts. The jaw swept 0-60 deg in
 solids on reload.
 
 Interactive sim with every part, the jaw sweep, head turn, eye expressions and
-the two camera views: `sim/GeneHead_sim.html` (open it in a browser)
+the two camera views: `sim/head_sim.html` (open it in a browser)
 
 ---
 
@@ -122,7 +123,7 @@ Built from the Amazon order of 2026-09-30. Scripts: `tools/skull_v7.py`, `tools/
 Free height above the board's top edge went from ~2 mm to 17-29 mm over the middle of the eye at Y -84,
 and 16-40 mm from Y -76 back. The exception is the **outboard** side (more than ~8 mm out from the eye
 axis, in front of Y -76), where the barrel itself is the outside of the head: that's still ~2 mm. So mount
-each driver board far enough back (PCB front face at Y -73 or further, about 19 mm behind the back of the LCD - checked with `GeneHead_display_board_MOCK.stl`, 0 overlap) that the
+each driver board far enough back (PCB front face at Y -73 or further, about 19 mm behind the back of the LCD - checked with `mocks/display_driver_board.stl`, 0 overlap) that the
 outboard plug clears; the LCD flex is long enough to run straight back rather than folding. With the
 flex at the bottom and the board's parts facing back, the HDMI plug sits 6 mm outboard of the axis on the
 left eye and the USB 9 mm outboard on the right.
@@ -147,6 +148,16 @@ sits ~2.9 mm further forward - it's glued, so that's fine). Note the real LCD is
 
 **Skull v7 inboard barrel walls opened (2026-10-06)** (`tools/skull_v7_open_inboard.py`, run after `skull_v7_barrel_taper.py`): the real TekGroAml driver board (seller's drawing: 57 mm round, 4 x M2.5 at (0,0) (0,33.4) (35,33.4) (38.69,0), mini-HDMI 11.5 wide at (-9.27,22.6) and micro-USB 8.0 wide at (-9.37,7.83), both angled 15 deg and splaying apart, 40-pin FPC connector 26.8 long on the opposite edge) puts the outboard plug of each eye - mini-HDMI on Gene's right, micro-USB on his left - only 8-10 mm from the barrel skin when mounted flex-down. The plan is to turn each LCD + board 180 deg in its barrel (flex up, plugs down; the Pi flips the picture with a standard 180 deg display rotation). To let the LCD ribbon swing past while turning it, the inboard wall of each barrel is removed from the top of the camera ribbon slot (Z +3.43) up to the top window, Y -96 to the barrel end, barrel wall only (r 29.8..34.4); beyond it is open head cavity. The bridge between the eyes and the outboard walls are untouched. -7.6 cm3 (585.4 cm3), one watertight solid. With the boards flipped (mock rotated 180 deg) there is no overlap with the skull, Pi shelf, speakers or anything else; the inboard plug then has about 11-12 mm to the Pi shelf's top plate, the outboard one 12-17 mm to the lower side wall. Previous file kept as `tools/retired/GeneTop_v7_before_open_inboard.stl`.
 
+**Skull v7 USB-C charge port (2026-10-06)** (`tools/skull_v7_usbc_port.py`, run after `skull_v7_open_inboard.py`): the charge port is a Poyiccot USB-C panel-mount extension (B086W2R8Z6): female end with a 25 x 8 flange, 2 x M3 holes 16.6 apart, 34.5 long overall; 30 cm lead to a right-angle male that plugs into the charger board on the deck. It is centred on the back of the head at X 0, Z -14, in the vertical-cylinder part of the wall (r 84.0..91.6 about X 0, Y -48). The flange runs vertical, so it seats along the straight direction of the wall and needs no curved seat. Cuts: a flat seat pocket 8.6 x 25.6 from the inside, leaving 3.0 mm of wall in front of the flange (seat plane Y 40.63); a 7.6 x 13.8 (r 2.5) opening through it, big enough for a max-size USB-C overmold (6.5 x 12.35); and 2 x dia 3.4 M3 holes at Z -14 +/- 8.3, which the opening runs 0.3 mm into (a hairline web there would not print). Fit the flange from inside, then the 2 x M3 from outside into its threads; with the supplied 11 mm screws, 8 mm reaches into the flange. Checks: the yoke screw pilots end at Z -41, 14 mm below the flange; with the connector body modelled straight into the head (`mocks/usbc_panel.stl`: flange 4 thick and body 6.5 x 12 x 18 assumed), it clears every part, the jaw sweep and every routed cable by >= 1.6 mm (Pi buck lead) and seats on the skull with 0 overlap. -1.37 cm3 (584.0 cm3), one watertight solid. `print/parts/01_skull_x1.stl`, Plates 1 and 9 and the sim have been regenerated. Previous file kept as `tools/retired/GeneTop_v7_before_usbc_port.stl`.
+
+**USB-C charge port turned 90 deg (2026-10-08)** (`tools/skull_v7_usbc_port.py` edited, then steps 7 and 8 rerun): the flange's long axis now runs horizontal (along X) instead of vertical, so the 2 x M3 holes sit side by side at X +/-8.3, Z -14, and the opening is 13.8 wide x 7.6 tall. Same centre (X 0, Z -14) and seat plane (Y 40.63). The flat seat now spans 25.6 mm across the curved wall, so the wall in front of the flange is 3.0 mm at the centre, 2.6-2.7 at the screws and 2.1 at the flange ends. Mock turned to match (body 12 x 6.5): 0 overlap with the skull, 7.1 mm to the Pi, clear of the jaw sweep, nearest routed cables 1.76 mm (camera L ribbon) and 1.90 mm (Pi buck lead).
+
+**Skull v7 shelf nut posts (2026-10-08)** (`tools/skull_v7_shelf_posts.py`, run after `motor_mount_m2.py`): the Pi shelf's 4 wing holes (dia 2.5 at X +/-62, Y -49 / -21, vertical) opened onto empty cavity, because the wall is 17-22 mm outboard of them, so the M3 self-tappers had nothing to screw into. The skull now has a post above each hole: a block 11 wide (Y) x 6 tall (Z -37..-31) whose flat underside is the wing's top face, running from 5.5 mm inboard of the hole out into the wall (inner wall r 83.7 about X 0, Y -48; the post is fused in up to r 86, and the outer skin at r 91.4 is untouched). Each post has a dia 2.4 hole on the wing hole's axis and a 4.3 AF x 2.0 hex slot (Z -35..-33) open to its inboard face, for an M2 nut slid in sideways. An M2 x 8 socket head goes up from under the wing; the head-to-nut-top grip is 6.6 mm, leaving 1.4 mm past the nut. The wings are unchanged. The TTL interface now rests on the two left post tops (mock raised 6 mm, Z -30.9..-16.3; nearest part the left bracket at 4.6 mm). Checks: nuts 0 overlap with the skull, bolts clear of the skull and shelf, skull overlaps with every part unchanged, jaw and hubs never within 9 mm of the bolt heads over 0-60 deg. The post undersides overhang inside the head, so the skull still needs tree supports there. +6.3 cm3 (589.8 cm3), one watertight solid. `print/parts/01_skull_x1.stl`, Plates 1 and 9 and the sim have been regenerated.
+
+**Servo brackets through-bolted with M2 (2026-10-06)** (`tools/motor_mount_m2.py`, run after `skull_v7_usbc_port.py`): each bracket's foot (its rear end, cut conformal to the inside of the skull wall, inner face the plane X -/+43) now also takes 2 x M2 socket-head bolts through the skull wall, alongside the 2 x M3 self-tappers (Y +20, Z +/-10). Bolts at Y 19, Z +/-4.5, along X like the M3s: dia 2.4 clearance through the wall and foot, a dia 4.3 counterbore from outside whose floor sits 2.2 mm under the shallowest point of the skin round it (so the 2.0 mm head ends up flush or just under the skin; the skin is slanted there, so the counterbore is up to ~3 mm deep on its forward side), and a 4.3 AF x 2.2 hex pocket in the foot's inner face for an M2 nut. Grip from the head to the far face of the seated nut is 13.8-14.3 mm, so **M2 x 16** leaves ~2 mm past the nut, ending 1-1.5 mm inboard of the foot face (open space; the servos end at Y 9.5). The foot is 7.6 mm thick at the bolts, leaving 5.4 mm behind each nut; nut corners are 1.5 mm from the M3 holes. Skull 583.6 cm3, brackets 6.84 cm3 each, all single watertight solids; the assembly check shows no new overlaps and the bracket gaps are unchanged. `print/parts/01`, `06`, `07`, Plates 1, 4 and 9 and the sim have been regenerated. Previous files kept as `tools/retired/GeneTop_v7_before_m2_bolts.stl` and `GeneHead_xl330_bracket(_R)_v2_before_m2_bolts.stl`.
+
+**Jaw pivot-screw holes filled (2026-10-06)** (`tools/jaw_fill_pivot_holes.py`): each jaw arm had a stepped blind hole on the pivot axis, opening on the outboard face (dia ~5.4 for 14 mm, then dia ~2.9 down to the start of the D-shaft, 30.4 mm deep in all). It was for a screw through the pivot. The pins are now D-shafts clamped by the drive hubs and nothing screws into the jaw, so both holes are filled solid, flush with the arm faces. +0.81 cm3 (408.3 cm3), one watertight solid, outer shape and bounds unchanged, so fits and the jaw sweep are unaffected. `print/parts/02_jaw_x1.stl`, Plate 2 and the sim have been regenerated. Previous file kept as `tools/retired/GeneBottom_v4_before_hole_fill.stl`.
+
 ---
 
 # Design history
@@ -165,7 +176,7 @@ Jaw rest angle = 0 deg in this frame.
 | File | What | Print |
 |---|---|---|
 | `GeneBottom_v3_jawdrive.stl` | The jaw, with the left pivot pin extended into a dia 8.0 D-shaft | 1 |
-| `GeneHead_jaw_drive_hub.stl` | Drive hub: dia 18 OD x 15 long, D-bore, 4 x M2 on dia 12 to the horn, radial M3 grub | 1 |
+| `jaw_drive_hub.stl` | Drive hub: dia 18 OD x 15 long, D-bore, 4 x M2 on dia 12 to the horn, radial M3 grub | 1 |
 | `GeneHead_xl330_bracket.stl` | Servo bracket, 4 x M2 to the servo, 2 x M3 into the skull wall | 1 |
 | `GeneTop_v3_thrustpad.stl` | The skull, with a conformal thrust pad added at each pivot | 1 |
 | `GeneHead_jawdrive_assembly.stl` | Whole thing assembled, for viewing only | - |
@@ -217,7 +228,7 @@ Hardware: 4 x M2 x 12 (hub to horn), 4 x M2 x 8 (servo to bracket),
   get a thrust pad, so both sides locate axially.
 - The pads are cut for the jaw travelling -5 to 60 deg. Widening the travel
   later means recutting them.
-- **Superseded:** print the skull from `GeneTop_v6_neck.stl` (it contains these thrust pads).
+- **Superseded:** print the skull from `skull.stl` (it contains these thrust pads).
 
 ---
 
@@ -236,9 +247,9 @@ of the 56.80 ridge, so the ridge frames the screen.
 
 | File | What | Print |
 |---|---|---|
-| `GeneHead_eye_display_carrier.stl` | Cup, OD 60.50 x 12 long. Aperture 53.80, pocket 56.00 x 10.0, cable slot at the bottom | 2 |
-| `GeneHead_eye_display_retainer.stl` | Ring OD 55.80 ID 46.0 x 3.0, traps the module in the cup | 2 |
-| `GeneHead_eye_display_MOCK.stl` | The module itself, for fit checking only - do not print | - |
+| `eye_display_carrier.stl` | Cup, OD 60.50 x 12 long. Aperture 53.80, pocket 56.00 x 10.0, cable slot at the bottom | 2 |
+| `eye_display_retainer.stl` | Ring OD 55.80 ID 46.0 x 3.0, traps the module in the cup | 2 |
+| `mocks/display.stl` | The module itself, for fit checking only - do not print | - |
 
 Verified: carrier and module clear both barrels and the skull, 0 of 6000
 sample points in every pairing. Active area clears the ridge by 1.73 mm all
@@ -270,15 +281,16 @@ band runs the full width of the head, so the shelf passes *under* the eyes.
 | File | What | Print |
 |---|---|---|
 | `GeneHead_pi_shelf_v5.stl` | **Superseded by v6** (4 mm standoffs). Shelf, plate Z -40..-37, 92 x 108 with conformal side wings, Pi 5 standoffs, 2 speaker cradles, cable slot | 1 |
-| `GeneHead_pi5_MOCK.stl` | Pi 5 board + 14 mm component stack, fit check only | - |
-| `GeneHead_speaker_MOCK.stl` | 2 x dia 28 x 5 speakers, fit check only | - |
+| `mocks/pi5.stl` | Pi 5 board + 14 mm component stack, fit check only | - |
+| `mocks/speakers.stl` | 2 x dia 28 x 5 speakers, fit check only | - |
 
 Pi 5 sits on standoffs (6 mm in v5, **4 mm in v6**), holes 58 x 49, board centred at (0, -29).
 In the current build the board is turned so its GPIO header runs along the front edge.
 Speakers drop into dia 28.4 cradles at (+/-26, -88) facing down, each with a
-dia 23 sound hole through the plate. Shelf screws to the shell with 4 x M3
-self-tappers through the wings, which were cut against the skull so they
-match the curved inner wall exactly.
+dia 23 sound hole through the plate. The wings were cut against the skull so they
+match the curved inner wall exactly, and bolt up into 4 nut posts on the skull wall
+with M2 x 8 (see *Skull v7 shelf nut posts*). The original 4 x M3 self-tappers had nothing to bite:
+the wing holes are 17-22 mm inboard of the wall.
 
 Verified clearances:
 
@@ -301,8 +313,8 @@ display is never crossed by the cable.
 | File | What | Print |
 |---|---|---|
 | `GeneTop_v4_camslots.stl` | Skull with thrust pads **and** the two 14 x 4 mm ribbon slots. **Superseded by v6**, which keeps these slots | 1 |
-| `GeneHead_eye_camera_bezel.stl` | Print in black. Bezel OD 58.6 x 6, **one spoke**, 8.6 mm square camera pocket, dia 7.5 lens aperture, cable channel open to the rear face (slit) so the ribbon drops in with the camera attached. Rotate 180 deg about the barrel axis for the second eye | 2 |
-| `GeneHead_eye_camera_MOCK.stl` | 8.5 mm camera + lens barrel, fit check only | - |
+| `camera_bezel.stl` | Print in black. Bezel OD 58.6 x 6, **one spoke**, 8.6 mm square camera pocket, dia 7.5 lens aperture, cable channel open to the rear face (slit) so the ribbon drops in with the camera attached. Rotate 180 deg about the barrel axis for the second eye | 2 |
+| `mocks/camera.stl` | 8.5 mm camera + lens barrel, fit check only | - |
 
 The bezel slips into the dia 59.00 front bore and seats on the front face of
 the dia 56.80 ridge, 38 mm down the barrel.
@@ -340,10 +352,10 @@ torque at 5 V (0.52 each).
 
 | File | What | Print |
 |---|---|---|
-| `GeneBottom_v4_twindrive.stl` | Jaw with **both** pins extended into dia 8 D-shafts. Use this, not v3 | 1 |
-| `GeneHead_xl330_bracket.stl` | Left bracket (**superseded by** `_v2`, which adds the battery pads) | 1 |
-| `GeneHead_xl330_bracket_R.stl` | Right bracket (**superseded by** `_R_v2`) | 1 |
-| `GeneHead_jaw_drive_hub.stl` | Hub - the right one is the SAME part rotated 180 deg about Z | 2 |
+| `jaw.stl` | Jaw with **both** pins extended into dia 8 D-shafts. Use this, not v3 | 1 |
+| `GeneHead_xl330_bracket.stl` | Left bracket (**superseded by** `servo_bracket_L.stl`, which adds the battery pads) | 1 |
+| `GeneHead_xl330_bracket_R.stl` | Right bracket (**superseded by** `servo_bracket_R.stl`) | 1 |
+| `jaw_drive_hub.stl` | Hub - the right one is the SAME part rotated 180 deg about Z | 2 |
 
 The right side was probed before being trusted rather than assumed
 symmetric: shell measures 12.0 mm thick at the anchor on both sides, and
@@ -429,11 +441,11 @@ Servos checked as a solid envelope (the STEP mesh is not watertight).
 - **No clashes anywhere in the 0-30 deg speaking range.**
 - First jaw-to-skull contact at **53.25 deg** (left arm), not 55. Limit the servo to <= 50 deg
   (33 deg once the neck is fitted).
-- **Fixed:** `GeneHead_eye_camera_bezel.stl` had its camera pocket cut flush with
+- **Fixed:** `camera_bezel.stl` had its camera pocket cut flush with
   the rear face, leaving a zero-thickness skin that some kernels/slicers fill in.
   Pocket now runs 1 mm through; geometry and volume (5.03 cm3) unchanged,
   camera clears by 0.05 mm. Re-slice this part.
-- **Fixed:** Pi standoffs 6 -> 4 mm (`GeneHead_pi_shelf_v6.stl`). Pi mock now includes a
+- **Fixed:** Pi standoffs 6 -> 4 mm (`pi_shelf.stl`). Pi mock now includes a
   16 mm USB/Ethernet block overhanging the board edge 2.5 mm; clears the bracket by 1.4 mm.
 - **Fixed (handle since retired):** handle -X detent 1.00 -> 1.35 mm. That rim is nearly flat, so 1.45 would rub
   through the whole turn; 1.35 stays clear until the last ~15 deg and seats 0.12 mm
@@ -454,11 +466,11 @@ Samsung 30Q or Molicel P28A) = 43-50 Wh -> **about 3 h**. Peak 6.2 A at 6.4 V.
 
 | File | What | Print |
 |---|---|---|
-| `GeneHead_battery_tray.stl` | Tub, 3 cradle ribs, 2 strap windows (22 mm hook-and-loop), rear lead exit, trimmed >=1.4 mm off the dome | 1 |
-| `GeneHead_battery_deck.stl` | Lid plate: 2 x 26.4x26.4 buck bays (Pololu D36V50F5) + 49x21 BMS bay (HW-391) + 40x20 charger bay, zip-tie slots, lead hole | 1 |
-| `GeneHead_xl330_bracket_v2.stl` / `_R_v2.stl` | Brackets with 2 screw pads on top. **Use these instead of the v1 brackets** | 1 each |
-| `GeneHead_pi_shelf_v6.stl` | Shelf with 4 mm standoffs. **Use instead of v5** | 1 |
-| `GeneHead_battery_2S2P_MOCK.stl`, `GeneHead_power_boards_MOCK.stl` | Fit check only | - |
+| `battery_tray.stl` | Tub, 3 cradle ribs, 2 strap windows (22 mm hook-and-loop), rear lead exit, trimmed >=1.4 mm off the dome | 1 |
+| `battery_deck.stl` | Lid plate: 2 x 26.4x26.4 buck bays (Pololu D36V50F5) + 49x21 BMS bay (HW-391) + 40x20 charger bay, zip-tie slots, lead hole | 1 |
+| `servo_bracket_L.stl` / `_R_v2.stl` | Brackets with 2 screw pads on top. **Use these instead of the v1 brackets** | 1 each |
+| `pi_shelf.stl` | Shelf with 4 mm standoffs. **Use instead of v5** | 1 |
+| `mocks/battery_2S2P.stl`, `mocks/power_boards.stl` | Fit check only | - |
 
 Pack sits in the dome over the servos: tray X -45..45, Y -58.5..19, Z 14..38.5;
 deck to Z 42.5, boards to ~51. Tray floor rests on the bracket pads (Z 14).
@@ -472,13 +484,13 @@ from above into the tray posts (X +/-41.5 Y -54.5, X +/-20 Y 15.5).
 Verified: tray, deck, pack and boards clear everything else (skull >= 1.4 mm,
 eye barrels 2.9 mm); jaw sweep unchanged.
 
-Not done yet: a charge port through the skull. The pack is meant to stay in the head.
+The pack is meant to stay in the head; it charges through the USB-C port in the lower back of the skull (see *Skull v7 USB-C charge port*).
 
 ---
 
 # Camera pupils
 
-`GeneHead_pupil_ring.stl` (print 2, black): OD 18 x 2 mm, glued to the front face
+`pupil_ring.stl` (print 2, black): OD 18 x 2 mm, glued to the front face
 of each bezel hub. Bore is a 60 deg cone from dia 7.5 at the face to 14.4 at the
 lip, so the lens reads as a deep pupil. Clear field of view from the lens: 153 deg
 (no vignetting for any normal lens); lens clears the bore by 0.75 mm. Print the
@@ -497,9 +509,9 @@ GPIO well (pins in a 52.2 x 6.4 well centred X 1.25, Y -46.5; pin tips Z 85.5).
 
 | File | What | Print |
 |---|---|---|
-| `GeneHead_gpio_flashlight.stl` | Saddle on the crown insert (X -13.5..16, Y -99..-12), a strap 14 wide over the brow, and a lamp pod dia 27 centred X 0, Z 40 on the forehead, pointing straight ahead (-Y). Front of the pod at Y -155 | 1, PETG |
-| `GeneHead_gpio_cover.stl` | Flush plug for the well: skirts straddle the pins on all four sides, 4 crush ribs, pry notch at the rear end | 1 |
-| `GeneHead_gpio_header_MOCK.stl` | The flashlight's 2x20 female header, fit check only | - |
+| `gpio_flashlight.stl` | Saddle on the crown insert (X -13.5..16, Y -99..-12), a strap 14 wide over the brow, and a lamp pod dia 27 centred X 0, Z 40 on the forehead, pointing straight ahead (-Y). Front of the pod at Y -155 | 1, PETG |
+| `gpio_cover.stl` | Flush plug for the well: skirts straddle the pins on all four sides, 4 crush ribs, pry notch at the rear end | 1 |
+| `mocks/gpio_header.stl` | The flashlight's 2x20 female header, fit check only | - |
 
 **Flashlight mount.** A standard 2x20 female header (8.5 mm body) goes upside down onto
 the crown pins and sits on the ribbon plug's body (Z 79.5..88.0). The crown bulges up to
@@ -552,9 +564,9 @@ with shallow arced ends) is now a feature bay.
 | File | What | Print |
 |---|---|---|
 | `GeneTop_v5_crownbay.stl` | Skull v4 + a 4 mm x 3 mm ledge round the underside of the slot + 4 screw bosses (dia 7 x 6, M3 pilots). **Superseded by v6**, which keeps the ledge | 1 |
-| `GeneHead_crown_insert.stl` | Fills the slot flush (top built from the real rim heights both sides + across-slot curvature), sits on the ledge, 4 x M2x12 hex bolts from above | 1 |
-| `GeneHead_bridge_handle.stl` | Optional. Two feet conformal to the insert, 16 mm grip 25 mm above the crown, M3x16 socket heads through bores in the posts | 1 |
-| `GeneHead_gpio_plug_MOCK.stl` | Male IDC plug of the ribbon, fit check only | - |
+| `crown_insert.stl` | Fills the slot flush (top built from the real rim heights both sides + across-slot curvature), sits on the ledge, 4 x M2x12 hex bolts from above | 1 |
+| `bridge_handle.stl` | Optional. Two feet conformal to the insert, 16 mm grip 25 mm above the crown, M3x16 socket heads through bores in the posts | 1 |
+| `mocks/gpio_plug.stl` | Male IDC plug of the ribbon, fit check only | - |
 
 Screw positions (X,Y): (-10.26,-90) (12.76,-90) (-10.26,-6) (12.76,-6). Insert over the
 ledge 5.9 mm; 8.2 mm of thread engagement in ledge + boss.
@@ -582,11 +594,11 @@ bottom face Z -53.35). The neck axis is X 0, Y +20, just behind the hinge.
 
 | File | What | Print |
 |---|---|---|
-| `GeneTop_v6_neck.stl` | Skull v5 + 5 M3 pilots up into the rear rim. **Print this skull** | 1 |
-| `GeneHead_neck.stl` | Yoke under the rear rim (5 x M3x16 up into the wall) + tube OD 44, bore 26 (cable hole), stepping to OD 40 for the bearings | 1 |
-| `GeneHead_neck_base.stl` | Bearing housing: 2 x 6808 (40x52x7) 20 mm apart, slip-ring floor, D-shaped flange with 4 x M4 on a 76 x 45 rectangle | 1 |
-| `GeneHead_neck_collar.stl` | Clamps under the bottom bearing (M3 set screw + captive nut) | 1 |
-| `GeneHead_neck_bearings_MOCK.stl`, `GeneHead_slip_ring_MOCK.stl` | Fit check only | - |
+| `GeneTop_v6_neck.stl` | Skull v5 + 5 M3 pilots up into the rear rim. Superseded by v7 (`skull.stl`) | 1 |
+| `neck.stl` | Yoke under the rear rim (5 x M3x16 up into the wall) + tube OD 44, bore 26 (cable hole), stepping to OD 40 for the bearings | 1 |
+| `neck_base.stl` | Bearing housing: 2 x 6808 (40x52x7) 20 mm apart, slip-ring floor, D-shaped flange with 4 x M4 on a 76 x 45 rectangle | 1 |
+| `neck_collar.stl` | Clamps under the bottom bearing (M3 set screw + captive nut) | 1 |
+| `mocks/neck_bearings.stl`, `mocks/slip_ring.stl` | Fit check only | - |
 
 Load path: head weight -> tube step -> top bearing inner race -> housing. The collar
 stops lift-off. The slip ring (assumed: 22 mm body, 30 mm tall, 44 mm flange, 3 holes on
@@ -628,10 +640,10 @@ All 14 runs plus the GPIO ribbon fit. Tightest: left display cable 0.19 mm, pack
 shelf's rear edge and just touches it.
 
 Added so the wiring works:
-- `GeneHead_gpio_splitter_MOCK.stl`: 1-to-2 GPIO splitter on the Pi header. The crown
+- `mocks/gpio_splitter.stl`: 1-to-2 GPIO splitter on the Pi header. The crown
   ribbon's plug moves up 12 mm onto it; the amps use the second header.
-- `GeneHead_ttl_interface_MOCK.stl`: DYNAMIXEL TTL interface on the left shelf wing.
-- `GeneHead_i2s_amps_MOCK.stl`: one MAX98357A amp centred on the shelf between the speakers (mono, speakers in parallel);
+- `mocks/ttl_interface.stl`: DYNAMIXEL TTL interface resting on the two left shelf nut posts (Z -30.9..-16.3).
+- `mocks/i2s_amp.stl`: one MAX98357A amp centred on the shelf between the speakers (mono, speakers in parallel);
   speaker leads (26-28 mm) come up through each speaker's vent hole.
 - Pi 5 connector positions used (USB/Ethernet at -X, GPIO at the front): USB-C power
   X 31.3, micro-HDMI X 16.7 and 3.3 on the rear edge; camera connectors near X -2.5 and

@@ -19,4 +19,4 @@ def board(ax):
     uplug=bx(ax+8.9-5.25,ax+8.9+5.25,y0-0.9,y0+4.1,ZC+28.9,ZC+38.0)
     return trimesh.util.concatenate([pcb,chip,hdmi,hplug,usb,uplug])
 m=trimesh.util.concatenate([board(AXL),board(AXR)])
-m.export(os.path.join(OUT,"GeneHead_display_board_MOCK.stl"))
+m.export(os.path.join(OUT,"mocks/display_driver_board.stl"))

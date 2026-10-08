@@ -44,14 +44,14 @@ shelf=D(shelf,skull)                                            # conform the wi
 bodies=[b for b in shelf.split(only_watertight=False) if b.volume>200]
 print("bodies kept:",len(bodies),[round(b.volume/1000,2) for b in bodies])
 shelf=U(bodies) if len(bodies)>1 else bodies[0]
-shelf.export(os.path.join(OUT,"GeneHead_pi_shelf_v6.stl"))
+shelf.export(os.path.join(OUT,"pi_shelf.stl"))
 print(f"shelf v6: watertight={shelf.is_watertight} bodies={shelf.body_count} vol={shelf.volume/1000:.2f}cm3 extents={np.round(shelf.extents,1)}")
 # mock Pi 5 and speakers for fit checking
 pi=box(extents=[85.0,56.0,1.6]); pi.apply_translation([CX,CY,PZ1+SO_H+0.8])
 stack=box(extents=[85.0,56.0,14.0]); stack.apply_translation([CX,CY,PZ1+SO_H+1.6+7.0])
 # USB/Ethernet block: 16 tall above the PCB and 2.5 past the board edge (the part the brackets care about)
 ports=box(extents=[21.5,53.0,16.0]); ports.apply_translation([CX+42.5+2.5-21.5/2,CY,PZ1+SO_H+1.6+8.0])
-U([pi,stack,ports]).export(os.path.join(OUT,"GeneHead_pi5_MOCK.stl"))
+U([pi,stack,ports]).export(os.path.join(OUT,"mocks/pi5.stl"))
 spk=[zcyl(SPK_D,PZ0-SPK_T,PZ0,sx,sy) for sx,sy in SPK_AT]
-U(spk).export(os.path.join(OUT,"GeneHead_speaker_MOCK.stl"))
+U(spk).export(os.path.join(OUT,"mocks/speakers.stl"))
 print("mocks written (Pi 5 board+stack, 2x dia28 speakers)")

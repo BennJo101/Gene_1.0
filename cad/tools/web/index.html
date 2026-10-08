@@ -454,17 +454,17 @@
         <span class="chip">New</span>
         <div>
           <h3>GPIO flashlight, and a cover for the GPIO well</h3>
-          <p><span class="mono">GeneHead_gpio_flashlight.stl</span> is one printed part. A saddle on the crown insert carries a standard 2&times;20 female header, fitted upside down, that plugs onto the crown pins. A tongue reaches down into the well to hold the header, which is glued in with a 0.3&nbsp;mm gap. A strap runs forward over the brow to a lamp pod in the middle of the forehead. The pod holds a 20&nbsp;mm LED star behind a 20&nbsp;mm 30&deg; optic, with the driver in a cavity behind them, and it points straight ahead. The wires run in a channel under the strap. The saddle takes the two front crown screws (M3&times;20 socket heads instead of the countersunk M3&times;12), so knocks don't lever on the pins. That means it replaces the bridge handle rather than fitting with it. It rides 0.2&nbsp;mm off the crown and brow and stays out of both cameras' views. Pick the Flashlight expression to see the lamp.</p>
+          <p><span class="mono">gpio_flashlight.stl</span> is one printed part. A saddle on the crown insert carries a standard 2&times;20 female header, fitted upside down, that plugs onto the crown pins. A tongue reaches down into the well to hold the header, which is glued in with a 0.3&nbsp;mm gap. A strap runs forward over the brow to a lamp pod in the middle of the forehead. The pod holds a 20&nbsp;mm LED star behind a 20&nbsp;mm 30&deg; optic, with the driver in a cavity behind them, and it points straight ahead. The wires run in a channel under the strap. The saddle takes the two front crown screws (M3&times;20 socket heads instead of the countersunk M3&times;12), so knocks don't lever on the pins. That means it replaces the bridge handle rather than fitting with it. It rides 0.2&nbsp;mm off the crown and brow and stays out of both cameras' views. Pick the Flashlight expression to see the lamp.</p>
           <p>Electrically it uses 3 of the 40 pins: 5&nbsp;V, ground and GPIO&nbsp;12 (PWM, for dimming). A logic-level MOSFET switches the LED through a 10&nbsp;&Omega; resistor, for about 200&nbsp;mA and 60&ndash;70&nbsp;lm. That's roughly 250&nbsp;lux at 1&nbsp;m, against about 2&nbsp;lux from both eye screens. Which crown pin is which depends on how the ribbon is folded, so find 5&nbsp;V and ground with a meter before soldering.</p>
-          <p><span class="mono">GeneHead_gpio_cover.stl</span> closes the well when nothing is plugged in. It sits flush with the crown, its skirts straddle the pins on all four sides, and four small crush ribs hold it in. A notch at the rear end takes a fingernail or a small screwdriver to lift it out.</p>
+          <p><span class="mono">gpio_cover.stl</span> closes the well when nothing is plugged in. It sits flush with the crown, its skirts straddle the pins on all four sides, and four small crush ribs hold it in. A notch at the rear end takes a fingernail or a small screwdriver to lift it out.</p>
         </div>
       </div>
       <div class="find">
         <span class="chip">New</span>
         <div>
           <h3>Neck that turns on a slip ring</h3>
-          <p><span class="mono">GeneHead_neck.stl</span> is one part: a yoke that bolts up into the skull's rear rim with 5 &times; M3 (the rim is a 7.5&nbsp;mm vertical wall, and <span class="mono">GeneTop_v6_neck.stl</span> adds the pilots), and a 44&nbsp;mm tube hanging from it on the axis X&nbsp;0, Y&nbsp;+20. The tube's 26&nbsp;mm bore is the cable hole into the head.</p>
-          <p><span class="mono">GeneHead_neck_base.stl</span> bolts to your body or stand with 4 &times; M4. It holds two 6808 bearings (40&times;52&times;7) 20&nbsp;mm apart. The head's weight sits on the top bearing through a step on the tube, and <span class="mono">GeneHead_neck_collar.stl</span> clamps under the bottom bearing so the head can't lift off. A capsule slip ring bolts to the base floor and reaches up into the tube bore: its fixed wires leave through the bottom, and the rotating wires run up the tube into the head. The head can turn without a stop.</p>
+          <p><span class="mono">neck.stl</span> is one part: a yoke that bolts up into the skull's rear rim with 5 &times; M3 (the rim is a 7.5&nbsp;mm vertical wall, and <span class="mono">skull.stl</span> has the pilots), and a 44&nbsp;mm tube hanging from it on the axis X&nbsp;0, Y&nbsp;+20. The tube's 26&nbsp;mm bore is the cable hole into the head.</p>
+          <p><span class="mono">neck_base.stl</span> bolts to your body or stand with 4 &times; M4. It holds two 6808 bearings (40&times;52&times;7) 20&nbsp;mm apart. The head's weight sits on the top bearing through a step on the tube, and <span class="mono">neck_collar.stl</span> clamps under the bottom bearing so the head can't lift off. A capsule slip ring bolts to the base floor and reaches up into the tube bore: its fixed wires leave through the bottom, and the rotating wires run up the tube into the head. The head can turn without a stop.</p>
           <p>The chin swings back under the head as the mouth opens, so the neck limits the jaw. It clears by 12&nbsp;mm at 30&deg; (the full speaking range) and first touches the front of the neck base at 35.5&deg;. <strong>With the neck fitted, set the jaw servo limit to 33&deg;.</strong> The base's flange is flat at the front to get that far.</p>
         </div>
       </div>
@@ -472,16 +472,16 @@
         <span class="chip">New</span>
         <div>
           <h3>Crown feature bay, with the Pi's GPIO brought to the top</h3>
-          <p><span class="mono">GeneHead_crown_insert.stl</span> fills the top slot flush with the dome. Its top follows the measured rim heights on both sides of the slot, not a fitted sphere. It drops in from above onto a 4&nbsp;mm ledge the skull now has round the underside of the slot (added in v5, kept in <span class="mono">GeneTop_v6_neck.stl</span>), and 4 &times; M3&times;12 countersunk screws go down into bosses under that ledge. Nothing needs reaching from inside.</p>
+          <p><span class="mono">crown_insert.stl</span> fills the top slot flush with the dome. Its top follows the measured rim heights on both sides of the slot, not a fitted sphere. It drops in from above onto a 4&nbsp;mm ledge the skull now has round the underside of the slot (added in v5, kept in <span class="mono">skull.stl</span>), and 4 &times; M3&times;12 countersunk screws go down into bosses under that ledge. Nothing needs reaching from inside.</p>
           <p>In the flattest middle of the crown, the male plug of a 40-pin GPIO extension ribbon seats in a pocket from below. Its 2&times;20 pins sit in a recessed well 1&nbsp;mm below the surface, so add-ons plug in from the top. The ribbon runs from the Pi's header up in front of the battery tray and twists under the crown into the plug, with at least 1.1&nbsp;mm clear all the way. A 20&nbsp;cm cable leaves slack. The Pi now sits with its GPIO header along the front edge, facing the eyes, and USB/Ethernet at the &minus;X end.</p>
-          <p>The handle is optional. <span class="mono">GeneHead_bridge_handle.stl</span> bolts onto the insert with the same 4 screw positions (M3&times;16 socket heads through bores in its posts). The grip arches 25&nbsp;mm over the GPIO well, so add-ons stay usable with the handle on. Without it, the countersunk screws sit flush. The old twist-lock handle is retired, since the slot is now filled.</p>
+          <p>The handle is optional. <span class="mono">bridge_handle.stl</span> bolts onto the insert with the same 4 screw positions (M3&times;16 socket heads through bores in its posts). The grip arches 25&nbsp;mm over the GPIO well, so add-ons stay usable with the handle on. Without it, the countersunk screws sit flush. The old twist-lock handle is retired, since the slot is now filled.</p>
         </div>
       </div>
       <div class="find">
         <span class="chip">New</span>
         <div>
           <h3>The cameras are the pupils</h3>
-          <p><span class="mono">GeneHead_pupil_ring.stl</span>, printed in black, glues onto the front of each bezel hub around the lens. Its bore is a cone, 7.5&nbsp;mm at the lens and 14.4&nbsp;mm at the lip, so the lens reads as a deep pupil. It still leaves the camera a clear 153&deg; field of view, and the lens clears the bore by 0.75&nbsp;mm. Print the camera bezels in black too, so the spoke carrying the ribbon cable disappears into the dark screen.</p>
+          <p><span class="mono">pupil_ring.stl</span>, printed in black, glues onto the front of each bezel hub around the lens. Its bore is a cone, 7.5&nbsp;mm at the lens and 14.4&nbsp;mm at the lip, so the lens reads as a deep pupil. It still leaves the camera a clear 153&deg; field of view, and the lens clears the bore by 0.75&nbsp;mm. Print the camera bezels in black too, so the spoke carrying the ribbon cable disappears into the dark screen.</p>
           <p>The screen graphics are built around the lens. The iris is a set of aperture blades that opens and closes with each expression and snaps briefly when the expression changes, like the camera refocusing. The pupil never moves off the lens: when the head looks around, the focus ring turns and the lids shift instead.</p>
         </div>
       </div>
@@ -489,14 +489,14 @@
         <span class="chip">New</span>
         <div>
           <h3>Battery tray, deck and bracket pads</h3>
-          <p><span class="mono">GeneHead_battery_tray.stl</span> has three cradle ribs, two strap windows for 22&nbsp;mm hook-and-loop straps, and a lead exit in the rear wall. It keeps at least 1.4&nbsp;mm off the dome. <span class="mono">GeneHead_battery_deck.stl</span> has two 30&nbsp;&times;&nbsp;46 converter bays and a 40&nbsp;&times;&nbsp;20 charger bay, each with zip-tie slots, and screws to the tray from above. <span class="mono">GeneHead_xl330_bracket_v2</span> and <span class="mono">_R_v2</span> add two 6&nbsp;mm screw pads on top of each bracket, clear of the servo by 1.5&nbsp;mm.</p>
+          <p><span class="mono">battery_tray.stl</span> has three cradle ribs, two strap windows for 22&nbsp;mm hook-and-loop straps, and a lead exit in the rear wall. It keeps at least 1.4&nbsp;mm off the dome. <span class="mono">battery_deck.stl</span> has two 30&nbsp;&times;&nbsp;46 converter bays and a 40&nbsp;&times;&nbsp;20 charger bay, each with zip-tie slots, and screws to the tray from above. <span class="mono">servo_bracket_L</span> and <span class="mono">_R_v2</span> add two 6&nbsp;mm screw pads on top of each bracket, clear of the servo by 1.5&nbsp;mm.</p>
         </div>
       </div>
       <div class="find">
         <span class="chip">Fixed</span>
         <div>
           <h3>Pi&nbsp;5 standoffs cut from 6 to 4&nbsp;mm</h3>
-          <p><span class="mono">GeneHead_pi_shelf_v6.stl</span>. The Pi mock now has a 16&nbsp;mm USB/Ethernet block that overhangs the board edge by 2.5&nbsp;mm. Even with that block at the end nearest a bracket, it clears by 1.4&nbsp;mm. The servos are now 7.4&nbsp;mm above the Pi's component block.</p>
+          <p><span class="mono">pi_shelf.stl</span>. The Pi mock now has a 16&nbsp;mm USB/Ethernet block that overhangs the board edge by 2.5&nbsp;mm. Even with that block at the end nearest a bracket, it clears by 1.4&nbsp;mm. The servos are now 7.4&nbsp;mm above the Pi's component block.</p>
         </div>
       </div>
   </section>
@@ -560,7 +560,7 @@
 
   <section class="sec method">
     <h2>How this was measured</h2>
-    <p>Every part is loaded from its current STL and placed with the transforms the parts were built with (pivot axis on X, origin on the axis). The skull is <span class="mono">GeneTop_v6_neck</span>, the jaw is <span class="mono">GeneBottom_v4_twindrive</span>, and the right hub and bezel are the left ones turned 180&deg;. Pairs are intersected with the Manifold kernel, which gives exact overlap volume and minimum gap.</p>
+    <p>Every part is loaded from its current STL and placed with the transforms the parts were built with (pivot axis on X, origin on the axis). The skull is <span class="mono">skull</span>, the jaw is <span class="mono">jaw</span>, and the right hub and bezel are the left ones turned 180&deg;. Pairs are intersected with the Manifold kernel, which gives exact overlap volume and minimum gap.</p>
     <p>The ROBOTIS STEP mesh of the XL330 isn't watertight, so the servos were checked as a solid envelope: the case, the output horn and the idler disc. The viewer still shows the real servo model. The Pi&nbsp;5, displays, cameras, speakers, cells and power boards are simple placeholder shapes (the <span class="mono">_MOCK</span> files), so clearances to them are only as good as those shapes.</p>
     <p>Overlaps under 0.01&nbsp;mm&sup3; were ignored as facet noise. The thrust pads were cut to hug the jaw's swept shape, and their outer edge touches the rotating jaw at the 14&nbsp;&micro;m level at a few angles.</p>
   </section>
@@ -1269,7 +1269,7 @@
 
   // ---------- mounting: on the neck, or the head standing on its jaw on a table ----------
   var onTable=false, NECK_PARTS=["neck","collar","neckbase","bearings","slipring"];
-  var TABLE_Z=-106.6;                          // flat underside of the jaw (GeneBottom_v4_twindrive), at rest
+  var TABLE_Z=-106.6;                          // flat underside of the jaw (jaw), at rest
   var table=new THREE.Mesh(new THREE.BoxGeometry(900,700,18),new THREE.MeshLambertMaterial({color:0x8a6d4e}));
   table.position.set(0,-120,TABLE_Z-9-0.05); table.layers.enable(1); table.visible=false; scene.add(table);
   // lowest point of everything that tips with the skull (all parts are in the head frame, untransformed)

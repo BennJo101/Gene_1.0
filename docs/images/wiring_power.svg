@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1090" width="1100" height="1090" font-family="Helvetica, Arial, sans-serif" font-size="14">
+  <title>Gene 1.0 - battery, BMS, charger and buck converters wiring</title>
+  <rect width="1100" height="1090" fill="#ffffff"/>
+  <text x="40" y="38" font-size="20" font-weight="bold" fill="#1a1a1a">Power: 2S2P pack → BMS → switch → 2 × 5 V buck, with USB-C charging</text>
+  <text x="40" y="60" font-size="13" fill="#555">Everything except the pack and the charge port sits on the battery deck. Red = positive, black = negative.</text>
+
+  <!-- USB-C panel port -->
+  <rect x="300" y="80" width="200" height="80" rx="8" fill="#f3f3f3" stroke="#555" stroke-width="2"/>
+  <text x="312" y="106" font-weight="bold" fill="#1a1a1a">USB-C charge port</text>
+  <text x="312" y="124" font-size="12" fill="#555">panel-mount extension, 5 V</text>
+  <text x="312" y="142" font-size="12" fill="#555">lower back of skull</text>
+  <g font-size="12" fill="#1a1a1a" text-anchor="end"><text x="494" y="104">VBUS</text><text x="494" y="154">GND</text></g>
+
+  <!-- Charger -->
+  <rect x="600" y="70" width="240" height="130" rx="8" fill="#fff3e0" stroke="#ef6c00" stroke-width="2"/>
+  <text x="660" y="98" font-weight="bold" fill="#e65100">2S USB-C charger</text>
+  <text x="660" y="116" font-size="12" fill="#ef6c00">5 V in → 8.4 V CC/CV out</text>
+  <text x="660" y="134" font-size="12" fill="#ef6c00">deck charger bay (≤ 40 × 20)</text>
+  <g font-size="12" fill="#1a1a1a"><text x="608" y="104">IN+</text><text x="608" y="154">IN−</text></g>
+  <g font-size="12" fill="#1a1a1a" text-anchor="middle"><text x="640" y="190">BAT−</text><text x="800" y="190">BAT+</text></g>
+
+  <g stroke-width="3" fill="none">
+    <line x1="500" y1="100" x2="600" y2="100" stroke="#d32f2f"/>
+    <line x1="500" y1="150" x2="600" y2="150" stroke="#1a1a1a"/>
+  </g>
+
+  <!-- Pack -->
+  <rect x="40" y="280" width="190" height="290" rx="10" fill="#e8f3ea" stroke="#2e7d32" stroke-width="2"/>
+  <text x="52" y="300" font-weight="bold" fill="#1b5e20">2S2P 18650 pack</text>
+  <rect x="60" y="310" width="140" height="62" rx="6" fill="#ffffff" stroke="#2e7d32"/>
+  <text x="130" y="336" font-size="13" text-anchor="middle" fill="#1a1a1a">cell group 2</text>
+  <text x="130" y="354" font-size="11" text-anchor="middle" fill="#555">2 × 18650 in parallel</text>
+  <rect x="60" y="478" width="140" height="62" rx="6" fill="#ffffff" stroke="#2e7d32"/>
+  <text x="130" y="504" font-size="13" text-anchor="middle" fill="#1a1a1a">cell group 1</text>
+  <text x="130" y="522" font-size="11" text-anchor="middle" fill="#555">2 × 18650 in parallel</text>
+  <g stroke-width="3" fill="none">
+    <path d="M130 372 V478" stroke="#2e7d32"/>
+    <path d="M200 320 H230" stroke="#d32f2f"/>
+    <path d="M130 425 H230" stroke="#ef8f00"/>
+    <path d="M200 530 H230" stroke="#1a1a1a"/>
+  </g>
+  <circle cx="130" cy="425" r="5" fill="#ef8f00"/>
+  <text x="52" y="562" font-size="11" fill="#555">7.2 V nom · 8.4 V full · 43–50 Wh</text>
+  <g font-size="12" fill="#1a1a1a" text-anchor="end"><text x="226" y="314">B+</text><text x="226" y="419">BM</text><text x="226" y="548">B−</text></g>
+
+  <!-- Pack to BMS, through XT30 and balance plug -->
+  <g stroke-width="3" fill="none">
+    <line x1="230" y1="320" x2="340" y2="320" stroke="#d32f2f"/>
+    <line x1="230" y1="425" x2="340" y2="425" stroke="#ef8f00"/>
+    <line x1="230" y1="530" x2="340" y2="530" stroke="#1a1a1a"/>
+  </g>
+  <g fill="#fff" stroke="#1a1a1a" stroke-width="1.5">
+    <rect x="270" y="311" width="12" height="18"/><rect x="282" y="311" width="12" height="18" fill="#ddd"/>
+    <rect x="270" y="521" width="12" height="18"/><rect x="282" y="521" width="12" height="18" fill="#ddd"/>
+    <rect x="272" y="418" width="20" height="14" fill="#ddd"/>
+  </g>
+  <g font-size="11" fill="#555" text-anchor="middle">
+    <text x="282" y="304">XT30</text><text x="282" y="514">XT30</text><text x="282" y="448">balance (JST-XH)</text>
+  </g>
+
+  <!-- BMS -->
+  <rect x="340" y="280" width="170" height="280" rx="8" fill="#e6effa" stroke="#1565c0" stroke-width="2"/>
+  <text x="445" y="390" font-weight="bold" text-anchor="middle" fill="#0d47a1">2S BMS</text>
+  <text x="445" y="452" font-size="12" text-anchor="middle" fill="#1565c0">HW-391, 20 A</text>
+  <text x="445" y="468" font-size="12" text-anchor="middle" fill="#1565c0">balancing</text>
+  <text x="445" y="484" font-size="12" text-anchor="middle" fill="#1565c0">deck BMS bay</text>
+  <g font-size="12" fill="#1a1a1a"><text x="348" y="314">B+</text><text x="348" y="419">BM</text><text x="348" y="548">B−</text></g>
+  <text x="502" y="324" font-size="12" text-anchor="end" fill="#1a1a1a">P+</text>
+  <text x="440" y="552" font-size="12" text-anchor="middle" fill="#1a1a1a">P−</text>
+
+  <!-- P+ line: charger junction, switch, fuse -->
+  <g stroke-width="3" fill="none" stroke="#d32f2f">
+    <path d="M510 330 H860"/>
+    <path d="M800 200 V330"/>
+    <path d="M930 330 H975 M1035 330 H1070 V610 H450 V815 M450 665 H520 M450 815 H520"/>
+    <line x1="864" y1="328" x2="922" y2="306"/>
+  </g>
+  <circle cx="800" cy="330" r="5" fill="#d32f2f"/>
+  <circle cx="450" cy="665" r="5" fill="#d32f2f"/>
+  <circle cx="860" cy="330" r="5" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+  <circle cx="930" cy="330" r="5" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+  <text x="895" y="282" font-size="13" font-weight="bold" text-anchor="middle" fill="#1a1a1a">power switch</text>
+  <text x="895" y="298" font-size="11" text-anchor="middle" fill="#555">≥ 10 A DC · location TBD</text>
+  <rect x="965" y="296" width="80" height="68" rx="6" fill="none" stroke="#888" stroke-dasharray="5 4"/>
+  <rect x="975" y="321" width="60" height="18" rx="3" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+  <line x1="975" y1="330" x2="1035" y2="330" stroke="#1a1a1a" stroke-width="1"/>
+  <text x="1005" y="312" font-size="11" text-anchor="middle" fill="#1a1a1a">fuse 10 A</text>
+  <text x="1005" y="358" font-size="10" text-anchor="middle" fill="#888">recommended</text>
+  <text x="650" y="322" font-size="12" fill="#d32f2f">P+ · 18 AWG</text>
+
+  <!-- Negative: charger BAT- (hops over P+) to P- bus -->
+  <g stroke-width="3" fill="none" stroke="#1a1a1a">
+    <path d="M640 200 V324 A6 6 0 0 0 640 336 V580 H430"/>
+    <path d="M430 560 V865 H520"/>
+    <path d="M430 715 H444 A6 6 0 0 1 456 715 H520"/>
+  </g>
+  <circle cx="430" cy="580" r="5" fill="#1a1a1a"/>
+  <circle cx="430" cy="715" r="5" fill="#1a1a1a"/>
+  <text x="420" y="640" font-size="12" text-anchor="end" fill="#1a1a1a">P− · 18 AWG</text>
+
+  <!-- Bucks -->
+  <rect x="520" y="640" width="180" height="100" rx="8" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
+  <text x="610" y="682" font-weight="bold" text-anchor="middle" fill="#4a148c">Buck A: Pi rail</text>
+  <text x="610" y="700" font-size="12" text-anchor="middle" fill="#7b1fa2">Pololu D36V50F5, 5 V 5 A</text>
+  <g font-size="12" fill="#1a1a1a"><text x="526" y="660">VIN</text><text x="526" y="734">GND</text></g>
+  <g font-size="12" fill="#1a1a1a" text-anchor="end"><text x="694" y="660">VOUT</text><text x="694" y="734">GND</text></g>
+
+  <rect x="520" y="790" width="180" height="100" rx="8" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
+  <text x="610" y="832" font-weight="bold" text-anchor="middle" fill="#4a148c">Buck B: servo rail</text>
+  <text x="610" y="850" font-size="12" text-anchor="middle" fill="#7b1fa2">Pololu D36V50F5, 5 V 5 A</text>
+  <g font-size="12" fill="#1a1a1a"><text x="526" y="810">VIN</text><text x="526" y="884">GND</text></g>
+  <g font-size="12" fill="#1a1a1a" text-anchor="end"><text x="694" y="810">VOUT</text><text x="694" y="884">GND</text></g>
+
+  <!-- Buck outputs -->
+  <g stroke-width="3" fill="none">
+    <path d="M700 665 H760" stroke="#d32f2f"/><path d="M700 715 H760" stroke="#1a1a1a"/>
+    <path d="M700 815 H760" stroke="#d32f2f"/><path d="M700 865 H760" stroke="#1a1a1a"/>
+  </g>
+  <rect x="760" y="630" width="310" height="120" rx="8" fill="#fafafa" stroke="#999"/>
+  <text x="772" y="652" font-weight="bold" fill="#1a1a1a">5 V Pi rail (~3.5 A peak)</text>
+  <g font-size="12" fill="#1a1a1a">
+    <text x="772" y="674">→ Pi 5 USB-C (pigtail, 250 mm, 20–22 AWG)</text>
+    <text x="772" y="694">→ 2 × eye display micro-USB leads</text>
+    <text x="772" y="714">→ amp Vin, via Pi header pin 4 (audio diagram)</text>
+    <text x="772" y="734" fill="#555">→ crown flashlight, via the GPIO ribbon 5 V</text>
+  </g>
+  <rect x="760" y="780" width="310" height="120" rx="8" fill="#fafafa" stroke="#999"/>
+  <text x="772" y="802" font-weight="bold" fill="#1a1a1a">5 V servo rail (~3 A stall)</text>
+  <g font-size="12" fill="#1a1a1a">
+    <text x="772" y="824">→ XL330 VDD + GND, fed in at servo R</text>
+    <text x="772" y="842" fill="#555">   (200 mm, 18 AWG, spliced into the</text>
+    <text x="772" y="858" fill="#555">   servo L → servo R DYNAMIXEL lead)</text>
+    <text x="772" y="880">U2D2 → servo L carries DATA + GND only</text>
+  </g>
+
+  <!-- Notes -->
+  <rect x="40" y="920" width="1030" height="156" rx="8" fill="#fff8e1" stroke="#f9a825"/>
+  <g font-size="13" fill="#1a1a1a">
+    <text x="56" y="944">1. The charger joins at P+/P− (after the BMS, before the switch): the pack charges with Gene switched off, and the BMS still guards it.</text>
+    <text x="56" y="966">2. Many 2S BMS boards have no P+ pad and switch only the negative side. Then P+ is just B+: take the switch/charger feed from B+.</text>
+    <text x="56" y="988">3. All negatives meet at the P− bus. The Pi and servo grounds also join through the U2D2's USB, so keep them on the same pack.</text>
+    <text x="56" y="1010">4. D36V50F5: leave EN and PG unconnected (EN is pulled up on board). It's a fixed 5 V part, so there's no trim pot.</text>
+    <text x="56" y="1032">5. The Pi gets 5 V without USB-PD, so set usb_max_current_enable=1 in config.txt, or its USB ports cap at 600 mA.</text>
+    <text x="56" y="1054">6. First power-up: bucks with no loads, check 5.0 V and polarity with a meter, then plug in the Pi and the servos.</text>
+  </g>
+</svg>

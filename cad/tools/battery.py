@@ -102,8 +102,8 @@ bms=bx(-24.0,24.0,-18.6-10.0,-18.6+10.0,DECK_Z+DECK_T,DECK_Z+DECK_T+3.0)
 chg=bx(-18,18,3.5-9,3.5+9,DECK_Z+DECK_T,DECK_Z+DECK_T+6)
 
 if __name__=="__main__":
-    for nm,m in (("GeneHead_battery_tray.stl",tray),("GeneHead_battery_deck.stl",deck),
-                 ("GeneHead_xl330_bracket_v2.stl",out["L"]),("GeneHead_xl330_bracket_R_v2.stl",out["R"]),
-                 ("GeneHead_battery_2S2P_MOCK.stl",cells),("GeneHead_power_boards_MOCK.stl",U([bucks,bms,chg]))):
+    for nm,m in (("battery_tray.stl",tray),("battery_deck.stl",deck),
+                 ("servo_bracket_L.stl",out["L"]),("servo_bracket_R.stl",out["R"]),
+                 ("mocks/battery_2S2P.stl",cells),("mocks/power_boards.stl",U([bucks,bms,chg]))):
         m.export(os.path.join(OUT,nm))
         print(f"{nm:34s} watertight={m.is_watertight} bodies={m.body_count} vol={m.volume/1000:6.2f}cm3 bounds {np.round(m.bounds,1).tolist()}")

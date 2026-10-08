@@ -39,17 +39,17 @@ cuts.append(bx(LIP_X0-0.1, SL_L, -LIP_T-0.1, 1.0, -LANE_W/2+LIP, LANE_W/2-LIP)) 
 bez=D(bez,U(cuts))
 bodies=[b for b in bez.split(only_watertight=False) if b.volume>50]
 bez=U(bodies) if len(bodies)>1 else bodies[0]
-bez.export(os.path.join(OUT,"GeneHead_eye_camera_bezel.stl"))
+bez.export(os.path.join(OUT,"camera_bezel.stl"))
 print(f"bezel v3 (Arducam): pocket {CAM_W} x {CAM_L} (lens on axis, extra length towards the cable), spoke {SPOKE_W} wide")
 print(f"   lane {LANE_W} wide x {LANE_D} deep from the rear face, {LANE_W-2*LIP:.1f} mm mouth from r={LIP_X0} outwards")
 print(f"   walls: pocket {(SPOKE_W-CAM_W)/2:.2f} each side, lane {(SPOKE_W-LANE_W)/2:.2f} each side, {BEZ_T-LANE_D:.2f} in front of the lane")
 print(f"   watertight={bez.is_watertight} bodies={bez.body_count} vol={bez.volume/1000:.2f}cm3 extents={np.round(bez.extents,2)}")
 
 # fit-check stand-in for the Arducam module (not printed): head + lens like the old mock, plus the board tail
-cam=trimesh.load(os.path.join(OUT,"GeneHead_eye_camera_MOCK.stl"))
+cam=trimesh.load(os.path.join(OUT,"mocks/camera.stl"))
 y1=cam.bounds[1][1]
 tail=bx(4.25, -CAM_W/2+CAM_L-0.2, y1-1.0, y1, -4.25, 4.25)
 flex=bx(-CAM_W/2+CAM_L-0.2, SL_L+4.0, y1-1.0, y1-0.7, -3.0, 3.0)   # lies in the lane under the lips
 cam=U([cam,tail,flex])
-cam.export(os.path.join(OUT,"GeneHead_eye_camera_MOCK.stl"))
+cam.export(os.path.join(OUT,"mocks/camera.stl"))
 print(f"   camera MOCK now includes the board tail and 6 mm flex: extents {np.round(cam.extents,2)}")

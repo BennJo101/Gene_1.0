@@ -13,7 +13,7 @@ def to_mf(t): return mf.Manifold(mf.Mesh(vert_properties=np.asarray(t.vertices,n
 def to_tm(m): g=m.to_mesh(); return trimesh.Trimesh(g.vert_properties[:,:3],g.tri_verts)
 
 def build():
-    fn=os.path.join(OUT,"GeneTop_v7_skull.stl")
+    fn=os.path.join(OUT,"skull.stl")
     bak=os.path.join(OUT,"tools","retired","GeneTop_v7_before_eye_mirror.stl")
     if not os.path.exists(bak): shutil.copy(fn,bak)
     sh=trimesh.load(bak); sh.apply_translation(SHIFT)

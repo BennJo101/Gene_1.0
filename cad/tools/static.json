@@ -2,13 +2,13 @@
  {
   "a": "handle",
   "b": "flashlight",
-  "overlap": 3421.826,
-  "depth": 2.606,
+  "overlap": 3412.811,
+  "depth": 2.605,
   "gap": 0.0,
   "where": [
    1.2,
    -55.6,
-   83.5
+   83.6
   ]
  },
  {
@@ -131,6 +131,13 @@
  {
   "a": "shell",
   "b": "shelf",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 0.0
+ },
+ {
+  "a": "shell",
+  "b": "usbc_port",
   "overlap": 0.0,
   "depth": 0.0,
   "gap": 0.0
@@ -297,6 +304,20 @@
   "gap": 0.0
  },
  {
+  "a": "shell",
+  "b": "carrier_L",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 0.05
+ },
+ {
+  "a": "shell",
+  "b": "carrier_R",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 0.05
+ },
+ {
   "a": "bezel_L",
   "b": "camera_L",
   "overlap": 0.0,
@@ -312,14 +333,14 @@
  },
  {
   "a": "shell",
-  "b": "bezel_R",
+  "b": "bezel_L",
   "overlap": 0.0,
   "depth": 0.0,
-  "gap": 0.096
+  "gap": 0.1
  },
  {
   "a": "shell",
-  "b": "bezel_L",
+  "b": "bezel_R",
   "overlap": 0.0,
   "depth": 0.0,
   "gap": 0.1
@@ -351,20 +372,6 @@
   "overlap": 0.0,
   "depth": 0.0,
   "gap": 0.1
- },
- {
-  "a": "shell",
-  "b": "carrier_R",
-  "overlap": 0.0,
-  "depth": 0.0,
-  "gap": 0.107
- },
- {
-  "a": "shell",
-  "b": "carrier_L",
-  "overlap": 0.0,
-  "depth": 0.0,
-  "gap": 0.109
  },
  {
   "a": "neck",
@@ -465,6 +472,20 @@
   "gap": 0.66
  },
  {
+  "a": "shell",
+  "b": "camera_L",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 0.7
+ },
+ {
+  "a": "shell",
+  "b": "camera_R",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 0.7
+ },
+ {
   "a": "camera_L",
   "b": "pupil_L",
   "overlap": 0.0,
@@ -515,17 +536,17 @@
  },
  {
   "a": "shell",
-  "b": "retainer_R",
-  "overlap": 0.0,
-  "depth": 0.0,
-  "gap": 2.457
- },
- {
-  "a": "shell",
   "b": "retainer_L",
   "overlap": 0.0,
   "depth": 0.0,
-  "gap": 2.459
+  "gap": 2.4
+ },
+ {
+  "a": "shell",
+  "b": "retainer_R",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 2.4
  },
  {
   "a": "neck_base",
@@ -543,17 +564,17 @@
  },
  {
   "a": "shell",
-  "b": "display_R",
-  "overlap": 0.0,
-  "depth": 0.0,
-  "gap": 2.657
- },
- {
-  "a": "shell",
   "b": "display_L",
   "overlap": 0.0,
   "depth": 0.0,
-  "gap": 2.659
+  "gap": 2.6
+ },
+ {
+  "a": "shell",
+  "b": "display_R",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 2.6
  },
  {
   "a": "shell",
@@ -578,21 +599,7 @@
  },
  {
   "a": "shell",
-  "b": "camera_L",
-  "overlap": 0.0,
-  "depth": 0.0,
-  "gap": 3.0
- },
- {
-  "a": "shell",
   "b": "pupil_L",
-  "overlap": 0.0,
-  "depth": 0.0,
-  "gap": 3.0
- },
- {
-  "a": "shell",
-  "b": "camera_R",
   "overlap": 0.0,
   "depth": 0.0,
   "gap": 3.0
@@ -838,6 +845,13 @@
  {
   "a": "jaw",
   "b": "battery",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 3.0
+ },
+ {
+  "a": "jaw",
+  "b": "usbc_port",
   "overlap": 0.0,
   "depth": 0.0,
   "gap": 3.0
