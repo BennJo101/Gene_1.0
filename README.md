@@ -43,6 +43,7 @@ Gene 1.0/
 │   └── head_sim.html       Self-contained interactive sim: open it in a browser
 └── software/
     └── pi/                 Raspberry Pi audio config and volume control
+        └── gene/           Gene's Pi software: voice, eyes, cameras, memory, self-upgrades, web control panel
 ```
 
 ## Build it

@@ -1,0 +1,14 @@
+[Unit]
+Description=Gene - web control panel (cameras, face, say, mouth, live upgrades) on port 8080
+StartLimitIntervalSec=0
+
+[Service]
+WorkingDirectory=%h/gene
+Environment=WAYLAND_DISPLAY=wayland-0
+# SYSTEM python: Pillow for the camera JPEGs (the venv has none)
+ExecStart=/usr/bin/python3 -u %h/gene/gene_teleop.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

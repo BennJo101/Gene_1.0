@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gene control</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0a0e11; --panel:#11181d; --panel2:#0d1317; --line:#1f2b33; --line2:#2a3943;
+  --text:#d9e5ea; --dim:#8197a2; --faint:#566b76;
+  --accent:#2bd4b0; --accent-ink:#03231c; --warn:#ffb547; --bad:#ff7a70; --you:#3a7bd5;
+  --r:14px; --mono:ui-monospace,"Cascadia Mono","JetBrains Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,textarea,select{font:inherit;color:inherit}
+header{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:12px 20px;background:rgba(10,14,17,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.14em}
+.brand .dot{width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid var(--line2);border-radius:999px;
+  font-size:13px;color:var(--dim);white-space:nowrap}
+.chip i{width:8px;height:8px;border-radius:50%;background:var(--faint)}
+.chip.ok i{background:var(--accent)} .chip.warn i{background:var(--warn)} .chip.bad i{background:var(--bad)}
+.chip.talk{color:var(--accent);border-color:var(--accent)}
+.chip.upg{color:var(--warn);border-color:var(--warn)}
+main{display:grid;gap:16px;padding:16px 20px 40px;max-width:1500px;margin:0 auto;
+  grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);grid-template-areas:"eyes say" "face chat" "upg upg"}
+@media (max-width:1000px){main{grid-template-columns:minmax(0,1fr);grid-template-areas:"eyes" "face" "say" "chat" "upg";padding:12px 16px 32px}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;min-width:0}
+.card h2{margin:0 0 12px;font-size:13px;font-weight:650;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);
+  display:flex;align-items:center;gap:10px}
+.card h2 .aside{margin-left:auto;font-weight:500;letter-spacing:0;text-transform:none;color:var(--faint);font-size:12.5px}
+#eyesCard{grid-area:eyes} #faceCard{grid-area:face} #sayCard{grid-area:say} #chatCard{grid-area:chat} #upgCard{grid-area:upg}
+
+/* cameras */
+.cams{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cam{position:relative;aspect-ratio:3/4;background:#05080a;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.cam img{width:100%;height:100%;object-fit:cover;display:block}
+.cam .lab{position:absolute;left:10px;top:8px;font-size:12px;padding:2px 8px;border-radius:6px;background:rgba(0,0,0,.55)}
+.cam .none{position:absolute;inset:0;display:grid;place-items:center;color:var(--faint);font-size:14px;text-align:center;padding:12px}
+.ears{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px;padding:10px 12px;background:var(--panel2);
+  border:1px solid var(--line);border-radius:12px}
+.ears .meter{flex:1;min-width:120px;height:8px;border-radius:99px;background:#05080a;overflow:hidden}
+.ears .meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),#ffe066 75%,var(--bad));transition:width .08s}
+.ears input[type=range]{width:110px;accent-color:var(--accent)}
+.ears .mic{font-size:12.5px;color:var(--faint);width:100%}
+.cam.closed::after{content:"eye closed";position:absolute;right:10px;top:8px;font-size:12px;padding:2px 8px;border-radius:6px;
+  background:rgba(255,181,71,.85);color:#241600}
+
+/* face */
+.face{background:radial-gradient(ellipse at 50% 30%,#1a252c 0%,#0b1013 70%);border:1px solid var(--line);border-radius:18px;
+  padding:16px 12px 14px;display:flex;flex-direction:column;align-items:center;gap:10px}
+#screens{width:min(100%,520px);aspect-ratio:2/1;display:block}
+#mouth{width:min(70%,340px);aspect-ratio:4/1;display:block}
+.facebar{display:flex;gap:10px;align-items:center;color:var(--dim);font-size:13px}
+.facebar b{color:var(--text);font-weight:600}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.sub{font-size:12px;color:var(--faint);letter-spacing:.08em;text-transform:uppercase;margin:14px 0 6px}
+.btn{border:1px solid var(--line2);background:var(--panel2);border-radius:9px;padding:7px 12px;cursor:pointer;line-height:1.2}
+.btn:hover{border-color:var(--accent)}
+.btn.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:650}
+.btn.danger{border-color:var(--bad);color:var(--bad)}
+.btn.danger.armed{background:var(--bad);color:#2a0400}
+.btn:disabled{opacity:.45;cursor:default}
+.slider{display:flex;align-items:center;gap:12px;width:100%}
+.slider input{flex:1;accent-color:var(--accent)}
+.slider output{font-family:var(--mono);font-size:13px;color:var(--dim);min-width:52px;text-align:right}
+.note{font-size:12.5px;color:var(--faint);margin:6px 0 0}
+
+/* say */
+textarea,input[type=text]{width:100%;background:var(--panel2);border:1px solid var(--line2);border-radius:10px;padding:10px 12px;resize:vertical}
+textarea:focus,input[type=text]:focus,select:focus{outline:2px solid color-mix(in srgb,var(--accent) 60%,transparent);outline-offset:0;border-color:transparent}
+select{background:var(--panel2);border:1px solid var(--line2);border-radius:9px;padding:7px 10px}
+.seg{display:inline-flex;border:1px solid var(--line2);border-radius:9px;overflow:hidden}
+.seg button{border:0;background:var(--panel2);padding:7px 12px;cursor:pointer}
+.seg button.on{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.recent{display:flex;flex-direction:column;gap:6px;margin-top:10px;max-height:150px;overflow:auto}
+.recent button{text-align:left;border:1px dashed var(--line2);background:transparent;border-radius:8px;padding:6px 10px;
+  color:var(--dim);cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.recent button:hover{color:var(--text);border-color:var(--accent)}
+
+/* chat */
+#chat{height:420px;overflow:auto;display:flex;flex-direction:column;gap:8px;padding-right:4px}
+.msg{max-width:88%;padding:8px 12px;border-radius:12px;white-space:pre-wrap;word-wrap:break-word}
+.msg small{display:block;font-size:11.5px;color:var(--faint);margin-bottom:2px}
+.msg.gene{background:#13322c;border:1px solid #1d4a40;align-self:flex-start}
+.msg.heard{background:#14243a;border:1px solid #1f3a5e;align-self:flex-end}
+.msg.sys{align-self:center;background:transparent;color:var(--faint);font-size:12.5px;padding:2px 8px;max-width:100%}
+.raw{font-family:var(--mono);font-size:12px;color:var(--dim);white-space:pre-wrap;word-break:break-word}
+.toggle{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--dim);cursor:pointer;text-transform:none;letter-spacing:0;font-weight:500}
+
+/* upgrades */
+.upghead{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.bar{flex:1;min-width:180px;height:10px;border-radius:99px;background:var(--panel2);border:1px solid var(--line);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),#7af0d6);transition:width .6s}
+.upgstate{font-weight:600}
+.upggrid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;margin-top:12px}
+@media (max-width:1000px){.upggrid{grid-template-columns:minmax(0,1fr)}}
+#live{height:520px;overflow:auto;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px;
+  display:flex;flex-direction:column;gap:8px}
+#live .empty{margin:auto;color:var(--faint);text-align:center;max-width:380px}
+.ev{border-radius:10px;padding:8px 12px}
+.ev.claude{background:#16222a;border:1px solid var(--line2)}
+.ev.claude .who{color:var(--accent);font-size:12px;font-weight:650;margin-bottom:2px}
+.ev.you{background:#14243a;border:1px solid #1f3a5e;align-self:flex-end;max-width:85%}
+.ev.you .who{color:#8ab4ff;font-size:12px;font-weight:650}
+.ev.stage{align-self:center;color:var(--warn);font-size:12.5px;padding:2px 8px}
+.ev.start{border:1px solid var(--line2);background:transparent}
+.ev.start b{color:var(--accent)}
+.ev.final{border:1px solid var(--accent);background:#0f2a24}
+.ev.end{align-self:center;font-size:13px;padding:4px 12px;border-radius:99px;border:1px solid var(--line2)}
+.ev.end.ok{border-color:var(--accent);color:var(--accent)} .ev.end.bad{border-color:var(--bad);color:var(--bad)}
+.tool{font-family:var(--mono);font-size:12.5px;border-left:2px solid var(--line2);padding:4px 10px;color:var(--dim)}
+.tool summary{cursor:pointer;list-style:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tool summary::-webkit-details-marker{display:none}
+.tool summary b{color:var(--text);font-weight:600;margin-right:6px}
+.tool pre{margin:6px 0 2px;white-space:pre-wrap;word-break:break-word;max-height:320px;overflow:auto;color:var(--dim)}
+.tool .out{border-top:1px dashed var(--line2);margin-top:6px;padding-top:6px}
+.tool.err{border-left-color:var(--bad)}
+.md code{font-family:var(--mono);font-size:.9em;background:#0a1013;border:1px solid var(--line);border-radius:5px;padding:0 4px}
+.md p{margin:0 0 6px} .md p:last-child{margin:0}
+.announce{display:block;margin-top:6px;padding:6px 10px;border-radius:8px;background:#0a1d19;color:#9ff3df}
+.composer{display:flex;gap:8px;margin-top:10px;align-items:flex-end}
+.composer textarea{min-height:44px;max-height:160px}
+.hist{display:flex;flex-direction:column;gap:8px;max-height:580px;overflow:auto}
+.hist details{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.hist summary{cursor:pointer;font-size:13.5px}
+.hist .meta{font-size:12px;color:var(--faint);margin-top:2px}
+.hist .said{font-size:12.5px;color:var(--dim);white-space:pre-wrap;margin-top:6px}
+.res-ok{color:var(--accent)} .res-bad{color:var(--bad)} .res-none{color:var(--dim)}
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(20px);opacity:0;transition:.25s;
+  background:#1c262d;border:1px solid var(--line2);padding:10px 16px;border-radius:10px;z-index:9;pointer-events:none;max-width:calc(100vw - 32px)}
+#toast.show{opacity:1;transform:translateX(-50%)}
+#toast.bad{border-color:var(--bad);color:#ffc9c4}
+.conn{position:fixed;inset:auto 16px 16px auto;padding:6px 12px;border-radius:8px;background:var(--bad);color:#2a0400;font-size:13px;display:none}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><span class="dot" id="brandDot"></span>GENE</div>
+  <div class="chips">
+    <span class="chip" id="chipActivity"><i></i><span>connecting…</span></span>
+    <span class="chip" id="chipVolume"><i></i><span>volume –</span></span>
+    <span class="chip" id="svc-gene"><i></i>voice loop</span>
+    <span class="chip" id="svc-gene-eyes"><i></i>eyes</span>
+    <span class="chip" id="svc-gene-cameras"><i></i>cameras</span>
+    <span class="chip" id="svc-gene-stt"><i></i>speech-to-text</span>
+  </div>
+</header>
+
+<main>
+  <section class="card" id="eyesCard">
+    <h2>Through Gene's eyes &amp; ears <span class="aside" id="camFps">–</span></h2>
+    <div class="cams">
+      <div class="cam" id="cam-left"><img alt="Gene's left eye camera"><div class="none">Waiting for the left eye…</div><span class="lab">Left eye</span></div>
+      <div class="cam" id="cam-right"><img alt="Gene's right eye camera"><div class="none">Waiting for the right eye…</div><span class="lab">Right eye</span></div>
+    </div>
+    <div class="ears">
+      <button class="btn" id="listenBtn">🎧 Listen</button>
+      <div class="meter" title="Mic level"><i id="micLevel"></i></div>
+      <label class="toggle">vol <input type="range" id="listenVol" min="0" max="4" step="0.1" value="1.5" aria-label="Listening volume"></label>
+      <div class="mic" id="micInfo">Hear what Gene's microphone hears, live (about a quarter of a second behind).</div>
+    </div>
+  </section>
+
+  <section class="card" id="faceCard">
+    <h2>Expression <span class="aside">as seen from the front</span></h2>
+    <div class="face">
+      <canvas id="screens" width="960" height="480"></canvas>
+      <canvas id="mouth" width="680" height="170"></canvas>
+      <div class="facebar">face <b id="faceName">–</b> · jaw <b id="jawDeg">0.0°</b> · <span id="saying" style="color:var(--dim)"></span></div>
+    </div>
+    <div class="sub">Set his face</div>
+    <div class="row" id="faces"></div>
+    <div class="sub">Eyelids</div>
+    <div class="row">
+      <button class="btn" data-lid="close" data-which="left">Close left</button>
+      <button class="btn" data-lid="close" data-which="right">Close right</button>
+      <button class="btn" data-lid="close" data-which="both">Close both</button>
+      <button class="btn" data-lid="wink" data-which="left">Wink left</button>
+      <button class="btn" data-lid="wink" data-which="right">Wink right</button>
+      <button class="btn" data-lid="open" data-which="both">Open</button>
+    </div>
+    <div class="sub">Mouth</div>
+    <div class="slider"><input type="range" id="jaw" min="0" max="30" step="0.5" value="0" aria-label="Jaw opening in degrees"><output id="jawOut">0°</output></div>
+    <div class="row" style="margin-top:8px">
+      <button class="btn" id="flap">Flap (talk motion)</button>
+    </div>
+    <p class="note">The jaw servos aren't fitted yet, so this moves the jaw on this page and writes the target to <code>state/jaw.json</code> for the servo driver. When he speaks, the mouth follows his visemes.</p>
+  </section>
+
+  <section class="card" id="sayCard">
+    <h2>Make him say</h2>
+    <textarea id="sayText" rows="3" placeholder="Type what Gene should say… (Enter to send, Shift+Enter for a new line)"></textarea>
+    <div class="row" style="margin-top:10px">
+      <select id="sayFace" aria-label="Face while speaking"><option value="">face: keep</option></select>
+      <div class="seg" id="sayStyle" role="group" aria-label="Voice">
+        <button data-style="" class="on">normal</button><button data-style="loud">loud</button><button data-style="meek">meek</button>
+      </div>
+      <button class="btn primary" id="sayBtn" style="margin-left:auto">Say it</button>
+    </div>
+    <div class="recent" id="recent"></div>
+  </section>
+
+  <section class="card" id="chatCard">
+    <h2>Conversation <span class="aside"><label class="toggle"><input type="checkbox" id="rawLog"> full log</label></span></h2>
+    <div id="chat"></div>
+  </section>
+
+  <section class="card" id="upgCard">
+    <h2>Self-upgrades <span class="aside" id="upgAside"></span></h2>
+    <div class="upghead">
+      <span class="upgstate" id="upgState">Idle</span>
+      <div class="bar"><i id="upgBar"></i></div>
+      <span id="upgPct" style="font-family:var(--mono);color:var(--dim)">–</span>
+      <button class="btn danger" id="stopBtn" disabled>Stop &amp; undo</button>
+    </div>
+    <div class="upggrid">
+      <div>
+        <div id="live"><div class="empty">When Gene upgrades himself, you'll see Claude Code working here, step by step, and can talk to it.</div></div>
+        <div class="composer">
+          <textarea id="upgText" rows="2" placeholder="Ask Gene to upgrade himself…"></textarea>
+          <button class="btn primary" id="upgBtn">Start upgrade</button>
+        </div>
+        <p class="note" id="upgNote">Starts Claude Code on the Pi, the same way “Gene, upgrade yourself to …” does. Gene restarts after it, and rolls back if he doesn't come up.</p>
+      </div>
+      <div>
+        <div class="sub" style="margin-top:0">Recent upgrades</div>
+        <div class="hist" id="hist"></div>
+      </div>
+    </div>
+  </section>
+</main>
+<div id="toast"></div>
+<div class="conn" id="conn">Reconnecting to Gene…</div>
+
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let FACES = [], UPSIDE = true, JAW_MAX = 30, ST = null;
+
+/* ---- server clock (for lip sync) ---- */
+const offs = [];
+function clock(now){ offs.push(now*1000 - Date.now()); if (offs.length > 30) offs.shift(); }
+const serverNow = () => (Date.now() + (offs.length ? Math.max(...offs) : 0)) / 1000;
+
+/* ---- calls ---- */
+async function post(path, body){
+  const r = await fetch(path, {method:"POST", headers:{"Content-Type":"application/json","X-Gene":"1"}, body:JSON.stringify(body||{})});
+  if (r.status === 401){ location.href = "/login"; throw new Error("log in"); }
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok){ toast(d.error || "Didn't work (" + r.status + ")", true); throw new Error(d.error); }
+  return d;
+}
+let toastT;
+function toast(msg, bad){ const t = $("#toast"); t.textContent = msg; t.className = "show" + (bad ? " bad" : ""); clearTimeout(toastT); toastT = setTimeout(() => t.className = "", 2800); }
+
+/* ---- cameras ---- */
+const camStats = {left:[], right:[]};
+async function camLoop(side){
+  const box = $("#cam-" + side), img = box.querySelector("img"), none = box.querySelector(".none");
+  let url = null;
+  for (;;){
+    if (document.hidden){ await sleep(500); continue; }
+    try {
+      const r = await fetch(`/cam/${side}.jpg?${Date.now()}`, {cache:"no-store"});
+      if (r.status === 401){ location.href = "/login"; return; }
+      if (r.ok){
+        const b = await r.blob(), u = URL.createObjectURL(b);
+        await new Promise(res => { img.onload = img.onerror = res; img.src = u; });
+        if (url) URL.revokeObjectURL(url); url = u;
+        none.style.display = "none"; img.style.display = "";
+        camStats[side].push(performance.now()); if (camStats[side].length > 20) camStats[side].shift();
+        await sleep(60);
+      } else { none.style.display = ""; img.style.display = "none"; none.textContent = `No picture from the ${side} eye camera.`; await sleep(1500); }
+    } catch(e){ await sleep(1500); }
+  }
+}
+setInterval(() => {
+  const f = s => { const a = camStats[s].filter(t => performance.now() - t < 3000); return a.length / 3; };
+  $("#camFps").textContent = `${f("left").toFixed(0)} / ${f("right").toFixed(0)} fps`;
+}, 1000);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+/* ---- ears: Gene's mic, raw 16 kHz mono s16le from /mic.pcm, played through Web Audio ---- */
+let ac = null, earGain = null, earAbort = null;
+const listenVol = $("#listenVol");
+try { listenVol.value = localStorage.getItem("gene-listen-vol") || listenVol.value; } catch(e){}
+listenVol.oninput = () => { if (earGain) earGain.gain.value = +listenVol.value; try { localStorage.setItem("gene-listen-vol", listenVol.value); } catch(e){} };
+async function listen(){
+  ac = ac || new AudioContext();
+  await ac.resume();
+  if (!earGain){ earGain = ac.createGain(); earGain.connect(ac.destination); }
+  earGain.gain.value = +listenVol.value;
+  earAbort = new AbortController();
+  $("#listenBtn").classList.add("on"); $("#listenBtn").textContent = "🎧 Listening… (stop)";
+  let next = 0, carry = null;
+  try {
+    const r = await fetch("/mic.pcm", {signal:earAbort.signal, cache:"no-store"});
+    if (r.status === 401){ location.href = "/login"; return; }
+    if (!r.ok) throw new Error("no mic stream");
+    const rate = +(r.headers.get("X-Sample-Rate") || 16000), rd = r.body.getReader();
+    for (;;){
+      const {value, done} = await rd.read();
+      if (done) break;
+      let bytes = value;
+      if (carry){ const b = new Uint8Array(carry.length + bytes.length); b.set(carry); b.set(bytes, carry.length); bytes = b; carry = null; }
+      if (bytes.length % 2){ carry = bytes.slice(-1); bytes = bytes.subarray(0, bytes.length - 1); }
+      const n = bytes.length / 2; if (!n) continue;
+      const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.length);
+      const buf = ac.createBuffer(1, n, rate), ch = buf.getChannelData(0);
+      let peak = 0;
+      for (let i = 0; i < n; i++){ const v = dv.getInt16(2 * i, true) / 32768; ch[i] = v; const a = Math.abs(v); if (a > peak) peak = a; }
+      const src = ac.createBufferSource(); src.buffer = buf; src.connect(earGain);
+      const now = ac.currentTime;
+      if (next < now + 0.03 || next > now + 0.8) next = now + 0.15;     // start / fell behind / drifted: re-sync
+      src.start(next); next += buf.duration;
+      $("#micLevel").style.width = Math.min(100, peak * 140) + "%";
+    }
+  } catch(e){ if (e.name !== "AbortError") toast("Lost Gene's mic stream", true); }
+  stopListening();
+}
+function stopListening(){
+  if (earAbort){ earAbort.abort(); earAbort = null; }
+  $("#listenBtn").classList.remove("on"); $("#listenBtn").textContent = "🎧 Listen"; $("#micLevel").style.width = "0";
+}
+$("#listenBtn").onclick = () => earAbort ? stopListening() : listen();
+
+/* ---- eye screens ---- */
+const scr = $("#screens"), sctx = scr.getContext("2d");
+let shot = null;
+async function screensLoop(){
+  for (;;){
+    if (document.hidden){ await sleep(500); continue; }
+    try {
+      const r = await fetch("/screens.jpg?" + Date.now(), {cache:"no-store"});
+      if (r.ok){ shot = await createImageBitmap(await r.blob()); drawScreens(); }
+      else { shot = null; drawScreens(); }
+    } catch(e){}
+    await sleep(350);
+  }
+}
+function drawScreens(){
+  const W = scr.width, H = scr.height;
+  sctx.clearRect(0, 0, W, H);
+  const n = shot ? Math.max(1, Math.round(shot.width / shot.height)) : 2;
+  const cell = Math.min(W / n, H), pad = cell * 0.04;
+  for (let i = 0; i < n; i++){
+    const cx = (W - cell * n) / 2 + cell * (i + .5), cy = H / 2, r = cell / 2 - pad;
+    sctx.save();
+    sctx.beginPath(); sctx.arc(cx, cy, r + pad * .6, 0, 7); sctx.fillStyle = "#1b252c"; sctx.fill();
+    sctx.beginPath(); sctx.arc(cx, cy, r, 0, 7); sctx.clip();
+    if (shot){
+      const sw = shot.width / n;
+      sctx.translate(cx, cy); if (UPSIDE) sctx.rotate(Math.PI);
+      sctx.drawImage(shot, sw * i, 0, sw, shot.height, -r, -r, 2 * r, 2 * r);
+    } else { sctx.fillStyle = "#05080a"; sctx.fillRect(cx - r, cy - r, 2 * r, 2 * r); }
+    sctx.restore();
+  }
+  if (!shot){ sctx.fillStyle = "#566b76"; sctx.font = "26px system-ui"; sctx.textAlign = "center"; sctx.fillText("no picture of the eye screens", W / 2, H / 2 + 9); }
+}
+drawScreens();
+
+/* ---- mouth: the head sim's viseme -> jaw table (deg), at the talking gain ---- */
+const VIS_OPEN = [0,18,22,19,14,10,9,7,15,21,16,20,12,8,10,5,6,6,3,7,9,0], GAIN = 0.53;
+const mc = $("#mouth"), mctx = mc.getContext("2d");
+let jawShown = 0, dragging = false, flapUntil = 0, lastFrame = performance.now();
+function jawTarget(){
+  const now = serverNow();
+  if (dragging) return +$("#jaw").value;
+  if (performance.now() < flapUntil){ const t = performance.now() / 1000; return Math.max(0, 9 + 8 * Math.sin(t * 13) + 4 * Math.sin(t * 7.3)); }
+  const m = ST && ST.mouth;
+  if (m && m.visemes && m.t){
+    const el = (now - m.t) * 1000;
+    if (el >= 0 && el <= m.ms){
+      let a = 0;
+      for (const v of m.visemes){ if (v[0] <= el) a = VIS_OPEN[v[2]] || 0; else break; }
+      $("#saying").textContent = m.text ? "“" + m.text + "”" : "";
+      return a * GAIN;
+    }
+  }
+  $("#saying").textContent = "";
+  const j = ST && ST.jaw;
+  if (j && now - j.t < 2) return j.deg;
+  return 0;
+}
+function drawMouth(){
+  const t = performance.now(), dt = Math.min(.1, (t - lastFrame) / 1000); lastFrame = t;
+  jawShown += (jawTarget() - jawShown) * Math.min(1, dt * 22);
+  $("#jawDeg").textContent = jawShown.toFixed(1) + "°";
+  const W = mc.width, H = mc.height, open = jawShown / JAW_MAX;
+  mctx.clearRect(0, 0, W, H);
+  const w = W * .78, x = (W - w) / 2, top = H * .2, gap = 8 + open * (H * .62);
+  // upper lip
+  rr(mctx, x, top, w, 18, 9); mctx.fillStyle = "#24333c"; mctx.fill();
+  // opening
+  const glow = Math.min(1, open * 2.2);
+  mctx.save();
+  rr(mctx, x + 14, top + 14, w - 28, gap, Math.min(18, gap / 2)); mctx.fillStyle = "#03080a"; mctx.fill();
+  mctx.shadowColor = `rgba(43,212,176,${.25 + glow * .55})`; mctx.shadowBlur = 18;
+  mctx.strokeStyle = `rgba(43,212,176,${.35 + glow * .6})`; mctx.lineWidth = 2; mctx.stroke();
+  mctx.restore();
+  // LED bars inside
+  const bars = 15, bw = (w - 60) / bars;
+  for (let i = 0; i < bars; i++){
+    const k = Math.sin((i / (bars - 1)) * Math.PI), h = Math.max(2, (gap - 10) * k * (0.6 + 0.4 * Math.sin(t / 90 + i)));
+    if (gap < 14) break;
+    mctx.fillStyle = `rgba(43,212,176,${.25 + .6 * glow})`;
+    mctx.fillRect(x + 30 + i * bw + bw * .25, top + 14 + gap / 2 - h / 2, bw * .5, h);
+  }
+  // jaw (lower lip)
+  rr(mctx, x, top + 14 + gap, w, 18, 9); mctx.fillStyle = "#2b3c46"; mctx.fill();
+  requestAnimationFrame(drawMouth);
+}
+function rr(c, x, y, w, h, r){ c.beginPath(); c.roundRect ? c.roundRect(x, y, w, h, r) : c.rect(x, y, w, h); }
+requestAnimationFrame(drawMouth);
+
+let jawSend = 0;
+$("#jaw").addEventListener("input", e => {
+  dragging = true; $("#jawOut").textContent = (+e.target.value).toFixed(1) + "°";
+  if (performance.now() - jawSend > 120){ jawSend = performance.now(); post("/api/jaw", {deg:+e.target.value}).catch(() => {}); }
+});
+const jawRelease = () => { if (!dragging) return; dragging = false; $("#jaw").value = 0; $("#jawOut").textContent = "0°"; post("/api/jaw", {deg:0}).catch(() => {}); };
+$("#jaw").addEventListener("change", jawRelease);
+$("#jaw").addEventListener("pointerup", jawRelease);
+$("#flap").addEventListener("click", () => {
+  flapUntil = performance.now() + 2500;
+  let n = 0; const iv = setInterval(() => { post("/api/jaw", {deg:jawTarget()}).catch(() => {}); if (++n > 20){ clearInterval(iv); post("/api/jaw", {deg:0}).catch(() => {}); } }, 125);
+});
+
+/* ---- face + lids ---- */
+function buildFaces(){
+  const box = $("#faces"); box.innerHTML = "";
+  const sel = $("#sayFace"); sel.length = 1;
+  for (const f of FACES){
+    const b = document.createElement("button"); b.className = "btn"; b.textContent = f; b.dataset.face = f;
+    b.onclick = () => post("/api/face", {face:f, seconds:20}).then(() => toast(`Showing ${f} for 20 s`)).catch(() => {});
+    box.appendChild(b);
+    sel.add(new Option(f, f));
+  }
+}
+document.querySelectorAll("[data-lid]").forEach(b => b.onclick = () => post("/api/lids", {action:b.dataset.lid, which:b.dataset.which}).catch(() => {}));
+
+/* ---- say ---- */
+let style = "";
+document.querySelectorAll("#sayStyle button").forEach(b => b.onclick = () => {
+  style = b.dataset.style; document.querySelectorAll("#sayStyle button").forEach(x => x.classList.toggle("on", x === b));
+});
+let recent = [];
+try { recent = JSON.parse(localStorage.getItem("gene-recent") || "[]"); } catch(e){}
+function drawRecent(){
+  const box = $("#recent"); box.innerHTML = "";
+  for (const t of recent){ const b = document.createElement("button"); b.textContent = t; b.title = "Say again: " + t; b.onclick = () => say(t); box.appendChild(b); }
+}
+async function say(text){
+  text = (text ?? $("#sayText").value).trim(); if (!text) return;
+  const d = await post("/api/say", {text, face:$("#sayFace").value, style}).catch(() => null);
+  if (!d) return;
+  if (!d.gene_running) toast("Queued, but Gene's voice loop isn't running right now.", true); else toast("Gene will say it");
+  if (text === $("#sayText").value.trim()) $("#sayText").value = "";
+  recent = [text, ...recent.filter(x => x !== text)].slice(0, 12);
+  try { localStorage.setItem("gene-recent", JSON.stringify(recent)); } catch(e){}
+  drawRecent();
+}
+$("#sayBtn").onclick = () => say();
+$("#sayText").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey){ e.preventDefault(); say(); } });
+drawRecent();
+
+/* ---- conversation log ---- */
+const LOG = [];
+const chat = $("#chat");
+function logItem(l){
+  const m = /^(\d\d:\d\d:\d\d) (.*)$/s.exec(l.text) || [null, new Date(l.t * 1000).toTimeString().slice(0, 8), l.text];
+  const [, time, body] = m;
+  let k;
+  if ((k = /^heard \(([^)]*)\): (.*)$/s.exec(body))) return {cls:"heard", who:"Heard · " + time, text:k[2]};
+  if ((k = /^Gene( \([^)]*\))?: (.*)$/s.exec(body))) return {cls:"gene", who:"Gene" + (k[1] || "") + " · " + time, text:k[2]};
+  if (/^(listening|upgrade|music|playing song|eyes:|mic |New microphone|ignored \(music)/.test(body)) return {cls:"sys", text:time + " · " + body};
+  return null;
+}
+function renderLog(lines){
+  const near = chat.scrollHeight - chat.scrollTop - chat.clientHeight < 60;
+  const raw = $("#rawLog").checked;
+  for (const l of lines){
+    let el;
+    if (raw){ el = document.createElement("div"); el.className = "raw"; el.textContent = l.text; }
+    else { const it = logItem(l); if (!it) continue; el = document.createElement("div"); el.className = "msg " + it.cls;
+      el.innerHTML = it.who ? `<small>${esc(it.who)}</small>${esc(it.text)}` : esc(it.text); }
+    chat.appendChild(el);
+  }
+  while (chat.childElementCount > 400) chat.firstElementChild.remove();
+  if (near) chat.scrollTop = chat.scrollHeight;
+}
+$("#rawLog").onchange = () => { chat.innerHTML = ""; renderLog(LOG); chat.scrollTop = chat.scrollHeight; };
+
+/* ---- upgrades ---- */
+const live = $("#live");
+let liveItems = [], lastTool = null;
+function md(s){
+  return esc(s).replace(/```([\s\S]*?)```/g, (_, c) => `<code style="display:block;white-space:pre-wrap">${c}</code>`)
+    .replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>")
+    .replace(/^ANNOUNCE:\s*(.+)$/m, '<span class="announce">🔊 $1</span>')
+    .split(/\n{2,}/).map(p => "<p>" + p.replace(/\n/g, "<br>") + "</p>").join("");
+}
+function toolSummary(name, input){
+  let o = input; try { o = typeof input === "string" ? JSON.parse(input) : input; } catch(e){}
+  if (o && typeof o === "object"){
+    const s = o.command || o.file_path || o.pattern || o.path || o.url || o.query || o.description || o.prompt || "";
+    return {short:String(s).split("\n")[0], full:JSON.stringify(o, null, 2)};
+  }
+  return {short:String(input).split("\n")[0], full:String(input)};
+}
+function addLive(ev){
+  const near = live.scrollHeight - live.scrollTop - live.clientHeight < 80;
+  const empty = live.querySelector(".empty"); if (empty) empty.remove();
+  let el = document.createElement("div");
+  switch (ev.kind){
+    case "start":
+      el.className = "ev start";
+      el.innerHTML = `<b>Upgrade started</b> <span style="color:var(--faint)">(${esc({voice:"asked by voice", web:"typed here", review:"nightly self-review", repair:"repair"}[ev.mode] || ev.mode)}, ${new Date(ev.t * 1000).toLocaleTimeString()})</span>` + (ev.request ? `<div class="md" style="margin-top:4px">“${esc(ev.request)}”</div>` : "");
+      break;
+    case "text": el.className = "ev claude"; el.innerHTML = `<div class="who">Claude</div><div class="md">${md(ev.text)}</div>`; break;
+    case "tool": {
+      const s = toolSummary(ev.name, ev.input);
+      el = document.createElement("details"); el.className = "tool";
+      el.innerHTML = `<summary><b>${esc(ev.name)}</b>${esc(s.short)}</summary><pre>${esc(s.full)}</pre>`;
+      lastTool = el; break;
+    }
+    case "output": {
+      const host = lastTool || (() => { const d = document.createElement("details"); d.className = "tool"; d.innerHTML = "<summary><b>output</b></summary>"; live.appendChild(d); return d; })();
+      const lines = (ev.text || "").split("\n").length;
+      const o = document.createElement("div"); o.className = "out";
+      o.innerHTML = `<pre>${esc(ev.text || "(no output)")}</pre>`;
+      host.appendChild(o);
+      if (ev.error) host.classList.add("err");
+      host.querySelector("summary").insertAdjacentHTML("beforeend", ` <span style="color:${ev.error ? "var(--bad)" : "var(--faint)"}">· ${ev.error ? "error" : lines + " line" + (lines === 1 ? "" : "s")}</span>`);
+      lastTool = null; if (near) live.scrollTop = live.scrollHeight; return;
+    }
+    case "you": el.className = "ev you"; el.innerHTML = `<div class="who">You</div>${esc(ev.text)}`; break;
+    case "late": el.className = "ev stage"; el.textContent = "Arrived after Claude had finished, so it wasn't sent: " + ev.text; break;
+    case "stage": if (!ev.step || ev.step === "working" || ev.step === "starting") return; el.className = "ev stage"; el.textContent = {restarting:"↻ restarting Gene", checking:"✓ checking Gene came back up"}[ev.step] || ev.step; break;
+    case "result": el.className = "ev claude final"; el.innerHTML = `<div class="who">Claude finished${ev.cost != null ? " · $" + (+ev.cost).toFixed(2) : ""}</div><div class="md">${md(ev.text)}</div>`; break;
+    case "stopped": el.className = "ev stage"; el.textContent = "■ Stopped from this panel, undoing changes"; break;
+    case "end": {
+      const r = ev.result || "", ok = r === "ok", bad = /rolled back|limit|stopped/.test(r);
+      el.className = "ev end " + (ok ? "ok" : bad ? "bad" : "");
+      el.textContent = ok ? "Upgrade done, Gene is running the new version" : r === "no changes" ? "Finished, nothing changed" : r;
+      loadHistory(); break;
+    }
+    default: return;
+  }
+  live.appendChild(el);
+  if (near) live.scrollTop = live.scrollHeight;
+}
+function upgradeUI(){
+  const u = ST && ST.upgrade, running = !!u;
+  $("#upgState").textContent = running ? "Upgrading" : "Idle";
+  $("#upgState").style.color = running ? "var(--warn)" : "";
+  $("#upgBar").style.width = (running ? u.percent : 0) + "%";
+  $("#upgPct").textContent = running ? Math.round(u.percent) + "%" + (u.step ? " · " + u.step : "") : "–";
+  $("#stopBtn").disabled = !running;
+  if (!running) disarm();
+  $("#upgBtn").textContent = running ? "Send to Claude" : "Start upgrade";
+  $("#upgText").placeholder = running ? "Message Claude while it works… (Enter to send)" : "Ask Gene to upgrade himself… (Enter to start)";
+  $("#upgNote").textContent = running
+    ? "Your message reaches Claude Code at its next step. Stop & undo kills it and keeps none of its changes."
+    : "Starts Claude Code on the Pi, the same way “Gene, upgrade yourself to …” does. Gene restarts after it, and rolls back if he doesn't come up.";
+}
+async function upgradeSend(){
+  const text = $("#upgText").value.trim(); if (!text) return;
+  const running = ST && ST.upgrade;
+  const d = await post(running ? "/api/upgrade/message" : "/api/upgrade", {text}).catch(() => null);
+  if (d){ $("#upgText").value = ""; toast(running ? "Sent to Claude" : "Upgrade starting…"); }
+}
+$("#upgBtn").onclick = upgradeSend;
+$("#upgText").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey){ e.preventDefault(); upgradeSend(); } });
+let armT;
+function disarm(){ const b = $("#stopBtn"); b.classList.remove("armed"); b.innerHTML = "Stop &amp; undo"; clearTimeout(armT); }
+$("#stopBtn").onclick = () => {
+  const b = $("#stopBtn");
+  if (!b.classList.contains("armed")){ b.classList.add("armed"); b.textContent = "Click again to stop"; armT = setTimeout(disarm, 4000); return; }
+  disarm(); post("/api/upgrade/stop").then(() => toast("Stopping the upgrade…")).catch(() => {});
+};
+async function loadHistory(){
+  const r = await fetch("/api/upgrades", {cache:"no-store"}); if (!r.ok) return;
+  const h = await r.json(), box = $("#hist"); box.innerHTML = "";
+  if (!h.length) box.innerHTML = '<div class="note">None yet.</div>';
+  for (const e of h){
+    const cls = e.result === "ok" ? "res-ok" : /rolled|limit|stopped|wrong/.test(e.result || "") ? "res-bad" : "res-none";
+    const d = document.createElement("details");
+    const ann = (/ANNOUNCE:\s*(.+)/.exec(e.said || "") || [])[1];
+    d.innerHTML = `<summary>${esc(e.request || (e.mode === "review" ? "Nightly self-review" : e.mode))}</summary>
+      <div class="meta"><span class="${cls}">${esc(e.result)}</span> · ${esc((e.time || "").replace("T", " "))}${e.minutes != null ? " · " + e.minutes + " min" : ""}${e.cost_usd != null ? " · $" + (+e.cost_usd).toFixed(2) : ""}${e.to_commit ? " · " + esc(e.to_commit) : ""}</div>
+      ${ann ? `<div class="said">🔊 ${esc(ann)}</div>` : ""}<div class="said">${esc((e.said || "").replace(/ANNOUNCE:.*$/s, "").trim())}</div>`;
+    box.appendChild(d);
+  }
+}
+
+/* ---- status ---- */
+function chip(id, cls, text){ const c = $(id); c.className = "chip " + cls; if (text != null) c.querySelector("span").textContent = text; }
+function applyStatus(s){
+  ST = s; clock(s.now);
+  const m = s.mouth, talking = m && m.t && serverNow() - m.t < m.ms / 1000 + .3;
+  if (s.upgrade) chip("#chipActivity", "upg warn", "upgrading " + Math.round(s.upgrade.percent) + "%");
+  else if (talking) chip("#chipActivity", "talk ok", "talking");
+  else chip("#chipActivity", s.services && s.services.gene === "active" ? "ok" : "bad", s.services && s.services.gene === "active" ? "listening" : "voice loop down");
+  chip("#chipVolume", "", "volume " + (s.volume != null ? s.volume + "%" : "–"));
+  for (const [k, v] of Object.entries(s.services || {})){ const c = $("#svc-" + k); if (c) c.className = "chip " + (v === "active" ? "ok" : v === "activating" ? "warn" : "bad"); }
+  const mic = s.mic || {};
+  $("#micInfo").textContent = !mic.found ? "Gene has no microphone right now." :
+    mic.muted ? `Gene's mic is muted (“mute yourself”), so you'll hear silence until it's unmuted. (${mic.name})` :
+    `Mic: ${mic.name}. Hear what Gene hears, live (about a quarter of a second behind).`;
+  $("#micInfo").style.color = mic.found && !mic.muted ? "" : "var(--warn)";
+  $("#faceName").textContent = s.face + (s.lids ? ` (${s.lids === "both" ? "eyes" : s.lids + " eye"} closed)` : "");
+  document.querySelectorAll("#faces .btn").forEach(b => b.classList.toggle("on", b.dataset.face === s.face));
+  $("#cam-left").classList.toggle("closed", s.lids === "left" || s.lids === "both");
+  $("#cam-right").classList.toggle("closed", s.lids === "right" || s.lids === "both");
+  upgradeUI();
+}
+setInterval(() => { if (ST) applyStatus(ST); }, 1000);   // "talking" ends without a new status
+
+/* ---- events ---- */
+function connect(){
+  const es = new EventSource("/events");
+  es.addEventListener("hello", e => { const d = JSON.parse(e.data); FACES = d.faces; UPSIDE = d.upside_down; JAW_MAX = d.jaw_max; $("#jaw").max = JAW_MAX; clock(d.now); buildFaces(); $("#conn").style.display = "none"; });
+  es.addEventListener("status", e => applyStatus(JSON.parse(e.data)));
+  es.addEventListener("clock", e => clock(JSON.parse(e.data).now));
+  es.addEventListener("logs", e => { const l = JSON.parse(e.data); LOG.push(...l); if (LOG.length > 600) LOG.splice(0, LOG.length - 600); renderLog(l); });
+  es.addEventListener("live_reset", () => { live.innerHTML = ""; lastTool = null; });
+  es.addEventListener("live", e => JSON.parse(e.data).forEach(addLive));
+  es.onerror = async () => {
+    $("#conn").style.display = "block";
+    const r = await fetch("/api/upgrades").catch(() => null);
+    if (r && r.status === 401) location.href = "/login";
+  };
+  es.onopen = () => { $("#conn").style.display = "none"; chat.innerHTML = ""; LOG.length = 0; };
+}
+connect(); loadHistory(); camLoop("left"); camLoop("right"); screensLoop();
+</script>
+</body>
+</html>
