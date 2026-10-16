@@ -14,15 +14,18 @@
   <!-- Charger -->
   <rect x="600" y="70" width="240" height="130" rx="8" fill="#fff3e0" stroke="#ef6c00" stroke-width="2"/>
   <text x="660" y="98" font-weight="bold" fill="#e65100">2S USB-C charger</text>
+  <text x="660" y="152" font-size="11" fill="#ef6c00">Adeept 2S 2A boost board</text>
   <text x="660" y="116" font-size="12" fill="#ef6c00">5 V in → 8.4 V CC/CV out</text>
   <text x="660" y="134" font-size="12" fill="#ef6c00">deck charger bay (≤ 40 × 20)</text>
-  <g font-size="12" fill="#1a1a1a"><text x="608" y="104">IN+</text><text x="608" y="154">IN−</text></g>
-  <g font-size="12" fill="#1a1a1a" text-anchor="middle"><text x="640" y="190">BAT−</text><text x="800" y="190">BAT+</text></g>
+  <g font-size="12" fill="#1a1a1a"><text x="608" y="104">VIN</text><text x="608" y="154">GND</text></g>
+  <g font-size="12" fill="#1a1a1a" text-anchor="middle"><text x="640" y="190">GND</text><text x="800" y="190">BAT</text></g>
 
   <g stroke-width="3" fill="none">
     <line x1="500" y1="100" x2="600" y2="100" stroke="#d32f2f"/>
     <line x1="500" y1="150" x2="600" y2="150" stroke="#1a1a1a"/>
   </g>
+  <text x="550" y="126" font-size="10" text-anchor="middle" fill="#555">into the board's</text>
+  <text x="550" y="138" font-size="10" text-anchor="middle" fill="#555">USB-C socket</text>
 
   <!-- Pack -->
   <rect x="40" y="280" width="190" height="290" rx="10" fill="#e8f3ea" stroke="#2e7d32" stroke-width="2"/>
@@ -61,12 +64,14 @@
   <!-- BMS -->
   <rect x="340" y="280" width="170" height="280" rx="8" fill="#e6effa" stroke="#1565c0" stroke-width="2"/>
   <text x="445" y="390" font-weight="bold" text-anchor="middle" fill="#0d47a1">2S BMS</text>
-  <text x="445" y="452" font-size="12" text-anchor="middle" fill="#1565c0">HW-391, 20 A</text>
+    <text x="445" y="452" font-size="12" text-anchor="middle" fill="#1565c0">2S 20 A</text>
   <text x="445" y="468" font-size="12" text-anchor="middle" fill="#1565c0">balancing</text>
   <text x="445" y="484" font-size="12" text-anchor="middle" fill="#1565c0">deck BMS bay</text>
-  <g font-size="12" fill="#1a1a1a"><text x="348" y="314">B+</text><text x="348" y="419">BM</text><text x="348" y="548">B−</text></g>
-  <text x="502" y="324" font-size="12" text-anchor="end" fill="#1a1a1a">P+</text>
-  <text x="440" y="552" font-size="12" text-anchor="middle" fill="#1a1a1a">P−</text>
+  <text x="445" y="508" font-size="10" text-anchor="middle" fill="#555">8.4V=B+ · 4.2V=BM · 0V=B−</text>
+  <text x="445" y="522" font-size="10" text-anchor="middle" fill="#555">+ = P+ · − = P−</text>
+  <g font-size="12" fill="#1a1a1a"><text x="348" y="314">8.4V</text><text x="348" y="419">4.2V</text><text x="348" y="548">0V</text></g>
+  <text x="502" y="324" font-size="14" font-weight="bold" text-anchor="end" fill="#1a1a1a">+</text>
+  <text x="440" y="552" font-size="14" font-weight="bold" text-anchor="middle" fill="#1a1a1a">−</text>
 
   <!-- P+ line: charger junction, switch, fuse -->
   <g stroke-width="3" fill="none" stroke="#d32f2f">
@@ -80,13 +85,13 @@
   <circle cx="860" cy="330" r="5" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
   <circle cx="930" cy="330" r="5" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
   <text x="895" y="282" font-size="13" font-weight="bold" text-anchor="middle" fill="#1a1a1a">power switch</text>
-  <text x="895" y="298" font-size="11" text-anchor="middle" fill="#555">≥ 10 A DC · location TBD</text>
+  <text x="895" y="298" font-size="11" text-anchor="middle" fill="#555">2-wire · ≥ 10 A DC · location TBD</text>
   <rect x="965" y="296" width="80" height="68" rx="6" fill="none" stroke="#888" stroke-dasharray="5 4"/>
   <rect x="975" y="321" width="60" height="18" rx="3" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
   <line x1="975" y1="330" x2="1035" y2="330" stroke="#1a1a1a" stroke-width="1"/>
   <text x="1005" y="312" font-size="11" text-anchor="middle" fill="#1a1a1a">fuse 10 A</text>
   <text x="1005" y="358" font-size="10" text-anchor="middle" fill="#888">recommended</text>
-  <text x="650" y="322" font-size="12" fill="#d32f2f">P+ · 18 AWG</text>
+  <text x="650" y="322" font-size="12" fill="#d32f2f">BMS + · 18 AWG</text>
 
   <!-- Negative: charger BAT- (hops over P+) to P- bus -->
   <g stroke-width="3" fill="none" stroke="#1a1a1a">
@@ -96,7 +101,7 @@
   </g>
   <circle cx="430" cy="580" r="5" fill="#1a1a1a"/>
   <circle cx="430" cy="715" r="5" fill="#1a1a1a"/>
-  <text x="420" y="640" font-size="12" text-anchor="end" fill="#1a1a1a">P− · 18 AWG</text>
+  <text x="420" y="640" font-size="12" text-anchor="end" fill="#1a1a1a">BMS − · 18 AWG</text>
 
   <!-- Bucks -->
   <rect x="520" y="640" width="180" height="100" rx="8" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
@@ -136,9 +141,9 @@
   <!-- Notes -->
   <rect x="40" y="920" width="1030" height="156" rx="8" fill="#fff8e1" stroke="#f9a825"/>
   <g font-size="13" fill="#1a1a1a">
-    <text x="56" y="944">1. The charger joins at P+/P− (after the BMS, before the switch): the pack charges with Gene switched off, and the BMS still guards it.</text>
-    <text x="56" y="966">2. Many 2S BMS boards have no P+ pad and switch only the negative side. Then P+ is just B+: take the switch/charger feed from B+.</text>
-    <text x="56" y="988">3. All negatives meet at the P− bus. The Pi and servo grounds also join through the U2D2's USB, so keep them on the same pack.</text>
+    <text x="56" y="944">1. Charger BAT → BMS +, charger GND (by BAT) → BMS −; leave its VIN/GND pads empty. Gene charges switched off, BMS still guards.</text>
+    <text x="56" y="966">2. Solder the pack to the BMS 0V first, then 4.2V, then 8.4V. Check charger BAT reads ~8.4 V on USB-C before connecting it.</text>
+    <text x="56" y="988">3. All negatives meet at the BMS − bus. The Pi and servo grounds also join through the U2D2's USB, so keep them on the same pack.</text>
     <text x="56" y="1010">4. D36V50F5: leave EN and PG unconnected (EN is pulled up on board). It's a fixed 5 V part, so there's no trim pot.</text>
     <text x="56" y="1032">5. The Pi gets 5 V without USB-PD, so set usb_max_current_enable=1 in config.txt, or its USB ports cap at 600 mA.</text>
     <text x="56" y="1054">6. First power-up: bucks with no loads, check 5.0 V and polarity with a meter, then plug in the Pi and the servos.</text>
