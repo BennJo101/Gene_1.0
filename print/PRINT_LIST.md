@@ -1,12 +1,12 @@
 # Gene head - print list
 
-24 pieces in total (21 without the optional parts: fit the bridge handle **or** the GPIO flashlight, and the GPIO cover is for when neither is plugged in). Tick them off as they come off the bed.
+25 pieces in total (21 without the optional parts: fit the bridge handle **or** the GPIO flashlight, the GPIO cover is for when neither is plugged in, and the eye X insert is a Halloween cap for one eye). Tick them off as they come off the bed.
 
 | # | Part | Qty | File (in `parts/`) | Plate | Notes |
 |---|---|---|---|---|---|
 | 1 | skull | **1** | `01_skull_x1.stl` | 1 | tree supports. **Updated 2026-10-04 (v7):** camera ribbon slots 26.5 x 7.5 (were 14 x 4) for the Arducam's rigid 16 mm cable end and 6 mm flex; top window in each eye barrel plus a pocket in the skull above it for the display board's HDMI and USB plugs. **Updated 2026-10-06:** the plug pocket above the right eye is now a mirror of the left one (it had a ragged edge). The small triangular holes at the outboard bottom corner of each eye barrel are sealed. The back end of each eye barrel now tapers smoothly into the skull side (closes a thin crack there). The inboard wall of each eye barrel is open from the camera slot up to the top window, so the display ribbon can swing past when the screen is turned. Plate 1 was printed as v6 - reprint Plate 1 |
 | 2 | jaw | **1** | `02_jaw_x1.stl` | 2 | tree supports; 4 walls, 20-25% infill |
-| 3 | pi shelf | **1** | `03_pi_shelf_x1.stl` | 3 | tree supports |
+| 3 | pi shelf | **1** | `03_pi_shelf_x1.stl` | 3 | tree supports. **Updated 2026-10-16:** 4 cubes on the wings that slide into divots in the skull (replaces the skull's nut posts); the shelf now sits 13.35 mm lower, flush with the skull's bottom rim - reprint Plate 3 (or Plate 8, which has the skull, shelf and eye X insert together for a 350 mm bed) |
 | 4 | battery tray | **1** | `04_battery_tray_x1.stl` | 3 | PETG; tree supports |
 | 5 | battery deck | **1** | `05_battery_deck_x1.stl` | 3 | PETG; tree supports |
 | 6 | servo bracket L | **1** | `06_servo_bracket_L_x1.stl` | 4 | PETG; 4 walls, 20-25% infill |
@@ -23,13 +23,15 @@
 | 17 | bridge handle OPTIONAL | **1** | `17_bridge_handle_OPTIONAL_x1.stl` | 5 | optional; support the grip span; 4 walls |
 | 18 | GPIO flashlight OPTIONAL | **1** | `18_gpio_flashlight_OPTIONAL_x1.stl` | 7 | optional; PETG (the LED gets warm); lies on its side, tree supports under the strap and lamp pod; 4 walls |
 | 19 | GPIO cover OPTIONAL | **1** | `19_gpio_cover_OPTIONAL_x1.stl` | 7 | optional; upright, no supports |
+| 20 | eye X insert OPTIONAL | **1** | `20_eye_x_insert_OPTIONAL_x1.stl` | - | optional; plug down, X up, no supports; for a two-colour X, swap filament at Z 8.0 (top of the flange) |
 
 ## Every piece, one by one
 
 - [ ] 1. skull
-  - [ ] reprint: skull v7 - Plate 1
+  - [ ] reprint: skull v7 with shelf divots and bracket M3 pilots - Plate 1
 - [ ] 2. jaw
 - [ ] 3. pi shelf
+  - [ ] reprint: shelf with cubes - Plate 3
 - [ ] 4. battery tray
 - [ ] 5. battery deck
 - [ ] 6. servo bracket L
@@ -55,6 +57,7 @@
 - [ ] 22. bridge handle OPTIONAL
 - [ ] 23. GPIO flashlight OPTIONAL
 - [ ] 24. GPIO cover OPTIONAL
+- [ ] 25. eye X insert OPTIONAL
 
 ## Settings
 

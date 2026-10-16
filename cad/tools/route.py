@@ -27,8 +27,8 @@ def mark_box(grid, x0, x1, y0, y1, z0, z1):
 
 
 NEW = {}   # TTL interface, I2S amp and GPIO splitter are now mock STLs in parts.py
-# GPIO ribbon, already routed and checked
-RIB = [(-15.4, 35.4, -60.9, -49.0, -1.7, -0.4), (-25.5, 25.5, -60.9, -59.6, -1.7, 58.0),        # leaves the IDC on top of the splitter
+# GPIO ribbon, already routed and checked (start lowered 13.35 with the shelf, 2026-10-16)
+RIB = [(-15.4, 35.4, -60.9, -49.0, -15.05, -13.75), (-25.5, 25.5, -60.9, -59.6, -15.05, 58.0),        # leaves the IDC on top of the splitter
        (-25.5, 25.5, -60.9, -46.5, 58.0, 59.3), (0.6, 1.9, -74.5, -18.5, 59.3, 70.9)]
 for b in RIB: mark_box(OCC, *b)
 
@@ -36,18 +36,18 @@ for b in RIB: mark_box(OCC, *b)
 CABLES = [
     ("Pack leads (XT30 + balance)", (0, 17, 24), (0, -20, 58), 6.0, "power"),
     ("Slip-ring bundle to deck", (0, 20, -50), (0, 16, 50), 6.0, "power"),
-    ("Pi buck -> Pi 5 USB-C", (-22, -6, 58), (31.3, 3.0, -29), 4.0, "power"),
+    ("Pi buck -> Pi 5 USB-C", (-22, -6, 58), (31.3, 3.0, -42.35), 4.0, "power"),
     ("Servo buck -> servo R", (22, -6, 58), (18, -4, -2), 3.0, "power"),
-    ("USB: Pi 5 -> TTL interface", (-47, -40, -24), (-60, -8, -30), 4.0, "data"),
-    ("DYNAMIXEL: interface -> servo L", (-60, -6, -28), (-18, -8, 0), 3.0, "data"),
+    ("USB: Pi 5 -> TTL interface", (-47, -40, -37.35), (-60, -8, -43.35), 4.0, "data"),
+    ("DYNAMIXEL: interface -> servo L", (-60, -6, -41.35), (-18, -8, 0), 3.0, "data"),
     ("DYNAMIXEL: servo L -> servo R", (-18, -9, -4), (18, -9, -4), 3.0, "data"),
-    ("Camera L ribbon -> CAM/DISP 0", (-20, -103.6, 0), (-2.5, 3.0, -28), 4.0, "ribbon"),
-    ("Camera R ribbon -> CAM/DISP 1", (20, -103.6, 0), (-15.5, 3.0, -28), 4.0, "ribbon"),
-    ("Display L -> micro-HDMI 1", (-61, -79, -20), (3.3, 3.0, -29), 6.0, "video"),
-    ("Display R -> micro-HDMI 0", (61, -79, -20), (16.7, 3.0, -29), 6.0, "video"),
-    ("Speaker L -> amp", (-26, -88, -35), (-5, -82, -32), 2.5, "audio"),
-    ("Speaker R -> amp", (26, -88, -35), (5, -82, -32), 2.5, "audio"),
-    ("Amp (I2S) -> GPIO splitter", (0, -72, -32), (-12, -60, -16), 3.0, "audio"),
+    ("Camera L ribbon -> CAM/DISP 0", (-20, -103.6, 0), (-2.5, 3.0, -41.35), 4.0, "ribbon"),
+    ("Camera R ribbon -> CAM/DISP 1", (20, -103.6, 0), (-15.5, 3.0, -41.35), 4.0, "ribbon"),
+    ("Display L -> micro-HDMI 1", (-61, -79, -20), (3.3, 3.0, -42.35), 6.0, "video"),
+    ("Display R -> micro-HDMI 0", (61, -79, -20), (16.7, 3.0, -42.35), 6.0, "video"),
+    ("Speaker L -> amp", (-26, -88, -48.35), (-5, -82, -45.35), 2.5, "audio"),
+    ("Speaker R -> amp", (26, -88, -48.35), (5, -82, -45.35), 2.5, "audio"),
+    ("Amp (I2S) -> GPIO splitter", (0, -72, -45.35), (-12, -60, -29.35), 3.0, "audio"),
 ]
 
 OFFS = np.array([(a, b, c) for a in (-1, 0, 1) for b in (-1, 0, 1) for c in (-1, 0, 1) if (a, b, c) != (0, 0, 0)])

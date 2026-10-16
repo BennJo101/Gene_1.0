@@ -1,7 +1,7 @@
 Category,Item,Qty,Notes,File / location
-Printed,Skull v7 (shell + brow + eye barrels + thrust pads + crown ledge + neck pilots + 26.5x7.5 camera slots + display plug pockets),1,Tree supports; PLA or PETG,print/skull_x1.stl (Plate1)
+Printed,Skull v7 (shell + brow + eye barrels + thrust pads + crown ledge + neck pilots + 26.5x7.5 camera slots + display plug pockets + 4 shelf divots + bracket M3 pilots),1,Tree supports; PLA or PETG,print/skull_x1.stl (Plate1)
 Printed,Jaw with twin D-shafts,1,Tree supports; 4 walls,print/jaw_x1.stl (Plate2)
-Printed,Pi 5 shelf v6 (4 mm standoffs),1,Supports under plate,print/pi_shelf_x1.stl (Plate3)
+Printed,Pi 5 shelf v6 (4 mm standoffs + 4 cubes on the wings),1,Supports under plate,print/pi_shelf_x1.stl (Plate3)
 Printed,Battery tray,1,PETG,print/battery_tray_x1.stl (Plate3)
 Printed,Electronics deck,1,PETG,print/battery_deck_x1.stl (Plate3)
 Printed,Crown insert (GPIO riser well),1,Print on its side,print/crown_insert_x1.stl (Plate5)
@@ -18,13 +18,15 @@ Printed,Eye display carrier v3 (wide top + bottom slots; side walls only),2,Glue
 Printed,Eye display retainer ring,2,Glue with CA,print/retainer_x2.stl (Plate4)
 Printed,Camera bezel v3 (Arducam pocket 8.6x12.4; 6.8 mm cable lane),2,Print black; second one turned 180 deg,print/bezel_x2.stl (Plate4)
 Printed,Pupil ring,2,Print black; glue round the lens,print/pupil_ring_x2.stl (Plate4)
+Printed,Eye X insert (optional Halloween cap),1,"Plug down, no supports; filament swap at Z 8 for a two-colour X",print/parts/20_eye_x_insert_OPTIONAL_x1.stl
 Hardware,M2 x 12 screw,8,Hubs to servo horns,
 Hardware,M2 x 8 screw,8,Servos to brackets,
 Hardware,M3 x 5 set screw,2,Hub to D-shaft,
 Hardware,M3 x 16 self-tapping pan head,4,Brackets to skull,
 Hardware,M2 x 16 hex socket head bolt + M2 hex nut,4,"Brackets to skull, through-bolted from outside (nut in bracket foot)",
 Hardware,M3 screw supplied with USB-C extension,2,Charge port flange,
-Hardware,M3 x 10 self-tapping pan head,8,Pi shelf to skull (4); deck to tray (4),
+Hardware,M3 x 10 self-tapping pan head,4,Deck to tray,
+Hardware,M2 x 12 hex socket head bolt + M2 hex nut,4,"Pi shelf cubes to skull, in from outside (nut in each cube)",
 Hardware,M3 x 12 self-tapping pan head,4,Tray up through bracket pads,
 Hardware,M2.5 x 12 screw + nut,4,Pi 5 to standoffs,
 Hardware,M2 x 12 hex bolt,4,Crown insert to skull ledge (no handle),
@@ -41,7 +43,7 @@ Electronics,Raspberry Pi 5 (4 or 8 GB),1,,
 Electronics,Pi 5 Active Cooler,1,,
 Electronics,microSD 32 GB+,1,,
 Electronics,ROBOTIS DYNAMIXEL XL330-M288-T,2,One reversed in software,
-Electronics,DYNAMIXEL TTL interface (U2D2 or half-duplex buffer),1,Left shelf wing,
+Electronics,DYNAMIXEL TTL interface (U2D2 or half-duplex buffer),1,On the two left shelf cubes,
 Electronics,GPIO 1-to-2 splitter board (2x20),1,On the Pi header: crown ribbon + I2S amp,
 Electronics,TekGroAml 2.1 in round 480x480 LCD + mini-HDMI driver board (B0DZ2ZKP7B),2,Bought; LCD 56.18x59.71x2.3; board 57 dia round; mini-HDMI + micro-USB on the top edge,
 Electronics,Arducam B0066 mini OV5647 camera (B012QRGUCQ),2,Bought; 8.5 sq head ~12 long; 300 mm 6 mm flex; rigid 16x30 15-pin tail,

@@ -11,7 +11,7 @@ The print-ready copies in `../print/` are the same parts, reoriented flat side d
 | Skull | `skull.stl` (v7). Its build scripts start from the v6 skull, `GeneTop_v6_neck.stl`, which is no longer in the folder (see below) |
 | Jaw | `jaw.stl` |
 | Jaw drive | `servo_bracket_L.stl`, `servo_bracket_R.stl`, `jaw_drive_hub.stl` |
-| Eyes | `eye_display_carrier.stl`, `eye_display_retainer.stl`, `camera_bezel.stl`, `pupil_ring.stl` |
+| Eyes | `eye_display_carrier.stl`, `eye_display_retainer.stl`, `camera_bezel.stl`, `pupil_ring.stl`; optional `eye_x_insert.stl` (`tools/eye_x_insert.py`) |
 | Interior | `pi_shelf.stl`, `battery_tray.stl`, `battery_deck.stl` |
 | Crown | `crown_insert.stl`, `bridge_handle.stl`, `gpio_flashlight.stl`, `gpio_cover.stl` |
 | Neck | `neck.stl`, `neck_base.stl`, `neck_collar.stl` |
@@ -50,9 +50,9 @@ The skull is built in eight steps. Run them in this order:
 4. `skull_v7_barrel_taper.py`: blends the back end of each eye barrel into the skull
 5. `skull_v7_open_inboard.py`: opens the inboard wall of each eye barrel above the camera slot, so the display ribbon can swing past when the screen is turned 180°
 6. `skull_v7_usbc_port.py`: cuts the USB-C charge port (flange seat, opening and 2 x M3 holes) in the lower back wall (flange horizontal), and writes `mocks/usbc_panel.stl`
-7. `motor_mount_m2.py`: M2 through-bolt holes (counterbore outside, clearance, hex nut pocket) through the skull wall into both servo bracket feet. It changes the two bracket files too
+7. `motor_mount_m2.py`: M2 through-bolt holes (counterbore outside, clearance, hex nut pocket) through the skull wall into both servo bracket feet, and the dia 2.5 pilots for the bracket M3 self-tappers. It changes the two bracket files too
 
-8. `skull_v7_shelf_posts.py`: 4 nut posts on the inner wall above the Pi shelf wing holes (M2 x 8 up through each wing into a side-loaded M2 nut)
+8. `skull_v7_shelf_divots.py`: 4 divots (grooves open at the bottom rim) in the inner wall, and 4 cubes on the Pi shelf wings that slide up into them; M2 x 12 in from outside the skull into a nut dropped into each cube. It changes `pi_shelf.stl` too
 
 Steps 2–8 save a copy of their input in `tools/retired/` the first time they run, and read from it on later runs.
 

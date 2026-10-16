@@ -8,9 +8,11 @@ def bx(x0, x1, y0, y1, z0, z1):
     b = box(extents=[x1 - x0, y1 - y0, z1 - z0]); b.apply_translation([(x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2]); return b
 
 
-# Pi 5 on the v6 shelf: plate top Z -37, 4 mm standoffs, board centred (0,-29).
+# Pi 5 on the v6 shelf: plate top Z -37 as built, now lowered by SHELF_DROP so the plate's underside is flush with the
+# skull's bottom rim (skull_v7_shelf_divots.py); 4 mm standoffs, board centred (0,-29).
+SHELF_DROP = 13.35
 # Turned so the GPIO header runs along the FRONT long edge (towards the eyes) and USB/Ethernet sit at the -X end.
-PZ = -37.0 + 4.0
+PZ = -37.0 - SHELF_DROP + 4.0
 board = bx(-42.5, 42.5, -57.0, -1.0, PZ, PZ + 1.6)
 stack = bx(-42.5, 42.5, -57.0 + 9.0, -1.0, PZ + 1.6, PZ + 1.6 + 14.0)          # cooler etc., kept clear of the header strip
 ports = bx(-42.5 - 2.5, -42.5 - 2.5 + 21.5, -57.0 + 1.5, -1.0 - 1.5, PZ + 1.6, PZ + 1.6 + 16.0)
@@ -26,10 +28,10 @@ splitter = bx((hx0 + hx1) / 2 - 28.0, (hx0 + hx1) / 2 + 28.0, -57.0 + 3.5 - 5.0,
 idc_top = bx((hx0 + hx1) / 2 - 28.0, (hx0 + hx1) / 2 + 28.0, -57.0 + 3.5 - 4.6, -57.0 + 3.5 + 4.6, HZ + 12.0, HZ + 21.2)
 U([splitter, idc_top]).export(os.path.join(OUT, "mocks/gpio_splitter.stl"))
 print(f"splitter + ribbon IDC: Z {HZ:.1f}..{HZ + 21.2:.1f}")
-# DYNAMIXEL TTL interface (U2D2 size) on the left shelf wing, resting on the two skull nut posts there (tops Z -31), and one MAX98357A amp centred on the shelf
+# DYNAMIXEL TTL interface (U2D2 size) on the left shelf wing, resting on the tops of the shelf's two left cubes (Z -31 - SHELF_DROP), and one MAX98357A amp centred on the shelf
 # between the speakers (mono: both speakers in parallel on its output)
-bx(-69.0, -51.0, -58.0, -10.0, -30.9, -16.3).export(os.path.join(OUT, "mocks/ttl_interface.stl"))
-bx(-9.0, 9.0, -87.0, -69.0, -36.9, -33.9).export(os.path.join(OUT, "mocks/i2s_amp.stl"))
+bx(-69.0, -51.0, -58.0, -10.0, -30.9 - SHELF_DROP, -16.3 - SHELF_DROP).export(os.path.join(OUT, "mocks/ttl_interface.stl"))
+bx(-9.0, 9.0, -87.0, -69.0, -36.9 - SHELF_DROP, -33.9 - SHELF_DROP).export(os.path.join(OUT, "mocks/i2s_amp.stl"))
 pi.export(os.path.join(OUT, "mocks/pi5.stl"))
 print(f"Pi mock: GPIO header X {hx0:.1f}..{hx1:.1f} at Y {-57 + 3.5:.1f}; ribbon IDC top Z {PZ + 1.6 + 2.5 + 9.2:.1f}")
 

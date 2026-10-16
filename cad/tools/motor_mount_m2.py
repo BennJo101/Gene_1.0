@@ -3,6 +3,8 @@
 # inner face is the flat plane X = -/+43. Per bracket, 2 x M2 socket-head bolts at Y 19, Z +/-4.5, parallel to the M3s
 # (along X): counterbored from outside so the head sits flush with or just under the skin, clearance through the wall
 # and the foot, and an M2 hex nut captured in a hex pocket in the foot's inner face.
+# Also cuts the pilots for the 2 x M3 self-tappers per side into the skull wall (the brackets already have their M3
+# holes, the skull never had pilots): dia 2.5 along X from the foot face out to 2 mm under the skin.
 # Run after skull_v7_usbc_port.py. Old files kept in tools/retired/ (GeneTop_v7_before_m2_bolts.stl, *_v2_before_m2_bolts.stl).
 import trimesh, numpy as np, os, io, shutil, manifold3d as mf
 OUT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -14,6 +16,8 @@ CLEAR=2.4                          # M2 clearance
 HEAD_D,HEAD_H=4.3,2.0              # counterbore for an M2 socket head (3.8 x 2.0)
 NUT_AF,NUT_DEPTH=4.3,2.2           # M2 hex nut 4.0 AF x 1.6, pocket with clearance
 SINK=0.2                           # head top this far under the skin at the shallowest point of the counterbore
+M3=[(20.0,-10.0),(20.0,10.0)]      # M3 self-tappers, bracket foot into the skull wall
+PILOT,PILOT_SKIN=2.5,2.0           # M3 self-tap pilot, stops this far under the skin
 
 def to_mf(t): return mf.Manifold(mf.Mesh(vert_properties=np.asarray(t.vertices,np.float32),tri_verts=np.asarray(t.faces,np.uint32)))
 def to_tm(m): g=m.to_mesh(); return trimesh.Trimesh(g.vert_properties[:,:3],g.tri_verts)
@@ -45,6 +49,16 @@ def cuts(shell,sg):
     for c in C[1:]: U=U+c
     return U,lengths
 
+def pilots(shell,sg):
+    """M3 self-tap pilots for one side, skull only; returns the cutter and each pilot's depth into the wall"""
+    P=[]; depth=[]
+    for y,z in M3:
+        loc,_,_=shell.ray.intersects_location(np.array([[0,y,z]]),np.array([[sg,0,0]]),multiple_hits=True)
+        xs=np.sort(np.abs(loc[:,0])); x_in,x_out=xs[0],xs[-1]   # inner wall and skin on the screw axis
+        lo,hi=sorted([sg*(X_FOOT-1.0),sg*(x_out-PILOT_SKIN)])
+        P.append(along_x(mf.CrossSection.circle(PILOT/2,32),lo,hi,y,z)); depth.append(x_out-PILOT_SKIN-x_in)
+    return P[0]+P[1],depth
+
 def save(t,fn):
     b=io.BytesIO(); t.export(b,file_type="stl"); b.seek(0); r=trimesh.load(b,file_type="stl")
     assert r.is_watertight and r.body_count==1, fn
@@ -62,14 +76,16 @@ def build():
     S=to_mf(sk)
     for side,sg in (("L",-1),("R",1)):
         U,lengths=cuts(shell,sg)
-        S=S-U
+        Pl,depth=pilots(shell,sg)
+        S=S-U-Pl
+        print(f"skull {side}: M3 pilots {', '.join(f'{d:.1f}' for d in depth)} mm into the wall")
         br=load(files[side]); B=to_mf(br)-U
         assert len(B.decompose())==1
         save(to_tm(B),os.path.join(OUT,files[side]))
         print(f"bracket {side}: {to_tm(B).volume/1000:.2f} cm3; bolt grip to nut far face {', '.join(f'{l:.1f}' for l in lengths)} mm -> M2 x 16")
     assert len(S.decompose())==1
     t=to_tm(S); t.apply_translation(-SHIFT); save(t,os.path.join(OUT,files["skull"]))
-    print(f"skull v7: 4 x M2 bolt holes, vol {t.volume/1000:.2f} cm3")
+    print(f"skull v7: 4 x M2 bolt holes + 4 x M3 pilots, vol {t.volume/1000:.2f} cm3")
 
 if __name__=="__main__":
     build()

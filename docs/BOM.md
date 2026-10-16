@@ -15,15 +15,16 @@ not a part.
 
 | Part | Qty | File (in `print/parts/`) | Solid vol | On plate |
 |---|---|---|---|---|
-| Skull v7 (shell, brow, eye barrels, thrust pads, crown-bay ledge, neck screw pilots; v7: 26.5 x 7.5 camera ribbon slots, top window in each barrel + plug pocket above it for the display boards' HDMI/USB, inboard barrel wall open above the camera slot) | 1 | `01_skull_x1.stl` | 589.8 cm3 | 1 |
+| Skull v7 (shell, brow, eye barrels, thrust pads, crown-bay ledge, neck screw pilots; v7: 26.5 x 7.5 camera ribbon slots, top window in each barrel + plug pocket above it for the display boards' HDMI/USB, inboard barrel wall open above the camera slot, 4 shelf divots, bracket M3 pilots) | 1 | `01_skull_x1.stl` | 582.1 cm3 | 1 |
 | Jaw, twin D-shafts | 1 | `02_jaw_x1.stl` | 407.5 cm3 | 2 |
-| Pi 5 shelf v6 (4 mm standoffs, speaker cradles) | 1 | `03_pi_shelf_x1.stl` | 41.9 cm3 | 3 |
+| Pi 5 shelf v6 (4 mm standoffs, speaker cradles, 4 cubes on the wings; sits flush with the skull's bottom rim, speaker cradles poking out below) | 1 | `03_pi_shelf_x1.stl` | 48.8 cm3 | 3 |
 | Battery tray | 1 | `04_battery_tray_x1.stl` | 23.4 cm3 | 3 |
 | Electronics deck | 1 | `05_battery_deck_x1.stl` | 17.1 cm3 | 3 |
 | Crown insert (fills the top slot, GPIO riser well) | 1 | `13_crown_insert_x1.stl` | 21.5 cm3 | 5 |
 | Bridge handle - **optional** | 1 | `17_bridge_handle_OPTIONAL_x1.stl` | 57.7 cm3 | 5 |
 | GPIO flashlight - **optional**, instead of the handle (saddle + strap + forehead lamp pod) | 1 | `18_gpio_flashlight_OPTIONAL_x1.stl` | 28.8 cm3 | 7 |
 | GPIO cover - **optional**, closes the crown's GPIO well when nothing is plugged in | 1 | `19_gpio_cover_OPTIONAL_x1.stl` | 2.0 cm3 | 7 |
+| Eye X insert - **optional**, Halloween cap with a raised X for an eye barrel (either eye) | 1 | `20_eye_x_insert_OPTIONAL_x1.stl` | 25.2 cm3 | - |
 | Neck (yoke + tube, turns with the head) | 1 | `14_neck_x1.stl` | 99.5 cm3 | 6 |
 | Neck base (bearing housing, bolts to the body) | 1 | `15_neck_base_x1.stl` | 96.7 cm3 | 6 |
 | Neck clamp collar | 1 | `16_neck_collar_x1.stl` | 1.9 cm3 | 6 |
@@ -86,7 +87,7 @@ Print notes:
 | M3 x 5 set screw (grub) | 2 | Hub to D-shaft |
 | M3 x 16 self-tapping, pan head | 4 | Brackets to skull wall |
 | M2 x 16 hex socket head bolt + M2 hex nut | 4 + 4 | Brackets to skull, through-bolted: in from outside the skull (counterbored flush), nut in the hex pocket in each bracket foot (2 per side) |
-| M2 x 8 hex socket head bolt + M2 hex nut | 4 + 4 | Pi shelf wings to the skull's nut posts: up from under the wing, nut slid sideways into the slot in each post's inboard face (2 per side) |
+| M2 x 12 hex socket head bolt + M2 hex nut | 4 + 4 | Pi shelf cubes to the skull: nut dropped into the slot in each cube's top, cube slid up into its divot, bolt in from outside the skull (counterbored flush) (2 per side) |
 | M3 x 12 self-tapping, pan head | 4 | Battery tray up through the bracket pads |
 | M3 x 10 self-tapping, pan head | 4 | Deck to battery tray |
 | M2.5 x 12 screw + M2.5 nut | 4 + 4 | Pi 5 to shelf standoffs (nut under the plate) |
@@ -102,7 +103,7 @@ Print notes:
 | Hook-and-loop strap, 20-22 mm wide, ~250 mm | 2 | Pack to tray |
 | CA glue (medium) | 1 | Display carriers, retainers, bezels, pupil rings, speakers |
 
-M3 self-tapping totals: 8 x M3x10, 4 x M3x12 pan head,
+M3 self-tapping totals: 4 x M3x10, 4 x M3x12 pan head,
 9 x M3x16 (plus 4 x M3x16 socket head only if you fit the handle, or 2 x M3x20 socket head for the flashlight), 3 x M3x8. The hubs are drilled 2.2 mm for
 M2, but the ROBOTIS model shows the horn holes at 1.6 mm, so check the horn
 before final assembly.
@@ -115,7 +116,7 @@ before final assembly.
 | Pi 5 Active Cooler | 1 | Stack fit-checked at 14 mm, USB/Ethernet block at 16 mm |
 | microSD card, 32 GB+ | 1 | |
 | ROBOTIS DYNAMIXEL XL330-M288-T | 2 | Horns included. Run in tandem, **one reversed** |
-| DYNAMIXEL TTL interface (ROBOTIS U2D2, or a half-duplex buffer on the Pi UART) | 1 | On the two left shelf nut posts, above the left wing (fit-checked at U2D2 size, 48 x 18 x 15), foam tape |
+| DYNAMIXEL TTL interface (ROBOTIS U2D2, or a half-duplex buffer on the Pi UART) | 1 | On the two left shelf cubes, above the left wing (fit-checked at U2D2 size, 48 x 18 x 15), foam tape |
 | GPIO 1-to-2 splitter board (2x20) | 1 | On the Pi header: one header for the crown ribbon, one for the I2S amp |
 | TekGroAml 2.1" round 480 x 480 LCD + mini-HDMI driver board (Amazon B0DZ2ZKP7B) | 2 | Bought. LCD 56.18 x 59.71 x 2.3 mm (53.28 active) with a 26.9 mm, 40-pin flex off the bottom. Driver board is **round, 57 mm dia**, 4 x M2.5 holes (2.5 mm), mini-HDMI (11.5 wide) and **micro-USB** (8 wide) on the edge opposite the flex connector, each angled 15 deg - so they splay apart. Mount each LCD + board **turned 180 deg** (LCD flex at the top, plugs pointing down) and flip the picture on the Pi with a 180 deg display rotation: flex-down puts the outboard plug only 8-10 mm from the barrel skin. The barrels' inboard walls are open above the camera slot so the LCD ribbon can swing past while you turn it. 5 V 1 A+ |
 | Arducam B0066 mini camera, OV5647 5 MP (Amazon B012QRGUCQ) | 2 | Bought. 8.5 mm square head, ~12 mm long with the crystal behind it; 300 mm, 6 mm wide flex ending in a rigid 16 x 30 mm 15-pin (1 mm pitch) tail |
