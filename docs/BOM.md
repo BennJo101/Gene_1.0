@@ -159,6 +159,21 @@ Power budget: about **14 W talking and 36 W peak** from the pack, which gives ab
 **3 h** of runtime. If the Pi is fed through its GPIO 5 V pins rather than USB-C, add
 `usb_max_current_enable=1` to `config.txt` or its USB ports are limited to 600 mA.
 
+### 4b. Secondary setup: bought power bank instead of the pack
+
+Fit-checked instead of the 2S2P pack. Wiring is in [`WIRING.md`](WIRING.md#secondary-setup-bought-power-bank-instead-of-the-2s2p-pack).
+
+| Item | Qty | Notes |
+|---|---|---|
+| INIU Pocket Rocket P50 power bank, 10000 mAh, 45 W (83.6 x 53.1 x 25.4 mm) | 1 | The tray bay is 84.6 x 54.1. Measure your unit: other banks fit if they are no bigger than that and have a USB-C port that gives **15 V 3 A** on its own |
+| USB-C PD trigger board, fixed or set to 15 V, max 32 x 14 x 5 mm | 1 | In the deck's trigger bay |
+| Printed: power bank tray `21_battery_tray_POWERBANK_x1.stl` and deck `22_battery_deck_POWERBANK_x1.stl` | 1 each | Instead of parts 04 and 05. PETG. Both print as installed with no supports: the tray floor down (102.8 x 80.6 x 32 mm), the deck plate down |
+| M3 x 12 self-tapping, pan head | 2 | Tray up through the **rear** bracket pads |
+| M3 x 10 self-tapping, pan head | 2 + 4 | Tray up through the **front** bracket pads (the floor there is only 6 mm thick), and the deck down into the tray posts |
+| Foam pad, 1 mm, ~80 x 50 mm | 1 | On top of the bank: the deck clamps the bank down through it |
+
+Still needed from section 4: both D36V50F5 bucks, the charge port extension, the power switch, 18 AWG and 22-24 AWG wire, and heat-shrink. Not needed: the cells, nickel strip, BMS, charger board, XT30 and the two hook-and-loop straps. The fuse can drop to 5 A.
+
 ## 5. Cables
 
 Wiring diagrams for the audio chain and the power stack are in [`WIRING.md`](WIRING.md).

@@ -6,9 +6,10 @@ import numpy as np, json, trimesh
 from scipy import ndimage, sparse
 from scipy.sparse.csgraph import dijkstra
 from trimesh.creation import box
-from parts import OUT
+from parts import OUT, POWER
+PB = POWER == "powerbank"   # secondary power setup: run occ_all.py and this with GENE_POWER=powerbank
 
-d = np.load("occ_all.npz")
+d = np.load("occ_all_pb.npz" if PB else "occ_all.npz")
 OCC, INSIDE, xs, ys, zs, st = d["occ"].copy(), d["inside"], d["xs"], d["ys"], d["zs"], float(d["step"])
 shape = OCC.shape
 
@@ -49,6 +50,16 @@ CABLES = [
     ("Speaker R -> amp", (26, -88, -48.35), (5, -82, -45.35), 2.5, "audio"),
     ("Amp (I2S) -> GPIO splitter", (0, -72, -45.35), (-12, -60, -29.35), 3.0, "audio"),
 ]
+if PB:   # no pack leads; bucks sit on the bank deck; the charge-port lead and the PD trigger cable go to the bank's +X end
+    CABLES = [c for c in CABLES if c[0] not in ("Pack leads (XT30 + balance)", "Slip-ring bundle to deck",
+                                                "Pi buck -> Pi 5 USB-C", "Servo buck -> servo R")]
+    CABLES[:0] = [
+        ("Charge port -> bank USB-C (extension)", (0, 4, -14), (51, -34, 30), 4.0, "power"),
+        ("Bank USB-C -> PD trigger", (51, -20, 34), (0, -12, 56), 4.0, "power"),
+        ("Slip-ring bundle to deck", (0, 20, -50), (0, 4, 52), 6.0, "power"),
+        ("Pi buck -> Pi 5 USB-C", (-14.5, -20, 58), (31.3, 3.0, -42.35), 4.0, "power"),
+        ("Servo buck -> servo R", (14.5, -20, 58), (18, -4, -2), 3.0, "power"),
+    ]
 
 OFFS = np.array([(a, b, c) for a in (-1, 0, 1) for b in (-1, 0, 1) for c in (-1, 0, 1) if (a, b, c) != (0, 0, 0)])
 
@@ -196,5 +207,5 @@ for r_ in results:
         if v > 0.01: worst.append((n2, round(v, 1)))
     r_["exact_gap"] = round(float(gap), 2); r_["hits"] = worst
     print(f"  {r_['name']:34s} gap {gap:5.2f} mm  " + ("OVERLAPS " + str(worst) if worst else "clear"))
-json.dump({"cables": results, "new_parts": NEW, "ribbon": RIB}, open("cables.json", "w"), indent=1)
+json.dump({"cables": results, "new_parts": NEW, "ribbon": RIB}, open("cables_pb.json" if PB else "cables.json", "w"), indent=1)
 print(f"\n{sum(r['ok'] for r in results)}/{len(results)} cables routed")

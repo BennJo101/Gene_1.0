@@ -8,6 +8,7 @@ venv/
 cad/print/
 cad/tools/printparts.pkl
 cad/tools/occ_all.npz
+cad/tools/occ_all_pb.npz
 cad/tools/free.npy
 cad/tools/retired/GeneTop_v7_before_*.stl
 

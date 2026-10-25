@@ -69,4 +69,24 @@ The amp takes its 5 V from the Pi header, so the only cable it needs is the one 
 
 Four 18650s sit side by side in the tray. A and B face + forward and C and D face + rearward, so one front nickel strip (S1) does three jobs: it joins A∥B, joins C∥D, and makes the series link (BM). The rear strips are S2 (A−/B−, pack B−) and S3 (C+/D+, pack B+), with a gap between them that must never be bridged. The diagram lists all 13 connections, the plug pinouts, the meter checks and the build order.
 
+## Secondary setup: bought power bank instead of the 2S2P pack
+
+A bought power bank can replace the pack, the BMS and the charger board. The bank fitted for is the **INIU Pocket Rocket P50** (10000 mAh, 45 W, 83.6 x 53.1 x 25.4 mm). It lies across the head in its own tray (`21_battery_tray_POWERBANK_x1.stl`), with its ports at Gene's left (+X) end. One USB-C output goes into a **15 V USB-C PD trigger board**. From the trigger's output onwards the wiring is the same as the pack's: switch, fuse, both D36V50F5 bucks, then everything in the loads diagram.
+
+| From | To | Wire |
+|---|---|---|
+| USB-C charge port extension (right-angle male) | The bank's in/out USB-C (the port that charges the bank) | as supplied. Routed 108 mm, so the 30 cm lead has plenty of slack |
+| The bank's other USB-C | PD trigger board set to **15 V** (USB-C male plug, or a short right-angle C-to-C cable into a board with a socket) | routed 72 mm; buy 150 mm |
+| Trigger **V+** | Switch (2-wire) → fuse (5 A) → VIN of both bucks | 18 AWG |
+| Trigger **GND** | GND of both bucks | 18 AWG |
+| Buck A / Buck B outputs | Pi 5 USB-C / servo R, as in the power table above | Pi lead 200 mm, servo lead 150 mm (the bucks sit closer than on the pack deck) |
+
+- **Not needed:** 18650 cells, nickel strip, BMS, charger board, XT30, balance lead, and the two pack straps.
+- Don't use the bank's USB-A port, and don't use both USB-C outputs at once. With two outputs in use the P50 drops to 15 W in total. One USB-C output on its own gives up to 45 W (15 V 3 A), and Gene's 36 W peak is 2.4 A at 15 V.
+- Before connecting anything, plug the trigger into the bank and meter V+ to GND. You should see 15 V. If you see 5 V, the trigger didn't negotiate: check its setting.
+- **Pass-through:** the P50 runs Gene while it charges, but reviews report a short drop in its output when the charger is plugged in or pulled out. That reboots the Pi, so plug and unplug the charger with Gene switched off.
+- **Bench test, needed before this is final:** switch Gene off for a few minutes, then switch on again. If the bank has gone to sleep and gives no output, the switch has to open the USB-C link itself. In that case use an inline USB-C switch cable that breaks VBUS and CC between the bank and the trigger, so turning it on looks like a fresh plug-in.
+- Runtime is about 2 h talking: about 37 Wh in the bank, less its own conversion loss. The pack gives about 3 h.
+- The bank's button and display end up inside the head. To check its charge, read it on the bench, or let the Pi warn you when 5 V sags.
+
 Not covered yet: the slip ring's fixed-side wires below the neck base, and where the power switch goes in the skull.

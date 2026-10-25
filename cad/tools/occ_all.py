@@ -63,5 +63,5 @@ for k in MOVING:
 # sanity: compare the skull's voxel volume with its true volume
 sk = column_fill(sh).sum() * step ** 3 / 1000
 print(f"skull voxel volume {sk:.0f} cm3 vs mesh {sh.volume / 1000:.0f} cm3", flush=True)
-np.savez_compressed("occ_all.npz", occ=occ, inside=inside, xs=xs, ys=ys, zs=zs, step=step)
+np.savez_compressed("occ_all_pb.npz" if POWER == "powerbank" else "occ_all.npz",occ=occ, inside=inside, xs=xs, ys=ys, zs=zs, step=step)
 print("done", f"{time.time() - t0:.0f}s", flush=True)
