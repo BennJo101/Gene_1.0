@@ -49,7 +49,7 @@ Electronics,TekGroAml 2.1 in round 480x480 LCD + mini-HDMI driver board (B0DZ2ZK
 Electronics,Arducam B0066 mini OV5647 camera (B012QRGUCQ),2,Bought; 8.5 sq head ~12 long; 300 mm 6 mm flex; rigid 16x30 15-pin tail,
 Electronics,Pi 5 22-pin to 15-pin CSI cable,2,Bought 200 mm + 300 mm; needs a 15-pin 1 mm FFC coupler per camera to join the Arducam tail,
 Electronics,15-pin 1 mm FFC coupler / extension board,2,NOT ORDERED; joins Arducam tail to the Pi 5 cable,
-Electronics,Micro-USB lead (right-angle) for display power,2,NOT ORDERED; display boards take micro-USB,
+Electronics,Micro-USB to USB-A cable (right-angle) for display power,2,From the Pi 5 USB-A ports; needs usb_max_current_enable=1,
 Electronics,Capsule slip ring 22 mm body (<=30 mm) 44 mm flange 3 holes PCD 35,1,Assumed size; neck base floor,
 Electronics,40-pin GPIO extension ribbon female-to-male 20 cm,1,Male IDC plug seats in the crown insert (assumed 56 x 8.9 x 7.6 body),
 Electronics,Speaker 28 mm 8 ohm 1-2 W <=5 mm deep,2,Assumed size,

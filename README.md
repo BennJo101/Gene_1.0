@@ -71,7 +71,6 @@ Open [`sim/head_sim.html`](sim/head_sim.html) in a browser. You don't need a ser
 Designed, fit-checked, and partly printed. Still open:
 
 - A hole in the skull for the power switch (the USB-C charge port is cut in the lower back)
-- Micro-USB power leads for the display driver boards
 - A motor to drive the neck rotation
 - The body or stand the neck base bolts to (4 × M4 on a 76 × 45 mm rectangle)
 

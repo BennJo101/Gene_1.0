@@ -125,7 +125,7 @@
   <text x="772" y="652" font-weight="bold" fill="#1a1a1a">5 V Pi rail (~3.5 A peak)</text>
   <g font-size="12" fill="#1a1a1a">
     <text x="772" y="674">→ Pi 5 USB-C (pigtail, 250 mm, 20–22 AWG)</text>
-    <text x="772" y="694">→ 2 × eye display micro-USB leads</text>
+    <text x="772" y="694">→ 2 × eye screens, via the Pi's USB-A ports</text>
     <text x="772" y="714">→ amp Vin, via Pi header pin 4 (audio diagram)</text>
     <text x="772" y="734" fill="#555">→ crown flashlight, via the GPIO ribbon 5 V</text>
   </g>

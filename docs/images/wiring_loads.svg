@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 1110" width="1120" height="1110" font-family="Helvetica, Arial, sans-serif" font-size="14">
+  <title>Gene 1.0 - wiring after the bucks: Pi 5, eye screens, cameras, servos, GPIO</title>
+  <rect width="1120" height="1110" fill="#ffffff"/>
+  <text x="40" y="38" font-size="20" font-weight="bold" fill="#1a1a1a">After the bucks: 5 V rails → Pi 5, eye screens, cameras, jaw servos, GPIO</text>
+  <text x="40" y="60" font-size="13" fill="#555">Buck inputs come from the BMS (power diagram). Red = 5 V, black = GND, blue = HDMI, orange = camera ribbon, green = USB, teal = DYNAMIXEL DATA.</text>
+
+  <!-- Buck A -->
+  <rect x="40" y="120" width="170" height="110" rx="8" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
+  <text x="125" y="170" font-weight="bold" text-anchor="middle" fill="#4a148c">Buck A: Pi rail</text>
+  <text x="125" y="188" font-size="12" text-anchor="middle" fill="#7b1fa2">D36V50F5, 5 V 5 A</text>
+  <g font-size="12" fill="#1a1a1a" text-anchor="end"><text x="204" y="146">VOUT</text><text x="204" y="216">GND</text></g>
+  <text x="48" y="246" font-size="10" fill="#888">VIN / GND ← BMS (power diagram)</text>
+
+  <!-- Buck B -->
+  <rect x="40" y="800" width="170" height="110" rx="8" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
+  <text x="125" y="852" font-weight="bold" text-anchor="middle" fill="#4a148c">Buck B: servo rail</text>
+  <text x="125" y="870" font-size="12" text-anchor="middle" fill="#7b1fa2">D36V50F5, 5 V 5 A</text>
+  <g font-size="12" fill="#1a1a1a" text-anchor="end"><text x="204" y="821">GND</text><text x="204" y="891">VOUT</text></g>
+  <text x="48" y="926" font-size="10" fill="#888">VIN / GND ← BMS (power diagram)</text>
+
+  <!-- Pi 5 -->
+  <rect x="330" y="120" width="300" height="470" rx="10" fill="#e8f3ea" stroke="#2e7d32" stroke-width="2"/>
+  <text x="470" y="300" font-weight="bold" font-size="16" text-anchor="middle" fill="#1b5e20">Raspberry Pi 5</text>
+  <text x="470" y="320" font-size="12" text-anchor="middle" fill="#2e7d32">on the shelf, GPIO toward the eyes</text>
+  <text x="470" y="336" font-size="12" text-anchor="middle" fill="#2e7d32">usb_max_current_enable=1</text>
+  <g font-size="12" fill="#1a1a1a">
+    <text x="378" y="166">USB-C power</text>
+  </g>
+  <g font-size="12" fill="#1a1a1a" text-anchor="end">
+    <text x="622" y="169">micro-HDMI 0</text>
+    <text x="622" y="269">micro-HDMI 1</text>
+    <text x="622" y="374">CAM/DISP 0</text>
+    <text x="622" y="454">CAM/DISP 1</text>
+    <text x="622" y="534">GPIO header</text>
+  </g>
+  <text x="430" y="580" font-size="12" text-anchor="middle" fill="#1a1a1a">USB-A</text>
+  <g fill="#1a1a1a">
+    <circle cx="630" cy="165" r="4"/><circle cx="630" cy="265" r="4"/><circle cx="630" cy="370" r="4"/><circle cx="630" cy="450" r="4"/><circle cx="630" cy="530" r="4"/><circle cx="430" cy="590" r="4"/>
+  </g>
+
+  <!-- Buck A to Pi USB-C pigtail -->
+  <rect x="300" y="146" width="30" height="34" rx="4" fill="#ddd" stroke="#1a1a1a" stroke-width="1.5"/>
+  <g stroke-width="3" fill="none">
+    <path d="M210 150 H300" stroke="#d32f2f"/>
+    <path d="M210 210 H285 V176 H300" stroke="#1a1a1a"/>
+  </g>
+  <text x="255" y="270" font-size="11" text-anchor="middle" fill="#555">USB-C 90° pigtail</text>
+  <text x="255" y="284" font-size="11" text-anchor="middle" fill="#555">250 mm, 20–22 AWG</text>
+
+  <!-- Pi USB-A to the display micro-USB power inputs (over the top) -->
+  <g stroke-width="4" fill="none" stroke="#2e9e5b">
+    <path d="M560 116 V92 H1080 V272 H1040"/>
+    <path d="M590 116 V102 H1066 V172 H1040"/>
+  </g>
+  <text x="575" y="138" font-size="12" text-anchor="middle" fill="#1a1a1a">USB-A × 2</text>
+  <g fill="#1a1a1a"><circle cx="560" cy="120" r="4"/><circle cx="590" cy="120" r="4"/></g>
+  <text x="820" y="86" font-size="12" text-anchor="middle" fill="#2e9e5b">2 × micro-USB to USB-A cable (power only), from the Pi's USB ports</text>
+
+  <!-- Eye displays -->
+  <rect x="760" y="125" width="280" height="90" rx="8" fill="#e6effa" stroke="#1565c0" stroke-width="2"/>
+  <text x="915" y="152" font-weight="bold" text-anchor="middle" fill="#0d47a1">Right eye screen</text>
+  <text x="915" y="170" font-size="11" text-anchor="middle" fill="#1565c0">2.1" round 480×480, driver board</text>
+  <text x="915" y="186" font-size="11" text-anchor="middle" fill="#1565c0">mounted turned 180°</text>
+  <g font-size="11" fill="#1a1a1a"><text x="766" y="161">mini-HDMI</text></g>
+  <g font-size="11" fill="#1a1a1a" text-anchor="end"><text x="1034" y="206">micro-USB</text></g>
+
+  <rect x="760" y="225" width="280" height="90" rx="8" fill="#e6effa" stroke="#1565c0" stroke-width="2"/>
+  <text x="915" y="252" font-weight="bold" text-anchor="middle" fill="#0d47a1">Left eye screen</text>
+  <text x="915" y="270" font-size="11" text-anchor="middle" fill="#1565c0">2.1" round 480×480, driver board</text>
+  <text x="915" y="286" font-size="11" text-anchor="middle" fill="#1565c0">mounted turned 180°</text>
+  <g font-size="11" fill="#1a1a1a"><text x="766" y="261">mini-HDMI</text></g>
+  <g font-size="11" fill="#1a1a1a" text-anchor="end"><text x="1034" y="306">micro-USB</text></g>
+
+  <g stroke-width="4" fill="none" stroke="#1976d2">
+    <line x1="634" y1="165" x2="760" y2="165"/>
+    <line x1="634" y1="265" x2="760" y2="265"/>
+  </g>
+  <text x="697" y="200" font-size="10" text-anchor="middle" fill="#1976d2">micro-HDMI → 90°</text>
+  <text x="697" y="212" font-size="10" text-anchor="middle" fill="#1976d2">mini-HDMI FPC</text>
+  <text x="697" y="224" font-size="10" text-anchor="middle" fill="#1976d2">500 mm</text>
+
+  <!-- Cameras -->
+  <rect x="760" y="340" width="280" height="60" rx="8" fill="#fff3e0" stroke="#ef6c00" stroke-width="2"/>
+  <text x="900" y="365" font-weight="bold" text-anchor="middle" fill="#e65100">Right eye camera</text>
+  <text x="900" y="383" font-size="11" text-anchor="middle" fill="#ef6c00">Arducam OV5647, 300 mm flex</text>
+  <rect x="760" y="420" width="280" height="60" rx="8" fill="#fff3e0" stroke="#ef6c00" stroke-width="2"/>
+  <text x="900" y="445" font-weight="bold" text-anchor="middle" fill="#e65100">Left eye camera</text>
+  <text x="900" y="463" font-size="11" text-anchor="middle" fill="#ef6c00">Arducam OV5647, 300 mm flex</text>
+
+  <g stroke-width="5" fill="none" stroke="#ef8f00">
+    <line x1="634" y1="370" x2="760" y2="370"/>
+    <line x1="634" y1="450" x2="760" y2="450"/>
+  </g>
+  <g fill="#fff" stroke="#1a1a1a" stroke-width="1.5">
+    <rect x="690" y="361" width="16" height="18"/><rect x="690" y="441" width="16" height="18"/>
+  </g>
+  <text x="698" y="354" font-size="10" text-anchor="middle" fill="#555">FFC coupler</text>
+  <text x="698" y="410" font-size="10" text-anchor="middle" fill="#555">22→15-pin Pi cable</text>
+  <text x="698" y="422" font-size="10" text-anchor="middle" fill="#555">+ 15-pin 1 mm coupler</text>
+
+  <!-- GPIO splitter -->
+  <rect x="660" y="500" width="120" height="90" rx="6" fill="#f3f3f3" stroke="#555" stroke-width="2"/>
+  <text x="720" y="524" font-weight="bold" font-size="12" text-anchor="middle" fill="#1a1a1a">GPIO splitter</text>
+  <text x="720" y="540" font-size="11" text-anchor="middle" fill="#555">1-to-2, on the</text>
+  <text x="720" y="554" font-size="11" text-anchor="middle" fill="#555">Pi header</text>
+  <g font-size="10" fill="#555" text-anchor="middle"><text x="820" y="506">header 1</text><text x="820" y="572">header 2</text></g>
+  <line x1="634" y1="530" x2="660" y2="530" stroke="#555" stroke-width="6"/>
+  <g stroke="#555" stroke-width="6" fill="none">
+    <path d="M780 512 H860"/>
+    <path d="M780 578 H860"/>
+  </g>
+  <rect x="860" y="497" width="200" height="34" rx="6" fill="#fafafa" stroke="#999"/>
+  <text x="868" y="512" font-size="11" fill="#1a1a1a">40-pin ribbon 200 mm → crown plug</text>
+  <text x="868" y="526" font-size="10" fill="#555">flashlight: 5 V, GND, GPIO 12 (pin 32)</text>
+  <rect x="860" y="562" width="200" height="34" rx="6" fill="#fafafa" stroke="#999"/>
+  <text x="868" y="577" font-size="11" fill="#1a1a1a">MAX98357A amp + 2 speakers</text>
+  <text x="868" y="591" font-size="10" fill="#555">see the audio diagram</text>
+
+  <!-- U2D2 -->
+  <rect x="330" y="660" width="200" height="110" rx="8" fill="#e0f2f1" stroke="#00897b" stroke-width="2"/>
+  <text x="380" y="702" font-weight="bold" fill="#00695c">U2D2</text>
+  <text x="380" y="720" font-size="11" fill="#00897b">USB ↔ TTL</text>
+  <text x="380" y="736" font-size="11" fill="#00897b">left shelf cubes</text>
+  <text x="380" y="752" font-size="11" fill="#00897b">/dev/dynamixel</text>
+  <g font-size="11" fill="#1a1a1a" text-anchor="end"><text x="524" y="704">GND</text><text x="524" y="729">VDD</text><text x="524" y="754">DATA</text></g>
+  <text x="430" y="676" font-size="11" text-anchor="middle" fill="#1a1a1a">micro-USB</text>
+  <path d="M430 594 V660" stroke="#2e9e5b" stroke-width="4" fill="none"/>
+  <text x="440" y="630" font-size="11" fill="#2e9e5b">USB, 100 mm</text>
+
+  <!-- Servos -->
+  <rect x="620" y="660" width="190" height="110" rx="8" fill="#e6effa" stroke="#1565c0" stroke-width="2"/>
+  <text x="715" y="690" font-weight="bold" text-anchor="middle" fill="#0d47a1">Servo L</text>
+  <text x="715" y="708" font-size="11" text-anchor="middle" fill="#1565c0">XL330-M288-T</text>
+  <g font-size="11" fill="#1a1a1a"><text x="626" y="704">GND</text><text x="626" y="729">VDD</text><text x="626" y="754">DATA</text></g>
+  <g font-size="11" fill="#1a1a1a" text-anchor="end"><text x="804" y="704">GND</text><text x="804" y="729">VDD</text><text x="804" y="754">DATA</text></g>
+
+  <rect x="880" y="660" width="190" height="120" rx="8" fill="#e6effa" stroke="#1565c0" stroke-width="2"/>
+  <text x="985" y="690" font-weight="bold" text-anchor="middle" fill="#0d47a1">Servo R</text>
+  <text x="985" y="708" font-size="11" text-anchor="middle" fill="#1565c0">XL330-M288-T</text>
+  <g font-size="11" fill="#1a1a1a"><text x="886" y="704">GND</text><text x="886" y="729">VDD</text><text x="886" y="754">DATA</text></g>
+  <text x="1040" y="740" font-size="10" text-anchor="middle" fill="#555">port 2</text>
+  <g font-size="10" fill="#1a1a1a" text-anchor="middle"><text x="940" y="774">GND</text><text x="970" y="760">VDD</text><text x="1000" y="774">DATA</text></g>
+  <circle cx="1000" cy="780" r="4" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+  <text x="1012" y="800" font-size="10" fill="#888">DATA not connected</text>
+
+  <!-- DYNAMIXEL chain -->
+  <g stroke-width="3" fill="none">
+    <line x1="530" y1="700" x2="620" y2="700" stroke="#1a1a1a"/>
+    <line x1="530" y1="750" x2="620" y2="750" stroke="#00897b"/>
+    <line x1="810" y1="700" x2="880" y2="700" stroke="#1a1a1a"/>
+    <line x1="810" y1="725" x2="880" y2="725" stroke="#d32f2f"/>
+    <line x1="810" y1="750" x2="880" y2="750" stroke="#00897b"/>
+  </g>
+  <line x1="530" y1="725" x2="560" y2="725" stroke="#999" stroke-width="2" stroke-dasharray="4 3"/>
+  <line x1="552" y1="717" x2="568" y2="733" stroke="#999" stroke-width="2"/>
+  <line x1="568" y1="717" x2="552" y2="733" stroke="#999" stroke-width="2"/>
+  <text x="575" y="789" font-size="10" text-anchor="middle" fill="#555">150 mm · VDD left out</text>
+  <text x="845" y="789" font-size="10" text-anchor="middle" fill="#555">100 mm</text>
+
+  <!-- Buck B to servo R port 2 -->
+  <g stroke-width="3" fill="none">
+    <path d="M210 825 H940 V780" stroke="#1a1a1a"/>
+    <path d="M210 885 H970 V780" stroke="#d32f2f"/>
+  </g>
+  <text x="590" y="874" font-size="12" text-anchor="middle" fill="#1a1a1a">200 mm, 18 AWG, into servo R's free port (~3 A stall, both servos)</text>
+
+  <!-- Notes -->
+  <rect x="40" y="945" width="1040" height="150" rx="8" fill="#fff8e1" stroke="#f9a825"/>
+  <g font-size="13" fill="#1a1a1a">
+    <text x="56" y="969">1. Buck A feeds only the Pi. The screens get 5 V from the Pi's USB-A ports (checked, works); usb_max_current_enable=1 is needed, or all 4 ports share 600 mA.</text>
+    <text x="56" y="991">2. HDMI 0 = right eye, HDMI 1 = left. If they come out swapped, say "swap your eyes" or swap the plugs. The 180° turn is set in software.</text>
+    <text x="56" y="1013">3. CAM/DISP 0 = right eye, CAM/DISP 1 = left (checked on the head 2026-10-13). Each camera needs a 15-pin 1 mm FFC coupler (not ordered yet).</text>
+    <text x="56" y="1035">4. The U2D2 doesn't power the bus: its lead to servo L carries GND + DATA only. Buck B's 5 V goes in at servo R's free port; the two ports are joined inside.</text>
+    <text x="56" y="1057">5. Pi and servo grounds also meet through the U2D2's USB, and all grounds end at BMS −. One servo runs reversed (set in software), so both turn the jaw together.</text>
+    <text x="56" y="1079">6. Flashlight: which crown pin is 5 V / GND depends on the ribbon fold, so find them with a meter on the powered head before soldering.</text>
+  </g>
+</svg>

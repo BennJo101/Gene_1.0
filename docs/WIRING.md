@@ -1,6 +1,6 @@
 # Wiring
 
-Two diagrams: the audio chain (Pi 5 → I2S amp → speakers) and the power stack (pack → BMS → switch → bucks, with USB-C charging). Cable lengths to buy are in [`BOM.md`](BOM.md) section 5.
+Four diagrams: the audio chain (Pi 5 → I2S amp → speakers), the power stack (pack → BMS → switch → bucks, with USB-C charging), what hangs off the two bucks, and building the pack. Cable lengths to buy are in [`BOM.md`](BOM.md) section 5.
 
 ## Audio: Pi 5, MAX98357A, speakers
 
@@ -32,7 +32,7 @@ The amp takes its 5 V from the Pi header, so the only cable it needs is the one 
 | Charger **BAT** / **GND** (the GND next to BAT) | BMS **+** / **−** | 18–22 AWG |
 | BMS **+** | Switch (2-wire, no ground) → fuse (recommended, 10 A) → VIN of both bucks | 18 AWG |
 | BMS **−** | GND of both bucks | 18 AWG |
-| Buck A (Pi rail) VOUT / GND | Pi 5 USB-C pigtail, both display micro-USB leads | Pi lead 20–22 AWG |
+| Buck A (Pi rail) VOUT / GND | Pi 5 USB-C pigtail (the eye screens are powered from the Pi's USB-A ports) | Pi lead 20–22 AWG |
 | Buck B (servo rail) VOUT / GND | XL330 VDD / GND, fed in at servo R | 18 AWG |
 
 - The charger connects after the BMS and before the switch, so the pack charges with Gene switched off and the BMS still protects it.
@@ -43,6 +43,25 @@ The amp takes its 5 V from the Pi header, so the only cable it needs is the one 
 - The U2D2 doesn't power the DYNAMIXEL bus. Its lead to servo L carries DATA and GND. Power from Buck B goes in at servo R.
 - All grounds meet at BMS −. The Pi and servo grounds are also joined through the U2D2's USB lead.
 - Before connecting anything, power the bucks with no loads and check for 5.0 V and the right polarity with a meter.
+
+## After the bucks: Pi 5, eye screens, cameras, servos, GPIO
+
+![Loads wiring](images/wiring_loads.svg)
+
+| From | To | Cable |
+|---|---|---|
+| Buck A VOUT / GND | Pi 5 USB-C | USB-C 90° pigtail 250 mm |
+| Pi USB-A × 2 | Right / left eye screen micro-USB (power) | micro-USB to USB-A cable. Needs `usb_max_current_enable=1`; checked on the head and it works |
+| Pi micro-HDMI 0 / 1 | Right / left eye screen mini-HDMI | micro-HDMI to 90° mini-HDMI FPC, 500 mm |
+| Pi CAM/DISP 0 / 1 | Right / left eye camera | 22-to-15-pin Pi cable + 15-pin 1 mm FFC coupler + the Arducam's 300 mm flex |
+| Pi USB-A | U2D2 micro-USB | 100 mm |
+| U2D2 TTL (GND, DATA) | Servo L | 150 mm DYNAMIXEL lead with VDD left out |
+| Servo L | Servo R | 100 mm DYNAMIXEL lead, all 3 wires |
+| Buck B VOUT / GND | Servo R's free port (VDD, GND; DATA not connected) | 200 mm, 18 AWG |
+| Pi GPIO header | 1-to-2 splitter: header 1 to the crown ribbon (flashlight), header 2 to the amp | see the audio diagram |
+
+- Cameras: CAM/DISP 0 is the right eye and CAM/DISP 1 the left, as checked on the head (2026-10-13). The cable table in `BOM.md` has them the other way round.
+- Each XL330's two ports are joined inside, so feeding 5 V into servo R's free port is the same as splicing it into the L-to-R lead.
 
 ## Battery pack: building the 2S2P
 

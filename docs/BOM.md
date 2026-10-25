@@ -190,8 +190,6 @@ with a 6 mm worst case sized for micro-HDMI.
 
 ## 6. Not yet designed or placed
 
-- Display power: the driver boards take **micro-USB**. The USB-C 90 deg pigtails on the order fit the Pi 5, not these boards, so the displays need two micro-USB (ideally right-angle) leads from the 5 V rail.
-
 - Power switch hole in the skull (the charge port is cut, see `DESIGN_NOTES.md`).
 - Wiring for the power switch (once its hole exists), and the slip ring's fixed-side
   wires below the neck base.
