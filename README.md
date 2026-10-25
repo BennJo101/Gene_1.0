@@ -1,6 +1,6 @@
 # Gene 1.0 — Robot Head
 
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-support%20Gene-FFDD00?logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/YOUR_BMC_USERNAME)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-support%20Gene-FFDD00?logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/joshuaroboi)
 
 Gene is a 3D-printed, expressive robot head. It has two round LCD eyes with cameras for pupils, a talking jaw driven by twin DYNAMIXEL servos, a Raspberry Pi 5 brain with stereo speakers, an onboard 2S Li-ion pack, and a slip-ring neck so the head can turn without winding up its cables.
 
@@ -83,7 +83,7 @@ The scripts in `cad/tools/` rebuild the parts, run the interference checks and r
 
 If Gene helped you or you just like the project, you can support its development on Buy Me a Coffee:
 
-<a href="https://buymeacoffee.com/YOUR_BMC_USERNAME"><img src="https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=%E2%98%95&slug=YOUR_BMC_USERNAME&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" height="45" alt="Buy Me a Coffee"></a>
+<a href="https://buymeacoffee.com/joshuaroboi"><img src="https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=%E2%98%95&slug=YOUR_BMC_USERNAME&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" height="45" alt="Buy Me a Coffee"></a>
 
 ## Credits
 
