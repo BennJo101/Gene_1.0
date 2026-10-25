@@ -12,7 +12,7 @@ The print-ready copies in `../print/` are the same parts, reoriented flat side d
 | Jaw | `jaw.stl` |
 | Jaw drive | `servo_bracket_L.stl`, `servo_bracket_R.stl`, `jaw_drive_hub.stl` |
 | Eyes | `eye_display_carrier.stl`, `eye_display_retainer.stl`, `camera_bezel.stl`, `pupil_ring.stl`; optional `eye_x_insert.stl` (`tools/eye_x_insert.py`) |
-| Interior | `pi_shelf.stl`, `battery_tray.stl`, `battery_deck.stl` |
+| Interior | `pi_shelf.stl`, `battery_tray.stl`, `battery_deck.stl`; for the power bank setup, `battery_tray_pb.stl` and `battery_deck_pb.stl` instead of the last two |
 | Crown | `crown_insert.stl`, `bridge_handle.stl`, `gpio_flashlight.stl`, `gpio_cover.stl` |
 | Neck | `neck.stl`, `neck_base.stl`, `neck_collar.stl` |
 | Fit-check only | `mocks/`: stand-ins for the bought parts (Pi 5, displays, cameras, battery, boards, servos, speakers, slip ring and so on), used by the sim and the clearance checks. **Do not print these** |
@@ -40,6 +40,7 @@ python check.py
 | `mass.py` | Mass, centre of mass and jaw-servo torque estimate |
 | `occ_all.py`, `route.py` | Occupancy grid of the assembly, then a cable routing check for every run in `cables.json` |
 | `printprep.py` → `plates.py` | Orients every part for printing (writes `printparts.pkl` and `cad/print/`), then lays out the `.3mf` plates |
+| `battery_powerbank.py` | Secondary power setup: tray, deck and mocks for a bought power bank (INIU P50) instead of the 2S2P pack. Run `check.py`, `occ_all.py` and `route.py` with `GENE_POWER=powerbank` set to check that setup (results go to `occ_all_pb.npz` and `cables_pb.json`). Writes its two print files straight to `print/parts/` |
 | `export.py` → `build_local_sim.py` | Exports meshes and the jaw sweep to `web/`, then inlines `web/` into one self-contained `head_sim.html` |
 
 The skull is built in eight steps. Run them in this order:

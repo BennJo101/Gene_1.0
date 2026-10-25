@@ -24,6 +24,8 @@
 | 18 | GPIO flashlight OPTIONAL | **1** | `18_gpio_flashlight_OPTIONAL_x1.stl` | 7 | optional; PETG (the LED gets warm); lies on its side, tree supports under the strap and lamp pod; 4 walls |
 | 19 | GPIO cover OPTIONAL | **1** | `19_gpio_cover_OPTIONAL_x1.stl` | 7 | optional; upright, no supports |
 | 20 | eye X insert OPTIONAL | **1** | `20_eye_x_insert_OPTIONAL_x1.stl` | - | optional; plug down, X up, no supports; for a two-colour X, swap filament at Z 8.0 (top of the flange) |
+| 21 | battery tray POWERBANK ALTERNATIVE | **1** | `21_battery_tray_POWERBANK_x1.stl` | - | only for the power bank setup, instead of 4; PETG; floor down, no supports |
+| 22 | battery deck POWERBANK ALTERNATIVE | **1** | `22_battery_deck_POWERBANK_x1.stl` | - | only for the power bank setup, instead of 5; PETG; plate down, no supports |
 
 ## Every piece, one by one
 

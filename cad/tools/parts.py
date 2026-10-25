@@ -6,6 +6,7 @@ OUT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 L=lambda n: trimesh.load(os.path.join(OUT,n))
 AXL,AXR,ZC = -60.96,60.95,-0.32
 DISP_Y, RIDGE_FRONT = -94.10, -99.60
+POWER=os.environ.get("GENE_POWER","pack")   # "pack" (2S2P, default) or "powerbank"
 
 def zcyl(d,z0,z1,sec=96):
     c=cylinder(radius=d/2,height=z1-z0,sections=sec); c.apply_translation([0,0,(z0+z1)/2]); return c
@@ -51,8 +52,12 @@ def load_all():
     P["neck"]=L("neck.stl"); P["neck_base"]=L("neck_base.stl"); P["neck_collar"]=L("neck_collar.stl")
     P["bearings"]=L("mocks/neck_bearings.stl"); P["slip_ring"]=L("mocks/slip_ring.stl")
     P["splitter"]=L("mocks/gpio_splitter.stl"); P["ttl"]=L("mocks/ttl_interface.stl"); P["amps"]=L("mocks/i2s_amp.stl")
-    P["tray"]=L("battery_tray.stl"); P["deck"]=L("battery_deck.stl")
-    P["battery"]=L("mocks/battery_2S2P.stl"); P["boards"]=L("mocks/power_boards.stl")
+    if POWER=="powerbank":   # secondary setup, battery_powerbank.py
+        P["tray"]=L("battery_tray_pb.stl"); P["deck"]=L("battery_deck_pb.stl")
+        P["battery"]=L("mocks/powerbank_P50.stl"); P["boards"]=L("mocks/power_boards_pb.stl")
+    else:
+        P["tray"]=L("battery_tray.stl"); P["deck"]=L("battery_deck.stl")
+        P["battery"]=L("mocks/battery_2S2P.stl"); P["boards"]=L("mocks/power_boards.stl")
     P["usbc_port"]=L("mocks/usbc_panel.stl")
     # optional crown accessories (alternatives: the flashlight replaces the handle; the cover is for when nothing is plugged in)
     P["flashlight"]=L("gpio_flashlight.stl"); P["gpio_header"]=L("mocks/gpio_header.stl"); P["gpio_cover"]=L("gpio_cover.stl")
