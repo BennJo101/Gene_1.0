@@ -43,6 +43,7 @@ BOUGHT = {
     "amps": 2.0, "ttl": 9.0, "splitter": 8.0,
     "gpio_plug": 15.0,                             # ~ ribbon + IDC plugs
     "gpio_header": 10.0,                           # ~ flashlight header + LED star, optic, driver, wire
+    "usbc_port": 12.0,                             # ~ panel-mount USB-C extension: female end + flange + 30 cm lead
 }
 HARDWARE = 25.0            # ~ screws, straps, glue; placed at the skull's centroid
 CABLE_GPM = {"power": 30.0, "video": 35.0, "data": 10.0, "ribbon": 4.0, "audio": 6.0}   # g/m, incl. plugs
@@ -152,7 +153,7 @@ def main():
     }
     json.dump(out, open(os.path.join(os.path.dirname(__file__), "web", "mass.json"), "w"), indent=1)
 
-    print(f"total {mt:.0f} g  (head {mh:.0f} g, jaw+hubs {mj:.0f} g)   printed {out['printed_g']:.0f} g, bought+cables {out['bought_g']:.0f} g")
+    print(f"total {mt:.0f} g  (head {mh:.0f} g, jaw+hubs+pins {mj:.0f} g)   printed {out['printed_g']:.0f} g, bought+cables {out['bought_g']:.0f} g")
     print("head CoM", np.round(ch, 1), " jaw CoM", np.round(cj, 1))
     for a in (0, 10, 20, 30, 33, 40, 50):
         i = int(a * 2)
