@@ -9,7 +9,7 @@ The print-ready copies in `../print/` are the same parts, reoriented flat side d
 | Kind | Files |
 |---|---|
 | Skull | `skull.stl` (v7). Its build scripts start from the v6 skull, `GeneTop_v6_neck.stl`, which is no longer in the folder (see below) |
-| Jaw | `jaw.stl` |
+| Jaw | `jaw.stl`, `jaw_pin.stl` (the two screw-in pivot pins; the right one is the same part turned 180° about Z) |
 | Jaw drive | `servo_bracket_L.stl`, `servo_bracket_R.stl`, `jaw_drive_hub.stl` |
 | Eyes | `eye_display_carrier.stl`, `eye_display_retainer.stl`, `camera_bezel.stl`, `pupil_ring.stl`; optional `eye_x_insert.stl` (`tools/eye_x_insert.py`) |
 | Interior | `pi_shelf.stl`, `battery_tray.stl`, `battery_deck.stl` |
@@ -58,7 +58,7 @@ Steps 2–8 save a copy of their input in `tools/retired/` the first time they r
 
 `skull.stl` is the only skull kept in the repo. Step 1 and `check_v7.py` read the v6 skull, which has been removed; to rebuild from step 1, restore it with `git checkout 8078433 -- cad/GeneTop_v6_neck.stl`. All old part versions in `tools/retired/` were deleted too (the skull, jaw and bracket copies), so rerunning a single step now starts from the finished part rather than its original input.
 
-Part generators: `jaw_fill_pivot_holes.py` (filled the old pivot-screw holes in the jaw; already applied), `cam3_arducam.py` (camera bezel v3), `carrier_topslot.py` (display carrier v3; its input `retired/carrier_v1_before_topslot.stl` was removed, so restore it with `git checkout 8078433 -- cad/tools/retired/carrier_v1_before_topslot.stl` before rerunning), `pupil.py`, `gpio_flashlight.py`, `gpio_mocks.py`, `dboard_mock.py`.
+Part generators: `jaw_fill_pivot_holes.py` (filled the old pivot-screw holes in the jaw; already applied), `jaw_screw_pins.py` (jaw v5: cuts the pivot pins off the jaw into `jaw_pin.stl` and puts a hex pocket, bore and grub hole in each arm; reads `tools/retired/jaw_v4_before_screw_pins.stl`), `cam3_arducam.py` (camera bezel v3), `carrier_topslot.py` (display carrier v3; its input `retired/carrier_v1_before_topslot.stl` was removed, so restore it with `git checkout 8078433 -- cad/tools/retired/carrier_v1_before_topslot.stl` before rerunning), `pupil.py`, `gpio_flashlight.py`, `gpio_mocks.py`, `dboard_mock.py`.
 
 `battery.py`, `crown.py`, `neck.py` and `shelf6.py` generated their parts at earlier stages of the skull (v4/v5). They are kept as the record of how those parts were made, but they need skull files that are not in this repo. Their output STLs are included and current.
 

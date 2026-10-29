@@ -1,6 +1,7 @@
 Category,Item,Qty,Notes,File / location
 Printed,Skull v7 (shell + brow + eye barrels + thrust pads + crown ledge + neck pilots + 26.5x7.5 camera slots + display plug pockets + 4 shelf divots + bracket M3 pilots),1,Tree supports; PLA or PETG,print/skull_x1.stl (Plate1)
-Printed,Jaw with twin D-shafts,1,Tree supports; 4 walls,print/jaw_x1.stl (Plate2)
+Printed,Jaw v5 (hex pockets + bores for the screw-in pins),1,Tree supports; 4 walls,print/jaw_x1.stl (Plate2)
+Printed,Jaw pivot pin (hex head + bearing pin + D-shaft),2,Hex head down; 100% infill,print/jaw_pin_x2.stl (Plate2)
 Printed,Pi 5 shelf v6 (4 mm standoffs + 4 cubes on the wings),1,Supports under plate,print/pi_shelf_x1.stl (Plate3)
 Printed,Battery tray,1,PETG,print/battery_tray_x1.stl (Plate3)
 Printed,Electronics deck,1,PETG,print/battery_deck_x1.stl (Plate3)
@@ -21,7 +22,7 @@ Printed,Pupil ring,2,Print black; glue round the lens,print/pupil_ring_x2.stl (P
 Printed,Eye X insert (optional Halloween cap),1,"Plug down, no supports; filament swap at Z 8 for a two-colour X",print/parts/20_eye_x_insert_OPTIONAL_x1.stl
 Hardware,M2 x 12 screw,8,Hubs to servo horns,
 Hardware,M2 x 8 screw,8,Servos to brackets,
-Hardware,M3 x 5 set screw,2,Hub to D-shaft,
+Hardware,M3 x 5 set screw,4,Hub to D-shaft (2) + jaw pin lock in each arm (2),
 Hardware,M3 x 16 self-tapping pan head,4,Brackets to skull,
 Hardware,M2 x 16 hex socket head bolt + M2 hex nut,4,"Brackets to skull, through-bolted from outside (nut in bracket foot)",
 Hardware,M3 screw supplied with USB-C extension,2,Charge port flange,

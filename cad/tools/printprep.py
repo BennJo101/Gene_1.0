@@ -14,6 +14,7 @@ PARTS=[
  ("skull",        skull,                                  1, []),                      # open bottom rim on the bed, crown up
  ("jaw",          Lraw("jaw.stl"),    1, []),
  ("hub",          hub,                                    2, [(90,Y)]),                # axis vertical, flat end down
+ ("jaw_pin",      Lraw("jaw_pin.stl"),                    2, [(-90,Y)]),               # axis vertical, hex head down
  ("bracket_L",    Lraw("servo_bracket_L.stl"),  1, []),                      # upright, as installed
  ("bracket_R",    Lraw("servo_bracket_R.stl"),1, []),
  ("carrier",      Lraw("eye_display_carrier.stl"),2,[(90,X)]),                # front lip down

@@ -18,6 +18,7 @@ def servo_envelope():
 ML=np.eye(4); ML[:3,:3]=[[0,0,-1],[0,1,0],[1,0,0]]; ML[:3,3]=[-39.5,0,0]
 MR=np.eye(4); MR[:3,:3]=[[0,0,1],[0,1,0],[-1,0,0]]; MR[:3,3]=[39.5,0,0]
 RY180=trimesh.transformations.rotation_matrix(np.pi,[0,1,0])
+RZ180=trimesh.transformations.rotation_matrix(np.pi,[0,0,1])
 
 def load_all():
     P={}   # name -> (mesh, group, moves_with_jaw)
@@ -31,6 +32,8 @@ def load_all():
     jaw=L("jaw.stl"); jaw.apply_translation([13.75,-61.0,-40.6]); P["jaw"]=jaw
     P["hub_L"]=L("jaw_drive_hub.stl")
     P["hub_R"]=L("mocks/jaw_drive_hub_R_placed.stl")
+    # screw-in pivot pins (jaw_screw_pins.py): the right one is the same part turned 180 deg about Z, on the right bore's axis
+    P["pin_L"]=L("jaw_pin.stl"); pr=P["pin_L"].copy(); pr.apply_transform(RZ180); pr.apply_translation([0,-0.076,0]); P["pin_R"]=pr
     env=servo_envelope()
     a=env.copy(); a.apply_transform(ML); P["servo_L"]=a
     b=env.copy(); b.apply_transform(MR); P["servo_R"]=b
@@ -58,7 +61,7 @@ def load_all():
     P["flashlight"]=L("gpio_flashlight.stl"); P["gpio_header"]=L("mocks/gpio_header.stl"); P["gpio_cover"]=L("gpio_cover.stl")
     return P
 
-MOVING={"jaw","hub_L","hub_R"}
+MOVING={"jaw","hub_L","hub_R","pin_L","pin_R"}
 
 def to_mf(m):
     return mf.Manifold(mf.Mesh(vert_properties=np.asarray(m.vertices,np.float32),tri_verts=np.asarray(m.faces,np.uint32)))

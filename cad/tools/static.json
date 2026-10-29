@@ -143,20 +143,6 @@
   "gap": 0.0
  },
  {
-  "a": "jaw",
-  "b": "servo_L",
-  "overlap": 0.0,
-  "depth": 0.0,
-  "gap": 0.0
- },
- {
-  "a": "jaw",
-  "b": "servo_R",
-  "overlap": 0.0,
-  "depth": 0.0,
-  "gap": 0.0
- },
- {
   "a": "hub_L",
   "b": "servo_L",
   "overlap": 0.0,
@@ -165,6 +151,20 @@
  },
  {
   "a": "hub_R",
+  "b": "servo_R",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 0.0
+ },
+ {
+  "a": "pin_L",
+  "b": "servo_L",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 0.0
+ },
+ {
+  "a": "pin_R",
   "b": "servo_R",
   "overlap": 0.0,
   "depth": 0.0,
@@ -236,6 +236,13 @@
  {
   "a": "shelf",
   "b": "speakers",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 0.0
+ },
+ {
+  "a": "shelf",
+  "b": "neck",
   "overlap": 0.0,
   "depth": 0.0,
   "gap": 0.0
@@ -318,6 +325,13 @@
   "gap": 0.05
  },
  {
+  "a": "jaw",
+  "b": "pin_L",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 0.05
+ },
+ {
   "a": "bezel_L",
   "b": "camera_L",
   "overlap": 0.0,
@@ -330,6 +344,13 @@
   "overlap": 0.0,
   "depth": 0.0,
   "gap": 0.05
+ },
+ {
+  "a": "hub_R",
+  "b": "pin_R",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 0.074
  },
  {
   "a": "shell",
@@ -374,6 +395,13 @@
   "gap": 0.1
  },
  {
+  "a": "jaw",
+  "b": "pin_R",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 0.104
+ },
+ {
   "a": "neck",
   "b": "neck_collar",
   "overlap": 0.0,
@@ -381,15 +409,8 @@
   "gap": 0.125
  },
  {
-  "a": "jaw",
-  "b": "hub_L",
-  "overlap": 0.0,
-  "depth": 0.0,
-  "gap": 0.15
- },
- {
-  "a": "jaw",
-  "b": "hub_R",
+  "a": "hub_L",
+  "b": "pin_L",
   "overlap": 0.0,
   "depth": 0.0,
   "gap": 0.15
@@ -435,6 +456,20 @@
   "overlap": 0.0,
   "depth": 0.0,
   "gap": 0.3
+ },
+ {
+  "a": "shell",
+  "b": "pin_R",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 0.371
+ },
+ {
+  "a": "shell",
+  "b": "pin_L",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 0.375
  },
  {
   "a": "shell",
@@ -505,13 +540,6 @@
   "overlap": 0.0,
   "depth": 0.0,
   "gap": 1.385
- },
- {
-  "a": "bracket_L",
-  "b": "pi5",
-  "overlap": 0.0,
-  "depth": 0.0,
-  "gap": 1.4
  },
  {
   "a": "shell",
@@ -670,6 +698,34 @@
  {
   "a": "shell",
   "b": "gpio_cover",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 3.0
+ },
+ {
+  "a": "jaw",
+  "b": "hub_L",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 3.0
+ },
+ {
+  "a": "jaw",
+  "b": "hub_R",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 3.0
+ },
+ {
+  "a": "jaw",
+  "b": "servo_L",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 3.0
+ },
+ {
+  "a": "jaw",
+  "b": "servo_R",
   "overlap": 0.0,
   "depth": 0.0,
   "gap": 3.0
@@ -857,6 +913,20 @@
   "gap": 3.0
  },
  {
+  "a": "pin_L",
+  "b": "bracket_L",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 3.0
+ },
+ {
+  "a": "pin_R",
+  "b": "bracket_R",
+  "overlap": 0.0,
+  "depth": 0.0,
+  "gap": 3.0
+ },
+ {
   "a": "bracket_L",
   "b": "battery",
   "overlap": 0.0,
@@ -865,28 +935,7 @@
  },
  {
   "a": "bracket_R",
-  "b": "pi5",
-  "overlap": 0.0,
-  "depth": 0.0,
-  "gap": 3.0
- },
- {
-  "a": "bracket_R",
   "b": "battery",
-  "overlap": 0.0,
-  "depth": 0.0,
-  "gap": 3.0
- },
- {
-  "a": "carrier_L",
-  "b": "shelf",
-  "overlap": 0.0,
-  "depth": 0.0,
-  "gap": 3.0
- },
- {
-  "a": "carrier_R",
-  "b": "shelf",
   "overlap": 0.0,
   "depth": 0.0,
   "gap": 3.0
