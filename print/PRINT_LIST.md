@@ -1,11 +1,11 @@
 # Gene head - print list
 
-25 pieces in total (21 without the optional parts: fit the bridge handle **or** the GPIO flashlight, the GPIO cover is for when neither is plugged in, and the eye X insert is a Halloween cap for one eye). Tick them off as they come off the bed.
+27 pieces in total (23 without the optional parts: fit the bridge handle **or** the GPIO flashlight, the GPIO cover is for when neither is plugged in, and the eye X insert is a Halloween cap for one eye). Tick them off as they come off the bed.
 
 | # | Part | Qty | File (in `parts/`) | Plate | Notes |
 |---|---|---|---|---|---|
 | 1 | skull | **1** | `01_skull_x1.stl` | 1 | tree supports. **Updated 2026-10-04 (v7):** camera ribbon slots 26.5 x 7.5 (were 14 x 4) for the Arducam's rigid 16 mm cable end and 6 mm flex; top window in each eye barrel plus a pocket in the skull above it for the display board's HDMI and USB plugs. **Updated 2026-10-06:** the plug pocket above the right eye is now a mirror of the left one (it had a ragged edge). The small triangular holes at the outboard bottom corner of each eye barrel are sealed. The back end of each eye barrel now tapers smoothly into the skull side (closes a thin crack there). The inboard wall of each eye barrel is open from the camera slot up to the top window, so the display ribbon can swing past when the screen is turned. Plate 1 was printed as v6 - reprint Plate 1 |
-| 2 | jaw | **1** | `02_jaw_x1.stl` | 2 | tree supports; 4 walls, 20-25% infill |
+| 2 | jaw | **1** | `02_jaw_x1.stl` | 2 | tree supports; 4 walls, 20-25% infill. **Updated 2026-10-29 (v5):** the pivot pins are no longer part of the jaw (they snapped when the arms were sprung over the skull). Each arm now has a hex pocket in its outer face and a bore through it for the screw-in pin (23) - reprint the jaw |
 | 3 | pi shelf | **1** | `03_pi_shelf_x1.stl` | 3 | tree supports. **Updated 2026-10-16:** 4 cubes on the wings that slide into divots in the skull (replaces the skull's nut posts); the shelf now sits 13.35 mm lower, flush with the skull's bottom rim - reprint Plate 3 (or Plate 8, which has the skull, shelf and eye X insert together for a 350 mm bed) |
 | 4 | battery tray | **1** | `04_battery_tray_x1.stl` | 3 | PETG; tree supports |
 | 5 | battery deck | **1** | `05_battery_deck_x1.stl` | 3 | PETG; tree supports |
@@ -26,12 +26,16 @@
 | 20 | eye X insert OPTIONAL | **1** | `20_eye_x_insert_OPTIONAL_x1.stl` | - | optional; plug down, X up, no supports; for a two-colour X, swap filament at Z 8.0 (top of the flange) |
 | 21 | battery tray POWERBANK ALTERNATIVE | **1** | `21_battery_tray_POWERBANK_x1.stl` | 9 | only for the power bank setup, instead of 4; PETG; floor down, no supports |
 | 22 | battery deck POWERBANK ALTERNATIVE | **1** | `22_battery_deck_POWERBANK_x1.stl` | 9 | only for the power bank setup, instead of 5; PETG; plate down, no supports |
+| 23 | jaw pivot pin | **2** | `23_jaw_pin_x2.stl` | 2 | **New 2026-10-29.** Hex head down, no supports; **100% infill**. Same part both sides. Push in from outside through the arm and skull socket, lock with an M3x5 grub screw in the back edge of the arm |
 
 ## Every piece, one by one
 
 - [ ] 1. skull
   - [ ] reprint: skull v7 with shelf divots and bracket M3 pilots - Plate 1
 - [ ] 2. jaw
+  - [ ] reprint: jaw v5 for the screw-in pins - Plate 2
+- [ ] jaw pivot pin (1 of 2) - Plate 2
+- [ ] jaw pivot pin (2 of 2) - Plate 2
 - [ ] 3. pi shelf
   - [ ] reprint: shelf with cubes - Plate 3
 - [ ] 4. battery tray
@@ -65,9 +69,9 @@
 
 - **Material:** PETG for the battery tray, deck, both servo brackets and the GPIO flashlight. PLA or PETG for everything else.
 - **Colour:** camera bezels and pupil rings in **black**.
-- **Strength:** 4 walls, 20-25 % infill for the jaw, hubs, brackets, handle and flashlight. Defaults for the rest.
+- **Strength:** 4 walls, 20-25 % infill for the jaw, hubs, brackets, handle and flashlight; 100 % infill for the two jaw pins. Defaults for the rest.
 - **Filament:** about 1.3 kg on hand.
 - `plates/` has the same parts pre-laid-out on seven 250 x 250 plates (`.3mf`, Creality Print). Plate 7 is only the optional GPIO flashlight and cover. If parts don't land centred, press **Arrange**.
-- The two parts of each pair are identical: the right camera bezel is the left one turned 180 deg, and both jaw hubs are the same.
+- The two parts of each pair are identical: the right camera bezel is the left one turned 180 deg, both jaw hubs are the same, and so are both jaw pins.
 - **Camera bezel lane (v3):** the Arducam's 6 mm flex lies in a 6.8 mm wide, 2.2 mm deep lane cut into the back of the spoke, level with the camera board, so it leaves the module straight. From 16 mm out from the centre the lane narrows to a 5.6 mm mouth (0.6 mm lips): bow the flex slightly to press it past them. Print front face down (as on the plates) so the lane faces up and needs no supports. Seat the camera in its pocket from behind with the crystal end towards the spoke.
 - **Skull v7, threading the camera cable:** push the rigid 16 mm wide end down the eye barrel and out through the inboard slot with its width along the barrel (front to back), then let the flex settle at the front of the slot, level with the bezel spoke. 17.9 mm of the slot is still open with the display carrier glued in, but it's easier to thread the cameras before gluing the carriers.

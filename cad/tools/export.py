@@ -8,7 +8,7 @@ def b64(m, dec=None):
 sL=L("mocks/xl330_servo.stl"); sL.apply_transform(ML)
 sR=L("mocks/xl330_servo_R_placed.stl")
 groups={
- "skull":[P["shell"]], "jaw":[P["jaw"]], "insert":[P["insert"]], "gpio":[P["gpio_plug"]], "pupil":[P["pupil_L"],P["pupil_R"]],
+ "skull":[P["shell"]], "jaw":[P["jaw"],P["pin_L"],P["pin_R"]], "insert":[P["insert"]], "gpio":[P["gpio_plug"]], "pupil":[P["pupil_L"],P["pupil_R"]],
  "hub":[P["hub_L"],P["hub_R"]], "bracket":[P["bracket_L"],P["bracket_R"]], 
  "carrier":[P["carrier_L"],P["carrier_R"]], "retainer":[P["retainer_L"],P["retainer_R"]],
  "display":[P["display_L"],P["display_R"]], "bezel":[P["bezel_L"],P["bezel_R"]],

@@ -7,7 +7,7 @@ Q={k:q for k,(v,f,q) in D.items()}
 GAP=8.0; BED=250.0
 PLATES={
  "Plate1_skull":[["skull"]],
- "Plate2_jaw":[["jaw"]],
+ "Plate2_jaw":[["jaw"],["jaw_pin","jaw_pin"]],
  "Plate3_shelf_battery":[["pi_shelf"],["battery_tray","battery_deck"]],
  "Plate5_crown_insert_handle":[["crown_insert"],["bridge_handle"]],
  "Plate6_neck":[["neck"],["neck_base","neck_collar"]],

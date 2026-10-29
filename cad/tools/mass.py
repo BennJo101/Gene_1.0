@@ -21,8 +21,9 @@ PLA, PETG = 1.24, 1.27    # g/cm3
 # (walls mm = perimeter shell thickness incl. top/bottom skin, infill fraction, density)
 DEFAULT = (0.9, 0.15, PLA)                  # Creality defaults: 2 walls, 15 %
 STRONG  = (1.7, 0.22, PLA)                  # BOM: 4 walls, 20-25 % for jaw, hubs, brackets, handle
+SOLID   = (9.0, 1.00, PLA)                  # BOM: jaw pins at 100 % infill
 PRINT = {"shell": DEFAULT, "brow": DEFAULT, "barrel_L": DEFAULT, "barrel_R": DEFAULT,
-         "jaw": STRONG, "hub_L": STRONG, "hub_R": STRONG, "handle": STRONG,
+         "jaw": STRONG, "hub_L": STRONG, "hub_R": STRONG, "pin_L": SOLID, "pin_R": SOLID, "handle": STRONG,
          "bracket_L": (1.7, 0.22, PETG), "bracket_R": (1.7, 0.22, PETG),
          "tray": (0.9, 0.15, PETG), "deck": (0.9, 0.15, PETG), "flashlight": (0.9, 0.15, PETG),
          "shelf": DEFAULT, "insert": DEFAULT, "gpio_cover": DEFAULT,

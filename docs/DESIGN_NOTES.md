@@ -19,7 +19,8 @@ Everything is in `print/`, oriented and laid out on six plates (each fits
 | Part | Source file | Qty |
 |---|---|---|
 | Skull v7 | `skull.stl` (built by `tools/skull_v7.py` from v6) | 1 |
-| Jaw, twin D-shafts (pivot-screw holes filled) | `jaw.stl` | 1 |
+| Jaw v5, hex pockets + bores for the screw-in pins | `jaw.stl` (built by `tools/jaw_screw_pins.py`) | 1 |
+| Jaw pivot pin (hex head, bearing pin, D-shaft) | `jaw_pin.stl` | 2 |
 | Servo brackets v2 (with battery pads) | `servo_bracket_L.stl`, `servo_bracket_R.stl` | 1 + 1 |
 | Jaw drive hub | `jaw_drive_hub.stl` | 2 |
 | Eye display carrier v3 (wide top + bottom slots) / retainer | `eye_display_carrier.stl`, `eye_display_retainer.stl` | 2 + 2 |
@@ -84,8 +85,11 @@ and rerun. Printing the jaw with 2 walls / 15 % instead of 4 / 22 % cuts it from
    top, 4 x M3x16 socket heads instead.
    Optional, after the crown: either press the GPIO cover into the well (notch to the
    rear), or fit the GPIO flashlight (see *GPIO flashlight and GPIO cover* below).
-7. Jaw: pins in through the sockets, hubs onto the D-shafts (grub screws), hubs
-   bolted to the horns (4 x M2x12 each).
+7. Jaw: slide the bare jaw up from below so the arm bores line up with the skull
+   sockets (no flexing the arms). Push each pin in from outside, D-shaft first,
+   through the arm and the socket until the hex head seats flush in the arm's hex
+   pocket. Hubs onto the D-shafts (grub screws), hubs bolted to the horns (4 x M2x12
+   each), then an M3x5 grub screw into the back edge of each arm to lock its pin.
 8. Neck: yoke up under the rear rim, 5 x M3x16. Feed the slip ring's rotating
    wires up the tube bore. Bearings into the base, tube into the bearings, collar
    on underneath (M3 set screw), slip ring onto the base floor (3 x M3x8). Base to
@@ -161,6 +165,14 @@ sits ~2.9 mm further forward - it's glued, so that's fine). Note the real LCD is
 **Servo brackets through-bolted with M2 (2026-10-06)** (`tools/motor_mount_m2.py`, run after `skull_v7_usbc_port.py`): each bracket's foot (its rear end, cut conformal to the inside of the skull wall, inner face the plane X -/+43) now also takes 2 x M2 socket-head bolts through the skull wall, alongside the 2 x M3 self-tappers (Y +20, Z +/-10). Bolts at Y 19, Z +/-4.5, along X like the M3s: dia 2.4 clearance through the wall and foot, a dia 4.3 counterbore from outside whose floor sits 2.2 mm under the shallowest point of the skin round it (so the 2.0 mm head ends up flush or just under the skin; the skin is slanted there, so the counterbore is up to ~3 mm deep on its forward side), and a 4.3 AF x 2.2 hex pocket in the foot's inner face for an M2 nut. Grip from the head to the far face of the seated nut is 13.8-14.3 mm, so **M2 x 16** leaves ~2 mm past the nut, ending 1-1.5 mm inboard of the foot face (open space; the servos end at Y 9.5). The foot is 7.6 mm thick at the bolts, leaving 5.4 mm behind each nut; nut corners are 1.5 mm from the M3 holes. Skull 583.6 cm3, brackets 6.84 cm3 each, all single watertight solids; the assembly check shows no new overlaps and the bracket gaps are unchanged. `print/parts/01`, `06`, `07`, Plates 1, 4 and 9 and the sim have been regenerated. Previous files kept as `tools/retired/GeneTop_v7_before_m2_bolts.stl` and `GeneHead_xl330_bracket(_R)_v2_before_m2_bolts.stl`.
 
 **Jaw pivot-screw holes filled (2026-10-06)** (`tools/jaw_fill_pivot_holes.py`): each jaw arm had a stepped blind hole on the pivot axis, opening on the outboard face (dia ~5.4 for 14 mm, then dia ~2.9 down to the start of the D-shaft, 30.4 mm deep in all). It was for a screw through the pivot. The pins are now D-shafts clamped by the drive hubs and nothing screws into the jaw, so both holes are filled solid, flush with the arm faces. +0.81 cm3 (408.3 cm3), one watertight solid, outer shape and bounds unchanged, so fits and the jaw sweep are unaffected. `print/parts/02_jaw_x1.stl`, Plate 2 and the sim have been regenerated. Previous file kept as `tools/retired/GeneBottom_v4_before_hole_fill.stl`.
+
+**Jaw v5: screw-in pivot pins (2026-10-29)** (`tools/jaw_screw_pins.py`): on v4 each arm carried its dia 13.74 bearing pin and dia 8 D-shaft as one piece, 42 mm out from the arm's inner face, and the pin had to pass axially through the closed ring of the skull socket (full circle over X -/+78..73). Fitting the jaw meant springing the arms ~32 mm apart each side, and the pins snapped. The pins are now separate parts, `jaw_pin.stl` x 2 (the right one is the left turned 180 deg about Z, as with the hubs):
+- **Pin:** hex head AF 15 x 5.9, then the v4 bearing pin (dia 13.74) and D-shaft (dia 8, flat at Z +3, ends at X -/+46), taken from the v4 mesh unchanged inboard of X -/+78. 53 mm long, 5.5 cm3. Print hex head down, 100 % infill.
+- **Arm:** hex pocket AF 15.3 x 6.0 deep in the outboard face (0.15 clearance per flat; 2.0 mm of wall left at the pocket corners, the arm face is r >= 10.9 round the axis), then a dia 14.1 bore through the rest of the arm. The step under the head seats on the pocket floor, so the pin is located inboard; the hex carries the servo torque into the jaw.
+- **Lock:** an M3 x 5 grub screw (the hub size), radial along +Y from the back edge of each arm, 3 mm in from the outboard face, into a 3.2 wide groove round the hex head (root r 5.8, so the grub ends flush with the arm edge). The line is clear of every other part for a hex key.
+- **Assembly:** without the pins, the jaw slides straight up onto the skull from below with no contact at any point of the path (checked by translating it 0-25 mm in 30 deg steps round the axis: straight down and 30 deg behind it are both clear). Then each pin goes in from outside, through the arm and the socket into the hub.
+
+Checked: jaw 396.45 cm3 and pins single watertight solids (also on reload); pin-to-jaw gap 0.05 (L) / 0.10 (R) mm, pin-to-socket 0.37 mm, the same running fit as v4. Every other contact in the static check is unchanged (the D-shaft-to-hub and horn contacts have moved from the jaw to the pins), and so is the sweep: first skull contact 53.25 deg, neck base 35.5 deg. `print/parts/02_jaw_x1.stl`, the new `23_jaw_pin_x2.stl`, Plate 2 (jaw + 2 pins, 198 x 186 mm) and both sims have been regenerated. Previous jaw kept as `tools/retired/jaw_v4_before_screw_pins.stl`.
 
 ---
 

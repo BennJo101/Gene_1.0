@@ -16,7 +16,8 @@ not a part.
 | Part | Qty | File (in `print/parts/`) | Solid vol | On plate |
 |---|---|---|---|---|
 | Skull v7 (shell, brow, eye barrels, thrust pads, crown-bay ledge, neck screw pilots; v7: 26.5 x 7.5 camera ribbon slots, top window in each barrel + plug pocket above it for the display boards' HDMI/USB, inboard barrel wall open above the camera slot, 4 shelf divots, bracket M3 pilots) | 1 | `01_skull_x1.stl` | 582.1 cm3 | 1 |
-| Jaw, twin D-shafts | 1 | `02_jaw_x1.stl` | 407.5 cm3 | 2 |
+| Jaw v5 (hex pocket + bore in each arm for the screw-in pins) | 1 | `02_jaw_x1.stl` | 396.5 cm3 | 2 |
+| Jaw pivot pin (hex head + bearing pin + D-shaft; same part both sides) - **100 % infill** | 2 | `23_jaw_pin_x2.stl` | 5.5 cm3 each | 2 |
 | Pi 5 shelf v6 (4 mm standoffs, speaker cradles, 4 cubes on the wings; sits flush with the skull's bottom rim, speaker cradles poking out below) | 1 | `03_pi_shelf_x1.stl` | 48.8 cm3 | 3 |
 | Battery tray | 1 | `04_battery_tray_x1.stl` | 23.4 cm3 | 3 |
 | Electronics deck | 1 | `05_battery_deck_x1.stl` | 17.1 cm3 | 3 |
@@ -42,7 +43,7 @@ centred, press **Arrange**):
 | File | Contents | Footprint | Height |
 |---|---|---|---|
 | `Plate1_skull.3mf` | skull | 191 x 183 mm | 144 mm |
-| `Plate2_jaw.3mf` | jaw | 198 x 163 mm | 120 mm |
+| `Plate2_jaw.3mf` | jaw, 2 jaw pins | 198 x 186 mm | 120 mm |
 | `Plate3_shelf_battery.3mf` | shelf, battery tray, deck | 187 x 194 mm | 25 mm |
 | `Plate4_small_parts.3mf` | 2 brackets, 2 hubs, 2 carriers, 2 retainers, 2 bezels, 2 pupil rings | 196 x 197 mm | 28 mm |
 | `Plate5_crown_insert_handle.3mf` | crown insert, bridge handle (skip the handle if you don't want it) | 58 x 225 mm | 29 mm |
@@ -64,7 +65,7 @@ Print notes:
   the handle's grip span and the insert's lower step. Plate 7: the flashlight lies on its
   side (saddle side down) and needs tree supports under the strap and lamp pod; the cover
   prints upright with no supports.
-- **Strength:** 4 walls and 20-25 % infill for the jaw, hubs, brackets and handle.
+- **Strength:** 4 walls and 20-25 % infill for the jaw, hubs, brackets and handle. The two jaw pins at 100 % infill.
   Everything else prints fine at defaults.
 - **Filament:** the parts are 1402 cm3 as solid models (1344 without the optional
   handle). At normal wall and infill settings, expect roughly 0.9-1.1 kg plus
@@ -84,7 +85,7 @@ Print notes:
 |---|---|---|
 | M2 x 12 screw | 8 | Hubs to servo horns (4 per side) |
 | M2 x 8 screw | 8 | Servos to brackets (4 per side) |
-| M3 x 5 set screw (grub) | 2 | Hub to D-shaft |
+| M3 x 5 set screw (grub) | 4 | Hub to D-shaft (2), and one into the back edge of each jaw arm to lock its pivot pin (2) |
 | M3 x 16 self-tapping, pan head | 4 | Brackets to skull wall |
 | M2 x 16 hex socket head bolt + M2 hex nut | 4 + 4 | Brackets to skull, through-bolted: in from outside the skull (counterbored flush), nut in the hex pocket in each bracket foot (2 per side) |
 | M2 x 12 hex socket head bolt + M2 hex nut | 4 + 4 | Pi shelf cubes to the skull: nut dropped into the slot in each cube's top, cube slid up into its divot, bolt in from outside the skull (counterbored flush) (2 per side) |
