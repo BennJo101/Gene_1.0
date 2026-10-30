@@ -52,13 +52,13 @@ Retired, do not print: `GeneTop_v6_neck` (v7 is v6 + clearances), `GeneTop_v3_*`
 | Talking mouth opening, on the neck | **53 %** of full visemes (~12 deg on "ah", 14 max): servos never max out, 20 % reserve. Yelled ("!") x1.6 -> ~20 deg, brief strain OK |
 | Talking mouth opening, head on its jaw | **28 %** (~6 deg on "ah", 7 max), same criterion. Yelled -> ~11 deg at 95 % of available torque |
 
-Weight and servo load (estimate, `tools/mass.py` -> `tools/web/mass.json`, 2026-10-29):
-about 1324 g / 2.9 lb as the sim shows it (flashlight, no handle, no neck); skull side
-1043 g, jaw + hubs + pins 281 g. Skull CoM 40 mm in front of the pivot and 9 mm above it; jaw
+Weight and servo load (estimate, `tools/mass.py` -> `tools/web/mass.json`, 2026-10-30):
+about 1316 g / 2.9 lb as the sim shows it (flashlight, no handle, no neck); skull side
+1035 g, jaw + hubs + pins 281 g. Skull CoM 40 mm in front of the pivot and 9 mm above it; jaw
 CoM 77 mm in front and 72 mm below. Holding torque against the pair's 1.04 N.m stall:
-on the neck 0.21 N.m (20 %) with the jaw shut; standing on the jaw, 0.41 N.m (39 %) just
+on the neck 0.21 N.m (20 %) with the jaw shut; standing on the jaw, 0.40 N.m (39 %) just
 off closed, easing to 0.19 N.m at 50 deg. The power bank setup (`GENE_POWER=powerbank python
-mass.py` -> `tools/mass_pb.json`) comes to about 1271 g, with the same torques to within 0.01 N.m. Printed parts are estimated from volume + area at
+mass.py` -> `tools/mass_pb.json`) comes to about 1263 g, with the same torques to within 0.01 N.m. Printed parts are estimated from volume + area at
 the BOM settings and bought parts from typical weights, so expect +/-15 %: weigh the real head
 and rerun. Printing the jaw with 2 walls / 15 % instead of 4 / 22 % cuts it from ~261 to ~162 g.
 
