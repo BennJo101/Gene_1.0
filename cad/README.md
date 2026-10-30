@@ -40,6 +40,7 @@ python check.py
 | `mass.py` | Mass, centre of mass and jaw-servo torque estimate |
 | `occ_all.py`, `route.py` | Occupancy grid of the assembly, then a cable routing check for every run in `cables.json` |
 | `printprep.py` → `plates.py` | Orients every part for printing (writes `printparts.pkl` and `cad/print/`), then lays out the `.3mf` plates |
+| `support_plates.py` | Optional copies of `../print/plates/*.3mf` in `../print/plates/tree_supports/`, with per-object Creality Print (Orca) support settings: organic trees on the parts that need them, tuned to break away easily; off on the rest |
 | `battery_powerbank.py` | Secondary power setup: tray, deck and mocks for a bought power bank (INIU P50) instead of the 2S2P pack. Run `check.py`, `occ_all.py` and `route.py` with `GENE_POWER=powerbank` set to check that setup (results go to `occ_all_pb.npz` and `cables_pb.json`). Writes its two print files straight to `print/parts/` |
 | `export.py` → `build_local_sim.py` | Exports meshes and the jaw sweep to `web/`, then inlines `web/` into one self-contained `head_sim.html` |
 
@@ -54,12 +55,15 @@ The skull is built in eight steps. Run them in this order:
 7. `motor_mount_m2.py`: M2 through-bolt holes (counterbore outside, clearance, hex nut pocket) through the skull wall into both servo bracket feet, and the dia 2.5 pilots for the bracket M3 self-tappers. It changes the two bracket files too
 
 8. `skull_v7_shelf_divots.py`: 4 divots (grooves open at the bottom rim) in the inner wall, and 4 cubes on the Pi shelf wings that slide up into them; M2 x 12 in from outside the skull into a nut dropped into each cube. It changes `pi_shelf.stl` too
+9. `skull_v7_eye_plate_window.py`: cuts the flat plate between the eye barrels to a U (6 mm strips along both barrels and the face, open at the back); also updates `../print/parts/01_skull_x1.stl` and Plates 1 and 8
+10. `skull_v7_shorten_tabs.py`: cuts the inboard tabs of the eye barrels (the lower arcs behind the camera slots) back to half their length; also updates `../print/parts/01_skull_x1.stl` and Plates 1 and 8
+11. `skull_v7_ledge_relief.py`: relief inside the top of each eye barrel for the LCD's flex ledge, keeping 1.1 mm of wall under the skin; also updates `../print/parts/01_skull_x1.stl` and Plates 1 and 8
 
-Steps 2–8 save a copy of their input in `tools/retired/` the first time they run, and read from it on later runs.
+Steps 2–11 save a copy of their input in `tools/retired/` the first time they run, and read from it on later runs.
 
 `skull.stl` is the only skull kept in the repo. Step 1 and `check_v7.py` read the v6 skull, which has been removed; to rebuild from step 1, restore it with `git checkout 8078433 -- cad/GeneTop_v6_neck.stl`. All old part versions in `tools/retired/` were deleted too (the skull, jaw and bracket copies), so rerunning a single step now starts from the finished part rather than its original input.
 
-Part generators: `jaw_fill_pivot_holes.py` (filled the old pivot-screw holes in the jaw; already applied), `jaw_screw_pins.py` (jaw v5: cuts the pivot pins off the jaw into `jaw_pin.stl` and puts a hex pocket, bore and grub hole in each arm; reads `tools/retired/jaw_v4_before_screw_pins.stl`), `cam3_arducam.py` (camera bezel v3), `carrier_topslot.py` (display carrier v3; its input `retired/carrier_v1_before_topslot.stl` was removed, so restore it with `git checkout 8078433 -- cad/tools/retired/carrier_v1_before_topslot.stl` before rerunning), `pupil.py`, `gpio_flashlight.py`, `gpio_mocks.py`, `dboard_mock.py`.
+Part generators: `jaw_fill_pivot_holes.py` (filled the old pivot-screw holes in the jaw; already applied), `jaw_screw_pins.py` (jaw v5: cuts the pivot pins off the jaw into `jaw_pin.stl` and puts a hex pocket, bore and grub hole in each arm; reads `tools/retired/jaw_v4_before_screw_pins.stl`), `cam3_arducam.py` (camera bezel v3), `carrier_ease_seat.py` (opens the display seat in the carrier from 56.00 to 56.60 and runs the slots up to the lip for the LCD's flex ledge, so the LCD isn't squeezed; reads `retired/carrier_v3_before_seat_ease.stl`), `carrier_topslot.py` (display carrier v3; its input `retired/carrier_v1_before_topslot.stl` was removed, so restore it with `git checkout 8078433 -- cad/tools/retired/carrier_v1_before_topslot.stl` before rerunning), `pupil.py`, `gpio_flashlight.py`, `gpio_mocks.py`, `dboard_mock.py`.
 
 `battery.py`, `crown.py`, `neck.py` and `shelf6.py` generated their parts at earlier stages of the skull (v4/v5). They are kept as the record of how those parts were made, but they need skull files that are not in this repo. Their output STLs are included and current.
 

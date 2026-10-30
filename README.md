@@ -48,7 +48,7 @@ Gene 1.0/
 
 ## Build it
 
-1. **Print:** follow [`print/PRINT_LIST.md`](print/PRINT_LIST.md). Load the plates from `print/plates/` straight into your slicer. Print the camera bezels and pupil rings in black. Use PETG for the battery tray, deck, servo brackets and flashlight; PLA or PETG is fine for everything else. Plan on about 1.3 kg of filament.
+1. **Print:** follow [`print/PRINT_LIST.md`](print/PRINT_LIST.md). Load the plates from `print/plates/` straight into your slicer. Print the camera bezels and pupil rings in black. Print the two jaw pivot pins in a tough filament (PETG at least, nylon or PC better, not PLA). Use PETG for the battery tray, deck, servo brackets and flashlight; PLA or PETG is fine for everything else. Plan on about 1.3 kg of filament.
 2. **Buy:** order the hardware, electronics and power parts listed in [`docs/BOM.md`](docs/BOM.md). Items marked **(assumed)** were fit-checked against a placeholder of the stated size, so check your actual part.
 3. **Assemble:** follow the assembly order in [`docs/DESIGN_NOTES.md`](docs/DESIGN_NOTES.md): eyes, cameras, battery unit, jaw drive, Pi, crown, jaw, neck. Wire it up from [`docs/WIRING.md`](docs/WIRING.md).
 4. **Set the limits in software:**

@@ -15,9 +15,9 @@ not a part.
 
 | Part | Qty | File (in `print/parts/`) | Solid vol | On plate |
 |---|---|---|---|---|
-| Skull v7 (shell, brow, eye barrels, thrust pads, crown-bay ledge, neck screw pilots; v7: 26.5 x 7.5 camera ribbon slots, top window in each barrel + plug pocket above it for the display boards' HDMI/USB, inboard barrel wall open above the camera slot, 4 shelf divots, bracket M3 pilots) | 1 | `01_skull_x1.stl` | 582.1 cm3 | 1 |
+| Skull v7 (shell, brow, eye barrels, thrust pads, crown-bay ledge, neck screw pilots; v7: 26.5 x 7.5 camera ribbon slots, top window in each barrel + plug pocket above it for the display boards' HDMI/USB, inboard barrel wall open above the camera slot, 4 shelf divots, bracket M3 pilots, U-shaped plate between the eyes, shortened barrel tabs, LCD ledge relief) | 1 | `01_skull_x1.stl` | 574.0 cm3 | 1 |
 | Jaw v5 (hex pocket + bore in each arm for the screw-in pins) | 1 | `02_jaw_x1.stl` | 396.5 cm3 | 2 |
-| Jaw pivot pin (hex head + bearing pin + D-shaft; same part both sides) - **100 % infill** | 2 | `23_jaw_pin_x2.stl` | 5.5 cm3 each | 2 |
+| Jaw pivot pin (hex head + bearing pin + D-shaft; same part both sides) - **100 % infill, PETG or tougher (PA / PA-CF / PC), not PLA** | 2 | `23_jaw_pin_x2.stl` | 5.5 cm3 each | 2 |
 | Pi 5 shelf v6 (4 mm standoffs, speaker cradles, 4 cubes on the wings; sits flush with the skull's bottom rim, speaker cradles poking out below) | 1 | `03_pi_shelf_x1.stl` | 48.8 cm3 | 3 |
 | Battery tray | 1 | `04_battery_tray_x1.stl` | 23.4 cm3 | 3 |
 | Electronics deck | 1 | `05_battery_deck_x1.stl` | 17.1 cm3 | 3 |
@@ -55,9 +55,10 @@ Print notes:
 - **Colour:** print the camera bezels and pupil rings in black (a filament swap, or
   the CFS on a K2). The black spoke then disappears against the dark screen, and
   the lens plus ring read as the pupil.
-- **Material:** PETG for the battery tray, deck and both servo brackets, which sit
+- **Material:** the two jaw pivot pins in a tough filament: PETG at least, nylon (PA / PA-CF) or PC if your printer can do it, not PLA: they carry the jaw
+  and the servo torque, and PLA is brittle there. PETG for the battery tray, deck and both servo brackets, which sit
   next to the pack and carry the drive torque, and for the GPIO flashlight, whose LED gets warm. PLA or PETG is fine for everything else.
-- **Supports:** tree supports on plates 1, 2 and 3; none on plate 6. The skull's face, the jaw arms,
+- **Supports:** tree supports on plates 1, 2 and 3; none on plate 6. `print/plates/tree_supports/` has copies of the plates that need supports with organic tree supports already set, tuned to come off easily (see `print/PRINT_LIST.md`). The skull's face, the jaw arms,
   and the shelf's plate between the speaker cradles all overhang. The skull's
   new crown ledge sits in the dome ceiling, which needs support anyway. Plate 4
   needs support only under the small screw pads on the brackets. Plate 5: both
